@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    restart: unless-stopped
+    volumes:
+      - /mnt/external-storage/movies:/media
+      - jellyfin_config:/config
+    ports:
+      - "8096:8096"
+    # Uncomment if hardware transcoding becomes available (Intel Quick Sync)
+    # devices:
+    #   - /dev/dri:/dev/dri
+    networks:
+      - shared_net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.yourdomain.dev`)"
+
+volumes:
+  jellyfin_config:
+
+networks:
+  shared_net:
+    external: true

@@ -1,0 +1,8 @@
+[Unit]
+Description=Homelab daily backup (DB + configs to external drive)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/homelab-ops/scripts/backup.sh

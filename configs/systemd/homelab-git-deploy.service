@@ -1,0 +1,8 @@
+[Unit]
+Description=Homelab git-pull auto-deploy for web projects
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/homelab-ops/scripts/git-auto-deploy.sh
