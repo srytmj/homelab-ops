@@ -4,8 +4,8 @@
 
 ## Now
 
-- [x] Pick and order hardware: Lenovo M920q (i5-9500T, 16GB RAM, 256GB SSD), MikroTik RB750Gr3, 2TB 2.5" HDD (see decisions.md)
-- [ ] Install Proxmox VE on M920q
+- [x] Pick and order hardware: Lenovo M710q (i7-7700T, 32GB RAM, 256GB SSD), MikroTik RB750Gr3, 2TB 2.5" HDD (see decisions.md)
+- [ ] Install Proxmox VE on M710q
 - [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
 - [ ] Set up external multi-bay USB enclosure for the 4x 2.5" HDD + extra SSD
 - [ ] Mount external storage, decide on filesystem/RAID approach (document reasoning in decisions.md)
@@ -28,6 +28,5 @@
 
 - [ ] k3s sandbox environment (separate LXC, for learning Kubernetes — not for production)
 - [ ] VLAN isolation between homelab and personal devices
-- [ ] Evaluate RAM upgrade to 32GB if usage gets tight
 - [ ] Jellyfin hardware transcode setup if a GPU-capable device becomes available
 - [ ] CI/CD: GitHub Actions auto-deploy to homelab on push

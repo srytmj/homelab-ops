@@ -5,16 +5,16 @@
 
 ## Hardware
 
-- **Device:** Lenovo ThinkCentre M920q (Tiny form factor)
-- **CPU:** Intel Core i5-9500T, 6 cores / 6 threads, 2.2GHz base / 3.7GHz boost
-- **RAM:** 16GB DDR4 SO-DIMM 2666MHz (2 slots, check current config: 1x16GB or 2x8GB)
+- **Device:** Lenovo ThinkCentre M710q (Tiny form factor)
+- **CPU:** Intel Core i7-7700T, 4 cores / 8 threads, 2.9GHz base / 3.8GHz boost
+- **RAM:** 32GB DDR4 SO-DIMM (2 slots)
 - **Internal storage:**
   - 1x M.2 NVMe SSD 256GB (OS, Docker, projects, DB metadata)
   - 1x 2.5" bay (internal, currently: 2TB HDD, second-hand, SMART 100/100)
 
 ## External Storage (DAS - Direct Attached Storage)
 
-> M920q Tiny only has 1 internal 2.5" bay + 1 NVMe slot — physically cannot fit 4 HDDs + 1 extra SSD inside.
+> M710q Tiny only has 1 internal 2.5" bay + 1 NVMe slot — physically cannot fit 4 HDDs + 1 extra SSD inside.
 > Solution: external USB 3.0 multi-bay enclosure.
 
 - **Enclosure:** <fill in model once purchased, e.g. Orico / ICY BOX / Ugreen 4-bay 2.5" USB 3.0>
@@ -25,7 +25,7 @@
   - Bay 4: <capacity/model>
 - **Extra SSD:** <where it physically lives — internal 2.5" bay, or inside the enclosure too>
 - **Filesystem/RAID:** <e.g. individual drives, or software RAID/ZFS pool across them — decide and document in decisions.md>
-- **Connection:** USB 3.0 from enclosure to M920q
+- **Connection:** USB 3.0 from enclosure to M710q
 - **Mount point on host:** `/mnt/external-storage/` (adjust to actual path once set up)
 
 ## Virtualization Layer
@@ -33,8 +33,8 @@
 ```
 Proxmox VE (bare metal hypervisor)
   └── 1 LXC/VM: "docker-host" (Ubuntu Server 24.04 LTS)
-        RAM allocated: ~12GB (of 16GB total)
-        CPU allocated: ~5 cores (of 6 total)
+        RAM allocated: ~26GB (of 32GB total)
+        CPU allocated: ~3 cores / 6 threads (of 4C/8T total)
         Storage: ~150GB (of 256GB SSD)
 ```
 

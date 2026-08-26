@@ -14,6 +14,60 @@ based on:
 Rejected: 2-core options (M710q i3-7100, Lenovo M910Q i7-7500T) despite higher RAM in some listings —
 core count bottleneck outweighs RAM headroom for this workload.
 
+## 2026-08-26 — REVISED: i7-7700 (4C/8T) over M920q i5-9500T (6C/6T)
+
+Supersedes the earlier "Hardware: Lenovo M920q over other mini PC options" decision.
+That decision assumed physical core count > thread count for this workload without
+first characterizing what the actual workload looks like. After breaking down the
+real service list (5 web projects, Discord bot, Jellyfin/Immich/Nextcloud/Kavita,
+Tailscale, git-polling auto-deploy, daily backup), the assumption doesn't hold:
+
+**Original reasoning (M920q) was wrong because:**
+- It generalized "containerization = needs more physical cores" without checking
+  if the workload is actually compute-bound or I/O-bound
+- It didn't account for what RAM is used for beyond "just fitting more containers"
+  (DB caching, ML memory footprint, avoiding swap)
+
+**Actual workload characterization:**
+- 5 web projects (Laravel/Node CRUD) — I/O-bound, not compute-bound
+- Jellyfin — negligible CPU if direct play (no transcoding); lossless music streaming
+  is essentially free
+- Immich — the one clearly compute-heavy service (face/object detection), BUT decided
+  separately to disable ML or use Nextcloud Photos instead (see photo-management
+  decision below), removing this as a core-count argument
+- homelab-sentinel (Discord bot) — long-running, mostly idle, benefits from single-thread
+  clock speed when it does act, not from having many physical cores
+- git-polling auto-deploy — the only genuinely CPU-intensive spike (build/compile),
+  but timing is user-triggered, not concurrent with unpredictable public traffic
+
+**Why i7-7700 (4C/8T, 32GB RAM) fits better:**
+- Higher clock speed (3.6GHz base vs 2.2GHz base) benefits I/O-bound + bursty workloads
+  more than raw core count does
+- 8 threads still covers reasonable concurrency for containers mostly waiting on I/O
+- 32GB RAM (vs 16GB) gives real benefit: Postgres/OS page cache, headroom for a future
+  k3s sandbox LXC alongside production, and insurance against RAM prices rising further
+  ("RAMageddon" — RAM was cheaper to buy in bulk now than to upgrade piecemeal later)
+- Price difference to M920q was marginal (~150k), so the RAM/clock advantage outweighed
+  giving up 2 physical cores
+
+**Trade-off accepted:** if git-polling build and a traffic spike and (hypothetically)
+heavy ML processing all collide at the same moment, 4 cores could bottleneck harder
+than 6 cores would. Judged unlikely for a personal homelab with self-triggered deploys.
+
+**Lesson for future decisions:** don't apply a general infra rule of thumb
+("more cores = better for Docker") without first listing the actual services and
+classifying each as I/O-bound vs compute-bound. The generalization in the original
+M920q decision was the root cause of needing this reversal.
+
+## 2026-08-26 — Photo management: Immich with ML disabled
+
+Immich will run with machine-learning features (face recognition, object/scene detection)
+disabled. Reasoning: ML inference was the single heaviest CPU-bound workload under
+consideration and the main argument for prioritizing physical core count in hardware
+selection (see hardware decision above) — disabling it removes that argument and lets the
+i7-7700 (4C/8T) pick stand without a compute-bound bottleneck. Core photo backup/gallery
+features are unaffected; only smart search/face-grouping are unavailable.
+
 ## 2026-08-26 — Storage: External USB enclosure instead of internal expansion
 
 M920q Tiny form factor has only 1 internal 2.5" bay + 1 M.2 NVMe slot. Physically cannot fit
