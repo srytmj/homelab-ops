@@ -58,6 +58,12 @@ a Claude API key (console.anthropic.com, pay-per-token billing) — a Claude Pro
 for personal use via claude.ai and isn't meant for programmatic/bot integration, so it can't be
 reused here. Revisit if/when a dedicated API key is set up.
 
+## 2026-08-26 — Blog (srytmj.github.io) deployed on homelab, not GitHub Pages
+
+Despite the `.github.io` naming (which GitHub serves for free), the blog will be deployed on the
+homelab like the other web projects instead — reasoning: faster access than GitHub Pages'
+default hosting. Served via Traefik/NPM alongside the other 10 personal projects.
+
 ## 2026-08-26 — Music via Jellyfin, drop Navidrome
 
 Consolidated music into Jellyfin's own music library instead of running a separate Navidrome

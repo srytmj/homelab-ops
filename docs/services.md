@@ -18,6 +18,7 @@
 | malas | [srytmj/malas](https://github.com/srytmj/malas) | TBD | - | - |
 | homelab-sentinel | [srytmj/homelab-sentinel](https://github.com/srytmj/homelab-sentinel) | N/A (Discord bot, no domain) | - | Monitoring bot, see roadmap — not a web app |
 | whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | TBD | - | - |
+| srytmj.github.io (blog) | [srytmj/srytmj.github.io](https://github.com/srytmj/srytmj.github.io) | TBD | - | Deployed on homelab instead of GitHub Pages for faster access; served like the other web projects via Traefik/NPM |
 | sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | TBD | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
