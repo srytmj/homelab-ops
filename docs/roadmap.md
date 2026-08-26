@@ -13,9 +13,11 @@
 - [ ] Deploy shared PostgreSQL + Redis
 - [ ] Deploy first batch of the 10 web projects
 
+- [ ] Set up Samba share on `/mnt/hdd2tb/shared/` for Windows File Explorer network access
+
 ## Next
 
-- [ ] Deploy media stack: Jellyfin, Immich, Nextcloud, Kavita, Navidrome
+- [ ] Deploy media stack: Jellyfin (movies/TV + music), Immich, Nextcloud, Kavita
 - [ ] Set up Tailscale for remote access
 - [ ] Set up Uptime Kuma + Netdata/Glances for monitoring
 - [ ] Set up automated backup (Restic/Duplicati) for DB + config volumes

@@ -23,11 +23,10 @@
 
 | Service | Purpose | Port | Data location |
 |---|---|---|---|
-| Jellyfin | Movie/TV streaming | 8096 | External enclosure `/mnt/external-storage/movies` |
+| Jellyfin | Movie/TV streaming + music library (accessed via Feishin/foobar2000 as client, not Jellyfin web UI) | 8096 | External enclosure `/mnt/external-storage/movies`, `/music` |
 | Immich | Photo/video backup | 2283 | External enclosure `/mnt/external-storage/immich` |
 | Nextcloud | File sync/storage | 8080 | External enclosure `/mnt/external-storage/nextcloud` |
 | Kavita | Manga/comic reader | 5000 | External enclosure `/mnt/external-storage/manga` |
-| Navidrome | Music streaming (Hi-Res) | 4533 | External enclosure `/mnt/external-storage/music` |
 
 ## Monitoring
 

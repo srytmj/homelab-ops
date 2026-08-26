@@ -58,6 +58,15 @@ a Claude API key (console.anthropic.com, pay-per-token billing) — a Claude Pro
 for personal use via claude.ai and isn't meant for programmatic/bot integration, so it can't be
 reused here. Revisit if/when a dedicated API key is set up.
 
+## 2026-08-26 — Music via Jellyfin, drop Navidrome
+
+Consolidated music into Jellyfin's own music library instead of running a separate Navidrome
+container. Access via third-party clients (Feishin — native Jellyfin API support; foobar2000 —
+via a Subsonic-bridge plugin) rather than Jellyfin's web UI for music. Reasoning: one fewer
+always-on service saves RAM on a 16GB box, and the client-side app covers most of what a
+dedicated music server (Navidrome) would add. Trade-off: Jellyfin's own music features
+(scrobbling, smart playlists) are weaker than Navidrome's, mostly offset by the client app.
+
 ## 2026-08-26 — Auto-deploy via git polling, not GitHub webhook
 
 For auto-deploying the 10 web projects on push, chose a systemd-timer poll loop

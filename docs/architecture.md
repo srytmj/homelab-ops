@@ -40,7 +40,7 @@ Proxmox VE (bare metal hypervisor)
 
 ## Network
 
-- **Router:** <model, e.g. TP-Link TL-WR842N or MikroTik>
+- **Router:** MikroTik RB750Gr3 (hEX), 5x Gigabit Ethernet ports
 - **Static IP for docker-host:** 192.168.1.10 (adjust to actual)
 - **Remote access:** Tailscale (no port forwarding to public internet for personal services)
 - **Domain/DNS:** <fill in if using Cloudflare Tunnel + custom domain>
@@ -54,7 +54,7 @@ Summary:
 - Container management: Portainer
 - Shared DB: PostgreSQL (multi-database) + Redis (shared, per-project key prefix)
 - 10 personal web projects
-- Media stack: Jellyfin, Immich, Kavita, Navidrome, Nextcloud
+- Media stack: Jellyfin (movies/TV + music library), Immich, Kavita, Nextcloud
 
 ## Storage Path Convention
 
@@ -65,8 +65,43 @@ Summary:
 | Database metadata (Postgres/Redis) | Internal NVMe SSD |
 | Immich photos/videos | External enclosure (`/mnt/external-storage/immich`) |
 | Nextcloud files | External enclosure (`/mnt/external-storage/nextcloud`) |
-| Jellyfin media library | External enclosure (`/mnt/external-storage/movies`) |
+| Jellyfin media library (movies/TV + music) | External enclosure (`/mnt/external-storage/movies`, `/mnt/external-storage/music`) |
 | Kavita manga library | External enclosure or SSD if small (`/mnt/external-storage/manga`) |
-| Navidrome music library | External enclosure or SSD if small (`/mnt/external-storage/music`) |
 
 **Rule:** never let bulk media default-write to the internal SSD. Always explicitly map Docker volumes to the external enclosure path.
+
+## Internal 2.5" HDD (2TB) — Folder Structure
+
+Mount point (planned): `/mnt/hdd2tb/`
+
+```
+/mnt/hdd2tb/
+├── immich/
+├── nextcloud/
+├── jellyfin/
+│   ├── movies/
+│   ├── tv/
+│   └── music/           # accessed via Jellyfin's own music library, no separate music server
+├── kavita/
+│   └── manga/
+└── shared/              # ad-hoc file drop, accessed from Windows via SMB
+```
+
+Each app-specific folder (`immich/`, `nextcloud/`, etc.) is bind-mounted into its own Docker
+container — same pattern as the external-enclosure convention above, just pointed at this HDD
+instead. `shared/` is not tied to any container; it's a general-purpose folder for manual file
+transfers (see SMB access below).
+
+## Windows Network Access (SMB/Samba)
+
+Yes — folders on the homelab can be made accessible from Windows File Explorer as a network
+share (`\\<docker-host-ip>\shared`), via a Samba service.
+
+- **Planned setup:** Samba running as a container (or host-level `smbd` inside the docker-host
+  LXC/VM) exposing `/mnt/hdd2tb/shared/` — and optionally other folders (`immich/`, `nextcloud/`)
+  read-only for direct browsing, though app-specific folders are normally managed through their
+  own app UI, not manually.
+- **Access from Windows:** map network drive to `\\<docker-host-ip>\shared`, or type the path
+  directly into File Explorer's address bar.
+- **Auth:** local Samba user/password (not tied to any app's own auth) — set up during Setup mode.
+- Not yet implemented — this is a planned addition, tracked in `docs/roadmap.md`.
