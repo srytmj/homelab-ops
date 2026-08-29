@@ -106,6 +106,12 @@ Mount point (planned): `/mnt/hdd2tb/`
 ```
 /mnt/hdd2tb/
 ├── immich/
+│   ├── upload/           # Immich's own managed storage — photos/videos synced from the phone app; do not reorganize manually, categorize via Albums/Tags in the UI instead
+│   └── external/         # External Library source — manually organized, read-only to Immich, for pre-existing collections
+│       ├── anime/
+│       ├── phone/
+│       ├── pc/
+│       └── laptop/
 ├── nextcloud/
 ├── jellyfin/
 │   ├── movies/
@@ -121,16 +127,28 @@ container — same pattern as the external-enclosure convention above, just poin
 instead. `shared/` is not tied to any container; it's a general-purpose folder for manual file
 transfers (see SMB access below).
 
+**Which folders are safe to drop files into manually (via SMB) vs. app-managed only:**
+
+| Folder | Manual file drop via SMB? | Why |
+|---|---|---|
+| `jellyfin/movies/`, `/tv/`, `/music/` | ✅ Yes — this is the normal workflow | Jellyfin scans the folder for new files; no separate upload step needed |
+| `kavita/manga/` | ✅ Yes — this is the normal workflow | Same as Jellyfin — Kavita scans the folder |
+| `immich/external/` | ✅ Yes, for pre-existing collections | Read via Immich's External Library feature (see above) |
+| `immich/upload/` | ❌ No | Managed by Immich's own database — manually dropped files won't get picked up like Jellyfin/Kavita's scan does; use `external/` instead |
+| `nextcloud/` | ❌ No | Has its own internal DB tracking files — must go through Nextcloud's app/web UI/sync client, not direct filesystem copy, or the DB gets out of sync |
+| `shared/` | ✅ Yes | General-purpose, not tied to any app |
+
 ## Windows Network Access (SMB/Samba)
 
 Yes — folders on the homelab can be made accessible from Windows File Explorer as a network
-share (`\\<docker-host-ip>\shared`), via a Samba service.
+share, via a Samba service. Multiple shares are planned (not just `shared/`), per the table above:
 
 - **Planned setup:** Samba running as a container (or host-level `smbd` inside the docker-host
-  LXC/VM) exposing `/mnt/hdd2tb/shared/` — and optionally other folders (`immich/`, `nextcloud/`)
-  read-only for direct browsing, though app-specific folders are normally managed through their
-  own app UI, not manually.
-- **Access from Windows:** map network drive to `\\<docker-host-ip>\shared`, or type the path
-  directly into File Explorer's address bar.
+  LXC/VM) exposing `shared/` (read-write), plus `jellyfin/movies`, `jellyfin/tv`, `jellyfin/music`,
+  `kavita/manga`, and `immich/external` (all read-write, for dropping in media/files) — each as
+  its own SMB share or subfolder under one share. `immich/upload/` and `nextcloud/` are **not**
+  exposed for direct write, only managed through their own apps.
+- **Access from Windows:** map network drive to `\\<docker-host-ip>\<share-name>`, or type the
+  path directly into File Explorer's address bar.
 - **Auth:** local Samba user/password (not tied to any app's own auth) — set up during Setup mode.
 - Not yet implemented — this is a planned addition, tracked in `docs/roadmap.md`.

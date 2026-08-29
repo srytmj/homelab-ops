@@ -10,6 +10,7 @@
 - [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
 - [ ] Mount HDD at `/mnt/hdd2tb/` (single drive, no RAID needed yet — see decisions.md)
 - [ ] Deploy Traefik/Nginx Proxy Manager
+- [ ] Deploy Homepage (personal dashboard — clickable launcher for every service, auto-discovers via Docker labels)
 - [ ] Deploy shared PostgreSQL + Redis
 - [ ] Deploy first batch of the 10 web projects
 

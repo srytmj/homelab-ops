@@ -8,6 +8,7 @@
 |---|---|---|---|
 | Traefik / NPM | Reverse proxy + auto SSL | 80, 443 | `configs/traefik/` |
 | Portainer | Container management GUI | 9000 | `configs/docker-compose/portainer.yml` |
+| Homepage | Personal dashboard/launcher — one page with clickable links to every service; auto-discovers services via Docker labels | 3000 | `configs/docker-compose/homepage.yml` — not container management (Portainer) or a topology map (Homelable), just quick access |
 | PostgreSQL (shared) | Multi-database for all projects | 5432 (internal only) | `configs/docker-compose/postgres-redis.yml` |
 | Redis (shared) | Caching, per-project key prefix | 6379 (internal only) | `configs/docker-compose/postgres-redis.yml` |
 
