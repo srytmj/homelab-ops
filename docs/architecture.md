@@ -5,28 +5,43 @@
 
 ## Hardware
 
-- **Device:** Lenovo ThinkCentre M710q (Tiny form factor)
-- **CPU:** Intel Core i7-7700T, 4 cores / 8 threads, 2.9GHz base / 3.8GHz boost
+- **Device:** Lenovo ThinkCentre M710q/M910q (Tiny form factor)
+- **CPU:** Intel Core i7-7700, 4 cores / 8 threads
 - **RAM:** 32GB DDR4 SO-DIMM (2 slots)
-- **Internal storage:**
-  - 1x M.2 NVMe SSD 256GB (OS, Docker, projects, DB metadata)
-  - 1x 2.5" bay (internal, currently: 2TB HDD, second-hand, SMART 100/100)
+- **M.2 slot:** confirmed NVMe-capable — repurposed to host an expansion card (see storage
+  topology below), not used for an OS NVMe drive
+- **Internal storage:** see "Storage Topology (FINAL)" below — the OS drive and expansion setup
+  are non-standard for this Tiny form factor, worth reading in full before doing hardware work
 
-## External Storage (DAS - Direct Attached Storage)
+## Storage Topology (FINAL)
 
-> M710q Tiny only has 1 internal 2.5" bay + 1 NVMe slot — physically cannot fit 4 HDDs + 1 extra SSD inside.
-> Solution: external USB 3.0 multi-bay enclosure.
+This device's 2 physical drive slots (1x M.2, 1x internal 2.5" bay) are used unconventionally to
+get more drives than the chassis nominally supports, without an external USB enclosure:
 
-- **Enclosure:** <fill in model once purchased, e.g. Orico / ICY BOX / Ugreen 4-bay 2.5" USB 3.0>
-- **Drives inside enclosure:**
-  - Bay 1: <capacity/model>
-  - Bay 2: <capacity/model>
-  - Bay 3: <capacity/model>
-  - Bay 4: <capacity/model>
-- **Extra SSD:** <where it physically lives — internal 2.5" bay, or inside the enclosure too>
-- **Filesystem/RAID:** <e.g. individual drives, or software RAID/ZFS pool across them — decide and document in decisions.md>
-- **Connection:** USB 3.0 from enclosure to M710q
-- **Mount point on host:** `/mnt/external-storage/` (adjust to actual path once set up)
+- **M.2 slot (NVMe-capable) → LM418 card (M.2 NVMe to 5-port SATA expansion card).** The M.2 slot
+  doesn't hold a drive directly — it hosts this expansion card, which breaks out to 5 SATA ports
+  for additional HDDs.
+- **Internal 2.5" bay (native SATA) → "SSD M.2 SATA/mSATA to SATA 3.0 2.5\"" adapter → OS SSD.**
+  The OS drive is physically an **M.2 SATA SSD** (not a standard 2.5" SSD), so it needs this
+  adapter to plug into the native 2.5" SATA bay. This is the OS/Docker/projects/DB-metadata
+  drive.
+- **Additional HDD (Toshiba 2TB 7200RPM 3.5") → LM418 port #1 → external Docking Rak Stand HDD
+  3.5" (with fan).** Connected via one of the LM418's 5 SATA ports, physically mounted in an
+  external drive dock (not inside the M710q chassis) sitting outside the case.
+- **Power for the external HDD dock:** separate **Imperion ATX 500W PSU**, not the M710q's
+  internal PSU (its capacity isn't enough for the external dock). Two independent power domains:
+  internal M710q PSU for the mini PC itself, external ATX PSU just for the HDD dock.
+- **Cable routing:** the case backplate is left open to route SATA data + power cables from the
+  LM418 out to the external dock. The remaining backplate opening (over the RAM) is covered with
+  a magnetic mesh panel for basic dust/physical protection.
+
+**Net effect:** 1 internal M.2-SATA OS SSD (via adapter, in the native 2.5" bay) + 1 external
+3.5" HDD (via the LM418 card riser'd off the M.2 slot, in an external powered dock) — 2 drives
+total from a chassis that nominally only takes 1+1, without needing a USB DAS enclosure.
+
+- **Filesystem:** single HDD for now (see "Items removed from plan" in `decisions.md`) — no
+  RAID/JBOD decision needed until a second HDD is added.
+- **Mount point on host:** `/mnt/hdd2tb/` (see folder structure further down this file)
 
 ## Virtualization Layer
 
@@ -40,7 +55,21 @@ Proxmox VE (bare metal hypervisor)
 
 ## Network
 
-- **Router:** MikroTik RB750Gr3 (hEX), 5x Gigabit Ethernet ports
+```
+Router ISP (main house WiFi)
+  └── Switch Gigabit: TP-Link TL-LS1005G (5-port)
+        └── PC + Homelab (M710q)
+```
+
+- **Router:** the ISP's own router — no dedicated MikroTik router deployed for now (see
+  `decisions.md`: skipped for budget efficiency, not currently needed).
+- **Switch:** TP-Link TL-LS1005G, 5-port Gigabit — added specifically so PC↔Homelab file
+  transfer gets full Gigabit speed. This works even though the ISP router's own ports may not
+  all be Gigabit, because switch-to-switch-port speed between devices on the same switch isn't
+  limited by the router's uplink port speed.
+- **MikroTik RB941-2nD (hAP Lite):** originally considered as a second router for network
+  isolation, but it's Fast Ethernet (100Mbps) only — and is currently skipped entirely (see
+  network decision below), not deployed as a second-layer router either.
 - **Static IP for docker-host:** 192.168.1.10 (adjust to actual)
 - **Remote access:** Tailscale (no port forwarding to public internet for personal services)
 - **Domain/DNS:** <fill in if using Cloudflare Tunnel + custom domain>
@@ -60,17 +89,17 @@ Summary:
 
 | Data type | Location |
 |---|---|
-| OS, Docker engine, images | Internal NVMe SSD |
-| Project code + dependencies | Internal NVMe SSD |
-| Database metadata (Postgres/Redis) | Internal NVMe SSD |
-| Immich photos/videos | External enclosure (`/mnt/external-storage/immich`) |
-| Nextcloud files | External enclosure (`/mnt/external-storage/nextcloud`) |
-| Jellyfin media library (movies/TV + music) | External enclosure (`/mnt/external-storage/movies`, `/mnt/external-storage/music`) |
-| Kavita manga library | External enclosure or SSD if small (`/mnt/external-storage/manga`) |
+| OS, Docker engine, images | OS SSD (M.2 SATA, via adapter in the internal 2.5" bay) |
+| Project code + dependencies | OS SSD |
+| Database metadata (Postgres/Redis) | OS SSD |
+| Immich photos/videos | HDD (`/mnt/hdd2tb/immich`) |
+| Nextcloud files | HDD (`/mnt/hdd2tb/nextcloud`) |
+| Jellyfin media library (movies/TV + music) | HDD (`/mnt/hdd2tb/jellyfin`) |
+| Kavita manga library | HDD (`/mnt/hdd2tb/kavita`) |
 
-**Rule:** never let bulk media default-write to the internal SSD. Always explicitly map Docker volumes to the external enclosure path.
+**Rule:** never let bulk media default-write to the OS SSD. Always explicitly map Docker volumes to the HDD path.
 
-## Internal 2.5" HDD (2TB) — Folder Structure
+## HDD (Toshiba 2TB, external dock) — Folder Structure
 
 Mount point (planned): `/mnt/hdd2tb/`
 

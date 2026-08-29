@@ -4,11 +4,11 @@
 
 ## Now
 
-- [x] Pick and order hardware: Lenovo M710q (i7-7700T, 32GB RAM, 256GB SSD), MikroTik RB750Gr3, 2TB 2.5" HDD (see decisions.md)
+- [x] Pick and order hardware: Lenovo M710q/M910q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Toshiba 2TB HDD + external dock + Imperion PSU, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md)
+- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; HDD into external dock wired to LM418 port #1; dock powered by separate Imperion ATX PSU; route cables through open backplate, cover RAM opening with magnetic mesh
 - [ ] Install Proxmox VE on M710q
 - [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
-- [ ] Set up external multi-bay USB enclosure for the 4x 2.5" HDD + extra SSD
-- [ ] Mount external storage, decide on filesystem/RAID approach (document reasoning in decisions.md)
+- [ ] Mount HDD at `/mnt/hdd2tb/` (single drive, no RAID needed yet — see decisions.md)
 - [ ] Deploy Traefik/Nginx Proxy Manager
 - [ ] Deploy shared PostgreSQL + Redis
 - [ ] Deploy first batch of the 10 web projects

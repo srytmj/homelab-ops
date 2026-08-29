@@ -3,6 +3,83 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — FINAL: storage topology via LM418 + M.2-SATA adapter, no USB DAS enclosure
+
+Supersedes the earlier "External USB enclosure instead of internal expansion" decision — that
+plan (4-bay USB DAS enclosure) is dropped. Instead, the M710q/M910q's 2 physical drive slots are
+repurposed to fit 2 drives without an external USB enclosure:
+
+- **M.2 slot (NVMe-capable)** hosts an **LM418 card** (M.2 NVMe to 5-port SATA expansion), not a
+  drive directly. This is what makes room for an additional HDD beyond the chassis' nominal 1
+  M.2 + 1 2.5"-bay limit.
+- **Internal 2.5" bay (native SATA)** holds the **OS SSD**, which is physically an **M.2 SATA**
+  drive (not standard 2.5"), connected via an "SSD M.2 SATA/mSATA to SATA 3.0 2.5\"" adapter.
+  This was a correction from an earlier wrong assumption that the OS SSD was a standard 2.5" or
+  M.2 NVMe drive (see CHANGELOG.md) — it's actually M.2 SATA form factor, which is why an adapter
+  is needed to fit the native 2.5" bay at all.
+- **Additional HDD (Toshiba 2TB 7200RPM 3.5")** connects via the LM418's SATA port #1, physically
+  housed in an **external Docking Rak Stand HDD 3.5" (with fan)** sitting outside the case —
+  not inside the M710q chassis.
+- **Power:** the external HDD dock draws from a **separate Imperion ATX 500W PSU**, not the
+  M710q's internal PSU (insufficient capacity for the external dock). Two independent power
+  domains.
+- **Case modification:** the backplate is left open to route SATA data + power cables from the
+  LM418 to the external dock; the remaining opening over the RAM is covered with a magnetic mesh
+  panel for basic protection (not a full enclosure fix, but reasonable given the DIY routing).
+
+Reasoning: this reuses the Tiny form factor's existing 2 physical drive slots more creatively
+(1 slot repurposed as a SATA-port expansion riser) instead of buying a separate USB enclosure,
+at lower cost. Filesystem/RAID decision deferred — starts as a single HDD, no RAID needed until
+a second drive is added.
+
+## 2026-08-26 — Skip dedicated router (MikroTik) for now, ISP router + Gigabit switch only
+
+Supersedes the earlier "Hardware purchase finalized" decision's router pick (MikroTik RB750Gr3)
+and the later RB941-2nD consideration. **No dedicated router is being deployed for now** —
+topology is just: ISP router (house WiFi) → TP-Link TL-LS1005G Gigabit switch → PC + Homelab.
+
+Reasoning: a second router (MikroTik or otherwise) was being considered for network isolation
+between homelab and personal devices, but that's a `roadmap.md` "Later/Ideas" item (VLAN
+isolation), not a current need — skipped for budget efficiency until actually needed. The
+Gigabit switch alone already solves the original problem that motivated a router upgrade
+(PC↔Homelab file transfer speed): switch-port-to-switch-port speed isn't limited by the ISP
+router's own port speed, so Gigabit transfer works regardless of what router sits upstream.
+
+If/when VLAN isolation is actually implemented, a dedicated router (MikroTik or otherwise)
+gets revisited then — not before.
+
+## 2026-08-26 — Items removed from plan (budget efficiency)
+
+- **2nd HDD (2TB, "Sentinel" second-hand):** dropped — one HDD (Toshiba 2TB 7200RPM 3.5", new)
+  is enough to start. No RAID/multi-drive redundancy for now; revisit if/when capacity runs out.
+- **Electric dehumidifier:** dropped — if humidity turns out to be a real problem once the
+  external HDD dock is running, cheaper silica gel packs are the fallback to try first before
+  spending on an electric unit.
+- **Docking Rak Stand HDD 2.5" (separate from the 3.5" HDD dock):** status unclear, likely not
+  needed anymore — the OS SSD (M.2 SATA) now sits in an adapter inside the *internal* 2.5" bay,
+  not in a separate external 2.5" dock. Revisit only if a reason to externally dock a 2.5" drive
+  comes up later.
+
+## 2026-08-26 — Final shopping list (reference pricing at time of purchase)
+
+| Item | Price |
+|---|---|
+| Mini PC M710q/M910q (32GB RAM, no SSD) | Rp4.327.138 |
+| Imperion PSU ATX 500W | Rp110.808 |
+| LM418 M.2 NVMe to 5-port SATA card | Rp245.000 |
+| Adapter M.2 SATA/mSATA to SATA 3.0 2.5" | Rp49.899 |
+| TP-Link TL-LS1005G Switch Gigabit 5-port | Rp131.800 |
+| HDD Toshiba 2TB 7200RPM 3.5" | Rp635.000 |
+| Docking Rak Stand HDD 3.5" (with fan) | Rp265.000 |
+| Rak Buku 3 Tingkat | Rp95.000 |
+| Cables (Cat6, SATA data, SATA power) | ~Rp99.176 |
+| Hannochs Smart Plug (power monitoring) | Rp304.400 |
+| **Total** | **~Rp6.507.582** |
+
+(Excludes personal non-homelab items like a laptop holder or earbud case.) This replaces the
+router price line from the earlier "Hardware purchase finalized" entry — no router purchased
+this round (see router decision above).
+
 ## 2026-08-26 — Skip self-hosted AI ops-agent, stick with Claude Code
 
 Considered running a self-hosted AI agent (e.g. OpenHands) on the homelab to handle
