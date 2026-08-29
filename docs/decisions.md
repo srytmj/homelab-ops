@@ -3,6 +3,16 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — Skip self-hosted AI ops-agent, stick with Claude Code
+
+Considered running a self-hosted AI agent (e.g. OpenHands) on the homelab to handle
+planning/automation/maintenance/setup for this repo via a web chat UI, so as not to consume
+Claude Code/Pro usage. Decided to skip for now — no GPU on the M710q means a local LLM would be
+too weak/slow for this kind of work, and a capable hosted model would still cost per-token
+regardless of self-hosting the agent shell. Sticking with Claude Code (this repo's existing
+planning/setup/maintenance/automation modes in `CLAUDE.md`) instead. Revisit only if a concrete
+need for a always-available, non-Claude-usage ops interface comes up.
+
 ## 2026-08-26 — Hardware: Lenovo M920q over other mini PC options
 
 Chose M920q (i5-9500T, 6C/6T) over alternatives (M715q 4C/8T, HP 800 G6 6C/12T, HP 800 G3 4C/8T)
