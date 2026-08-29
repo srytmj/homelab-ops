@@ -72,7 +72,11 @@ Router ISP (main house WiFi)
   network decision below), not deployed as a second-layer router either.
 - **Static IP for docker-host:** 192.168.1.10 (adjust to actual)
 - **Remote access:** Tailscale (no port forwarding to public internet for personal services)
-- **Domain/DNS:** <fill in if using Cloudflare Tunnel + custom domain>
+- **Domain/DNS / Cloudflare Tunnel:** **one exception** to the Tailscale-only policy — the
+  `portfolio` project is exposed to the public internet via Cloudflare Tunnel (no ports opened
+  on the router/firewall). Every other service, including the Homepage dashboard the portfolio
+  links to via its hidden button, stays Tailscale-only. See `decisions.md` for the full
+  reasoning.
 
 ## Services Running (Docker containers on docker-host)
 

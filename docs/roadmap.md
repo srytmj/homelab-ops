@@ -15,6 +15,8 @@
 - [ ] Deploy first batch of the 10 web projects
 
 - [ ] Set up Samba share on `/mnt/hdd2tb/shared/` for Windows File Explorer network access
+- [ ] Create `portfolio` project (public-facing, new repo) with a hidden button linking to the Homepage dashboard's Tailscale-only URL
+- [ ] Set up Cloudflare Tunnel to expose `portfolio` publicly — the one exception to Tailscale-only (see decisions.md)
 
 ## Next
 

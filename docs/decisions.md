@@ -3,6 +3,24 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — Homepage dashboard + public portfolio with hidden link (Cloudflare Tunnel exception)
+
+Chose **Homepage** (gethomepage.dev) over Homarr/Dashy as the personal dashboard/launcher —
+lightest setup, Docker-label auto-discovery, widest community adoption. It's a pure launcher
+(clickable links + optional status widgets), distinct from Homelable (network topology diagram)
+and Portainer (container management) — no functional overlap.
+
+A new **portfolio** project (public-facing, not yet created) will link to this dashboard via a
+hidden button, discoverable only by the owner. This is the **first and only planned exception**
+to the Tailscale-only access policy: the portfolio itself is exposed to the public internet via
+**Cloudflare Tunnel** (not port forwarding — no firewall ports opened), while the Homepage
+dashboard it links to stays Tailscale-only, same as every other service. The hidden button's
+target URL only resolves/connects over the Tailscale network, so even if someone finds the link
+(e.g. via page source), they can't actually reach the dashboard without being on the tailnet —
+this is real network-level access control, not just UI obscurity. Widgets on the dashboard
+(live status per tile) are deferred as placeholders until the homelab hardware/services actually
+exist — link-only tiles for now.
+
 ## 2026-08-26 — FINAL: storage topology via LM418 + M.2-SATA adapter, no USB DAS enclosure
 
 Supersedes the earlier "External USB enclosure instead of internal expansion" decision — that

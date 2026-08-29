@@ -21,6 +21,7 @@
 | whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | TBD | - | - |
 | srytmj.github.io (blog) | [srytmj/srytmj.github.io](https://github.com/srytmj/srytmj.github.io) | TBD | - | Deployed on homelab instead of GitHub Pages for faster access; served like the other web projects via Traefik/NPM |
 | sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | TBD | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
+| portfolio | [srytmj/portofolio](https://github.com/srytmj/portofolio) | TBD (public) | - | **Only public-facing service** — exposed via Cloudflare Tunnel, not Tailscale-only like everything else. Has a hidden button linking to the Homepage dashboard (Tailscale-only URL) as an easter egg only the owner can actually reach |
 | pore-js | [srytmj/pore-js](https://github.com/srytmj/pore-js) | TBD | - | Custom reader tied into the `malas` project ecosystem — not a general-purpose library like Kavita. Confirmed both are deployed: Kavita is the standalone generic manga/comic server, pore-js is the reader integrated with `malas`. |
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
