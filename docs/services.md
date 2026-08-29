@@ -20,6 +20,7 @@
 | whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | TBD | - | - |
 | srytmj.github.io (blog) | [srytmj/srytmj.github.io](https://github.com/srytmj/srytmj.github.io) | TBD | - | Deployed on homelab instead of GitHub Pages for faster access; served like the other web projects via Traefik/NPM |
 | sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | TBD | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
+| pore-js | [srytmj/pore-js](https://github.com/srytmj/pore-js) | TBD | - | Custom reader tied into the `malas` project ecosystem — not a general-purpose library like Kavita. Confirmed both are deployed: Kavita is the standalone generic manga/comic server, pore-js is the reader integrated with `malas`. |
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
 ## Media Stack
@@ -33,10 +34,33 @@
 
 ## Monitoring
 
-| Service | Purpose | Port |
+> Overlap check: 4 tools touch "monitoring" — each is scoped to a distinct concern to avoid
+> duplication. See the boundary notes below before adding alerting to more than one.
+
+| Service | Purpose | Port | Scope (to avoid overlap) |
+|---|---|---|---|
+| Uptime Kuma | Uptime/availability monitoring | 3001 | HTTP/TCP endpoint checks (web projects, media stack) + built-in alert integrations |
+| Netdata / Glances | Resource monitoring | - | Deep host-level metrics (CPU/RAM/disk/network) — the raw data source, not an alerting tool |
+| Homelable | Infra topology visualizer | - | Visual network/rack diagram + live status overlay — a *map*, not an alert/history system |
+| homelab-sentinel (Discord bot) | Docker container-level monitoring + Discord alerts | - | Container health/resource specifically (things Uptime Kuma's URL/TCP checks can't see) — owns Discord notifications so Uptime Kuma's own alert integration isn't also wired to Discord in parallel |
+
+## Other Self-Hosted Apps
+
+| Service | Purpose | Notes |
 |---|---|---|
-| Uptime Kuma | Uptime monitoring | 3001 |
-| Netdata / Glances | Resource monitoring | - |
+| Syncthing | Continuous P2P file sync between specific devices | Different from Nextcloud: no central "cloud" browsing/share-links, just keeps folders in sync across devices (including this server) |
+| Nextcloud | File storage + sharing (cloud-drive style) | Central storage, share links, web/mobile access — the "cloud" experience; not redundant with Syncthing (different sync model, see above) |
+| Shiori | Bookmark manager | - |
+| YOURLS | URL shortener | - |
+| n8n | Workflow automation | - |
+| Alexandrie | Self-hosted notes / knowledge base | - |
+| Vaultwarden | Password manager (lightweight Bitwarden-compatible server) | Community rewrite in Rust — NOT the official `bitwarden/server`, which is much heavier |
+| Firefly III | Personal finance / budgeting tracker | - |
+| Home Assistant | Home automation | Deploy once the smart power plug (HA-compatible) arrives |
+| Reclip | Self-hosted media downloader (yt-dlp wrapper, web UI) | - |
+| VaultS3 | Lightweight S3-compatible object storage | Not yet wired to any app — available as an S3 target if something later needs one (e.g. backup destination), not consumed by Nextcloud/Immich which use local volumes |
+| FileWizard | File converter / OCR / transcription web UI | Run on-demand only, not a standing container — Whisper transcription is CPU-heavy |
+| Databasus | PostgreSQL backup (PITR, restore verification, notifications) | Candidate to **replace** `scripts/backup.sh`'s Postgres piece, not run alongside it — avoid running two backup mechanisms against the same DB |
 
 ## Automation Scripts
 
