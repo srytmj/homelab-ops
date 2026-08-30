@@ -4,18 +4,20 @@
 
 ## Now
 
-- [x] Pick and order hardware: Lenovo M710q/M910q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Toshiba 2TB HDD + external dock + Imperion PSU, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md)
-- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; HDD into external dock wired to LM418 port #1; dock powered by separate Imperion ATX PSU; route cables through open backplate, cover RAM opening with magnetic mesh
+- [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md for actual cart prices)
+- [ ] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — not yet purchased/priced
+- [ ] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud (the existing single-bay dock only covers HDD-Music)
+- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; all 3 HDDs wired to LM418's SATA ports into their dock(s); docks powered by the Enhance ENP-2320 (with 24-pin jumper installed so it powers on without a motherboard) via Molex-to-SATA cables; route cables through open backplate, cover RAM opening with magnetic mesh
 - [ ] Install Proxmox VE on M710q
 - [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
-- [ ] Mount HDD at `/mnt/hdd2tb/` (single drive, no RAID needed yet — see decisions.md)
+- [ ] Mount all 3 HDDs: `/mnt/hdd-music/`, `/mnt/hdd-media/`, `/mnt/hdd-cloud/` (each single drive, no RAID — see decisions.md)
 - [ ] Deploy Traefik/Nginx Proxy Manager
-- [ ] Deploy Homepage (personal dashboard — clickable launcher for every service, auto-discovers via Docker labels)
 - [ ] Deploy shared PostgreSQL + Redis
 - [ ] Deploy first batch of the 10 web projects
+- [ ] Give each Tailscale-only service its own subdomain (Tailscale MagicDNS/Serve) so the portfolio's hidden dashboard page can link to clean per-service hrefs
 
 - [ ] Set up Samba share on `/mnt/hdd2tb/shared/` for Windows File Explorer network access
-- [ ] Create `portfolio` project (public-facing, new repo) with a hidden button linking to the Homepage dashboard's Tailscale-only URL
+- [ ] Add hidden dashboard page to the existing `portfolio` repo — lists hrefs to every homelab service by its Tailscale subdomain (replaces the separate Homepage/gethomepage.dev plan — no standalone dashboard service needed)
 - [ ] Set up Cloudflare Tunnel to expose `portfolio` publicly — the one exception to Tailscale-only (see decisions.md)
 
 ## Next

@@ -25,12 +25,15 @@ get more drives than the chassis nominally supports, without an external USB enc
   The OS drive is physically an **M.2 SATA SSD** (not a standard 2.5" SSD), so it needs this
   adapter to plug into the native 2.5" SATA bay. This is the OS/Docker/projects/DB-metadata
   drive.
-- **Additional HDD (Toshiba 2TB 7200RPM 3.5") → LM418 port #1 → external Docking Rak Stand HDD
+- **Additional HDD (Seagate Barracuda 2TB 3.5", desktop-class) → LM418 port #1 → external Docking Rak Stand HDD
   3.5" (with fan).** Connected via one of the LM418's 5 SATA ports, physically mounted in an
   external drive dock (not inside the M710q chassis) sitting outside the case.
-- **Power for the external HDD dock:** separate **Imperion ATX 500W PSU**, not the M710q's
-  internal PSU (its capacity isn't enough for the external dock). Two independent power domains:
-  internal M710q PSU for the mini PC itself, external ATX PSU just for the HDD dock.
+- **Power for the external HDD dock:** separate **Enhance ENP-2320 PSU** (Flex ATX, 200W,
+  Active PFC), not the M710q's internal PSU. Two independent power domains: internal M710q PSU
+  for the mini PC itself, external Flex ATX PSU just for the HDD dock(s). Chosen over a cheap
+  generic PSU specifically to avoid voltage-spike risk to the HDDs — see `decisions.md`. Since
+  this PSU has no motherboard attached, it needs a 24-pin ATX jumper (shorts PS_ON to Ground) to
+  power on, plus Molex-to-SATA power cables per drive.
 - **Cable routing:** the case backplate is left open to route SATA data + power cables from the
   LM418 out to the external dock. The remaining backplate opening (over the RAM) is covered with
   a magnetic mesh panel for basic dust/physical protection.
@@ -96,62 +99,101 @@ Summary:
 | OS, Docker engine, images | OS SSD (M.2 SATA, via adapter in the internal 2.5" bay) |
 | Project code + dependencies | OS SSD |
 | Database metadata (Postgres/Redis) | OS SSD |
-| Immich photos/videos | HDD (`/mnt/hdd2tb/immich`) |
-| Nextcloud files | HDD (`/mnt/hdd2tb/nextcloud`) |
-| Jellyfin media library (movies/TV + music) | HDD (`/mnt/hdd2tb/jellyfin`) |
-| Kavita manga library | HDD (`/mnt/hdd2tb/kavita`) |
+| Music (Jellyfin) | HDD-Music, 2TB 3.5" (`/mnt/hdd-music/`) |
+| Movies/TV, manga, images, anime (video + pics) | HDD-Media, 1TB 2.5" (`/mnt/hdd-media/`) |
+| Nextcloud + VaultS3 | HDD-Cloud, 1TB 3.5" (`/mnt/hdd-cloud/`) |
 
-**Rule:** never let bulk media default-write to the OS SSD. Always explicitly map Docker volumes to the HDD path.
+**Rule:** never let bulk media default-write to the OS SSD. Always explicitly map Docker volumes to the correct HDD's path.
 
-## HDD (Toshiba 2TB, external dock) — Folder Structure
+## Storage Drives — 3 HDDs, Each With a Dedicated Purpose
 
-Mount point (planned): `/mnt/hdd2tb/`
+Supersedes the earlier single-HDD (`/mnt/hdd2tb/`) plan. Final topology is **3 separate drives**,
+each single-purpose — no RAID/pooling across them, so a failure on one drive only affects that
+drive's category of data (e.g. losing HDD-Cloud doesn't touch music or media).
+
+| Drive | Capacity | Form factor | Mount point | Purpose |
+|---|---|---|---|---|
+| HDD-Music (Seagate Barracuda, already purchased) | 2TB | 3.5" | `/mnt/hdd-music/` | Music only, for Jellyfin |
+| HDD-Media (new) | 1TB | 2.5" | `/mnt/hdd-media/` | Movies/TV, manga, images, anime (both video and pictures) |
+| HDD-Cloud (new) | 1TB | 3.5" | `/mnt/hdd-cloud/` | Nextcloud + VaultS3 |
+
+**Physical mounting — open item:** the original plan only accounted for 1 external 3.5" dock
+(for HDD-Music, via the LM418 card). The 2 new drives (HDD-Media 2.5", HDD-Cloud 3.5") need
+additional dock/enclosure capacity — **a multi-bay dock/enclosure still needs to be sourced**,
+tracked in `docs/roadmap.md`. The LM418 card itself has headroom (5 SATA ports, only 1 used so
+far), so the bottleneck is physical docking/enclosure and cabling, not the SATA expansion card.
+The Enhance ENP-2320's 200W and 5x Molex outputs comfortably cover all 3 drives (real-world
+draw ~20-60W total even at worst-case simultaneous spin-up) — confirmed sufficient, not an open
+item.
+
+**No backup exists yet for any of this media/file data** — `scripts/backup.sh`/Databasus only
+covers the PostgreSQL database, not Immich/Nextcloud/Jellyfin file content. Since this is
+personal, hard-to-replace data (photos especially), backup strategy for these 3 drives is an
+open gap worth revisiting once the drives are actually online.
+
+### HDD-Music (`/mnt/hdd-music/`)
 
 ```
-/mnt/hdd2tb/
-├── immich/
-│   ├── upload/           # Immich's own managed storage — photos/videos synced from the phone app; do not reorganize manually, categorize via Albums/Tags in the UI instead
-│   └── external/         # External Library source — manually organized, read-only to Immich, for pre-existing collections
-│       ├── anime/
-│       ├── phone/
-│       ├── pc/
-│       └── laptop/
-├── nextcloud/
+/mnt/hdd-music/
+└── jellyfin/
+    └── music/
+```
+
+### HDD-Media (`/mnt/hdd-media/`)
+
+```
+/mnt/hdd-media/
 ├── jellyfin/
 │   ├── movies/
 │   ├── tv/
-│   └── music/           # accessed via Jellyfin's own music library, no separate music server
+│   └── anime/            # video anime — same handling as movies/tv, watched through Jellyfin
 ├── kavita/
 │   └── manga/
-└── shared/              # ad-hoc file drop, accessed from Windows via SMB
+└── immich/
+    ├── upload/            # Immich's own managed storage — synced from the phone app; do not reorganize manually, categorize via Albums/Tags in the UI instead
+    └── external/          # External Library source — manually organized, read-only to Immich, for pre-existing image collections
+        ├── anime/         # anime images/wallpapers — distinct from jellyfin/anime/ (video) above
+        ├── phone/
+        ├── pc/
+        └── laptop/
 ```
 
-Each app-specific folder (`immich/`, `nextcloud/`, etc.) is bind-mounted into its own Docker
-container — same pattern as the external-enclosure convention above, just pointed at this HDD
-instead. `shared/` is not tied to any container; it's a general-purpose folder for manual file
-transfers (see SMB access below).
+### HDD-Cloud (`/mnt/hdd-cloud/`)
+
+```
+/mnt/hdd-cloud/
+├── nextcloud/
+├── vaults3/
+└── shared/                # ad-hoc file drop, accessed from Windows via SMB — lives here since this is the general-purpose storage drive
+```
+
+Each app-specific folder is bind-mounted into its own Docker container, on whichever drive its
+data type belongs to per the table above. `shared/` is not tied to any container; it's a
+general-purpose folder for manual file transfers (see SMB access below).
 
 **Which folders are safe to drop files into manually (via SMB) vs. app-managed only:**
 
 | Folder | Manual file drop via SMB? | Why |
 |---|---|---|
-| `jellyfin/movies/`, `/tv/`, `/music/` | ✅ Yes — this is the normal workflow | Jellyfin scans the folder for new files; no separate upload step needed |
+| `jellyfin/movies/`, `/tv/`, `/anime/`, `/music/` | ✅ Yes — this is the normal workflow | Jellyfin scans the folder for new files; no separate upload step needed |
 | `kavita/manga/` | ✅ Yes — this is the normal workflow | Same as Jellyfin — Kavita scans the folder |
 | `immich/external/` | ✅ Yes, for pre-existing collections | Read via Immich's External Library feature (see above) |
 | `immich/upload/` | ❌ No | Managed by Immich's own database — manually dropped files won't get picked up like Jellyfin/Kavita's scan does; use `external/` instead |
 | `nextcloud/` | ❌ No | Has its own internal DB tracking files — must go through Nextcloud's app/web UI/sync client, not direct filesystem copy, or the DB gets out of sync |
+| `vaults3/` | ❌ No (usually) | Written to via S3 API by whatever app/backup process uses it as a target, not typically browsed/edited by hand |
 | `shared/` | ✅ Yes | General-purpose, not tied to any app |
 
 ## Windows Network Access (SMB/Samba)
 
 Yes — folders on the homelab can be made accessible from Windows File Explorer as a network
-share, via a Samba service. Multiple shares are planned (not just `shared/`), per the table above:
+share, via a Samba service. Shares span all 3 drives, per the table above:
 
 - **Planned setup:** Samba running as a container (or host-level `smbd` inside the docker-host
-  LXC/VM) exposing `shared/` (read-write), plus `jellyfin/movies`, `jellyfin/tv`, `jellyfin/music`,
-  `kavita/manga`, and `immich/external` (all read-write, for dropping in media/files) — each as
-  its own SMB share or subfolder under one share. `immich/upload/` and `nextcloud/` are **not**
-  exposed for direct write, only managed through their own apps.
+  LXC/VM) exposing `hdd-cloud/shared/` (read-write), plus `hdd-media/jellyfin/{movies,tv,anime}`,
+  `hdd-media/kavita/manga`, `hdd-media/immich/external`, and `hdd-music/jellyfin/music` (all
+  read-write, for dropping in media/files) — each as its own SMB share or subfolder under one
+  share. `immich/upload/`, `nextcloud/`, and `vaults3/` are **not** exposed for direct write,
+  only managed through their own apps/APIs.
 - **Access from Windows:** map network drive to `\\<docker-host-ip>\<share-name>`, or type the
   path directly into File Explorer's address bar.
 - **Auth:** local Samba user/password (not tied to any app's own auth) — set up during Setup mode.

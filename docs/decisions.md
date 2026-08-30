@@ -3,23 +3,50 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
-## 2026-08-26 — Homepage dashboard + public portfolio with hidden link (Cloudflare Tunnel exception)
+## 2026-08-26 — FINAL: 3 dedicated HDDs instead of 1 shared drive
 
-Chose **Homepage** (gethomepage.dev) over Homarr/Dashy as the personal dashboard/launcher —
-lightest setup, Docker-label auto-discovery, widest community adoption. It's a pure launcher
-(clickable links + optional status widgets), distinct from Homelable (network topology diagram)
-and Portainer (container management) — no functional overlap.
+Supersedes the single-HDD (`/mnt/hdd2tb/`) storage plan. Final topology is **3 separate,
+single-purpose drives**, no RAID/pooling:
 
-A new **portfolio** project (public-facing, not yet created) will link to this dashboard via a
-hidden button, discoverable only by the owner. This is the **first and only planned exception**
-to the Tailscale-only access policy: the portfolio itself is exposed to the public internet via
-**Cloudflare Tunnel** (not port forwarding — no firewall ports opened), while the Homepage
-dashboard it links to stays Tailscale-only, same as every other service. The hidden button's
-target URL only resolves/connects over the Tailscale network, so even if someone finds the link
-(e.g. via page source), they can't actually reach the dashboard without being on the tailnet —
-this is real network-level access control, not just UI obscurity. Widgets on the dashboard
-(live status per tile) are deferred as placeholders until the homelab hardware/services actually
-exist — link-only tiles for now.
+- **HDD-Music** (2TB, 3.5", the already-purchased Toshiba drive) — music only, for Jellyfin
+- **HDD-Media** (1TB, 2.5", new purchase needed) — movies/TV, manga, images, and anime (both
+  video and pictures — anime video goes through Jellyfin like movies/TV, anime images go through
+  Immich's External Library like other image categories)
+- **HDD-Cloud** (1TB, 3.5", new purchase needed) — Nextcloud + VaultS3
+
+Reasoning: splitting by content category (rather than one pooled drive) means a single drive
+failure only takes out that category — e.g. losing HDD-Cloud doesn't touch music or media. No
+RAID/redundancy within each drive, consistent with the earlier "single drive, no RAID needed
+yet" call — this is now the working assumption across all 3 drives, not just one.
+
+**Open items this creates:**
+- **Physical docking:** the original plan only had 1 external 3.5" dock (for HDD-Music via the
+  LM418 card). A multi-bay dock/enclosure still needs to be sourced for HDD-Media (2.5") and
+  HDD-Cloud (3.5"). LM418 itself has spare SATA ports (5 total, 1 used), so this is a
+  docking/enclosure and cabling gap, not a controller-capacity gap. Imperion PSU capacity for
+  3 drives vs. 1 should be double-checked when sourcing the new dock, though HDD power draw is
+  low enough this is likely a non-issue.
+- **No backup for file data:** `scripts/backup.sh`/Databasus cover PostgreSQL only. Nothing yet
+  backs up the actual Immich/Nextcloud/Jellyfin file content across these 3 drives — worth
+  addressing once they're online, especially for irreplaceable personal data like photos.
+
+## 2026-08-26 — Custom hidden dashboard page in `portfolio`, drop separate Homepage service
+
+Supersedes the earlier "Homepage dashboard + public portfolio with hidden link" decision's
+dashboard choice. **No separate Homepage (gethomepage.dev) service is deployed.** Instead, the
+existing `portfolio` repo (github.com/srytmj/portofolio) gets a custom-built hidden page that
+itself acts as the dashboard — a list of hrefs to every homelab service, each linking to that
+service's own **Tailscale subdomain**. Reasoning: portfolio repo is already built and preferred
+over standing up a whole extra service just for a launcher page; a custom page is simpler and
+fully under the owner's control (styling, trigger mechanism, etc.) than configuring a
+third-party tool.
+
+The access-control design from the superseded decision still holds: the portfolio is the
+**one exception** to Tailscale-only, exposed publicly via **Cloudflare Tunnel**. Every service
+it links to (including this hidden dashboard's targets) resolves only over Tailscale — so even
+if the hidden page/trigger is discovered, the linked URLs are unreachable off the tailnet. Each
+Tailscale-only service gets its own clean subdomain (via Tailscale MagicDNS/Serve) specifically
+so this hidden page has clean per-service hrefs to link to, rather than raw IPs/ports.
 
 ## 2026-08-26 — FINAL: storage topology via LM418 + M.2-SATA adapter, no USB DAS enclosure
 
@@ -78,25 +105,78 @@ gets revisited then — not before.
   not in a separate external 2.5" dock. Revisit only if a reason to externally dock a 2.5" drive
   comes up later.
 
-## 2026-08-26 — Final shopping list (reference pricing at time of purchase)
+## 2026-08-26 — Final shopping list (actual cart prices at checkout)
+
+Supersedes all earlier price estimates — these are the real per-item prices from the final
+Shopee cart across multiple sellers, with 2 corrections noted below.
 
 | Item | Price |
 |---|---|
-| Mini PC M710q/M910q (32GB RAM, no SSD) | Rp4.327.138 |
-| Imperion PSU ATX 500W | Rp110.808 |
-| LM418 M.2 NVMe to 5-port SATA card | Rp245.000 |
-| Adapter M.2 SATA/mSATA to SATA 3.0 2.5" | Rp49.899 |
-| TP-Link TL-LS1005G Switch Gigabit 5-port | Rp131.800 |
-| HDD Toshiba 2TB 7200RPM 3.5" | Rp635.000 |
-| Docking Rak Stand HDD 3.5" (with fan) | Rp265.000 |
+| Mini PC M710q, i7-7700 (Gen 7), 32GB RAM, no SSD | Rp4.304.775 |
+| HDD Seagate Barracuda 2TB 3.5" (HDD-Music) — desktop-class, not NAS-rated; the originally-planned Toshiba sold out | Rp950.000 |
+| Docking Rak Stand HDD 3.5" with fan — HDD-Music | Rp265.000 |
+| Enhance ENP-2320 PSU Flex ATX 200W (Active PFC, 20pin + 5x Molex 4pin) | Rp250.000 |
+| LM418 M.2 NVMe to 5-port SATA card — **cart had qty 2 by mistake, corrected to qty 1 before checkout** | Rp245.000 |
+| SATA to M.2 SATA NGFF converter, with casing (OS SSD adapter for the internal 2.5" bay) | Rp54.999 |
+| TP-Link TL-LS1005G Switch Gigabit 5-port | Rp134.800 |
+| Hannochs Smart Device 02 Power Strip (power monitoring) | Rp304.400 |
+| Kabel Molex to Triple SATA power splitter | Rp24.999 |
+| Kabel Molex Female to Dual SATA power splitter | Rp22.999 |
+| 24-pin ATX PSU jumper (power-on switch, runs the PSU without a motherboard) | Rp12.999 |
+| SATA data cable 6Gbps, x5 | Rp47.500 |
+| Vention Cat6A Ethernet cable, 1m | Rp34.176 |
+| Kabel LAN server Belden Cat6, 20cm + 70cm + 10cm | Rp43.399 |
 | Rak Buku 3 Tingkat | Rp95.000 |
-| Cables (Cat6, SATA data, SATA power) | ~Rp99.176 |
-| Hannochs Smart Plug (power monitoring) | Rp304.400 |
-| **Total** | **~Rp6.507.582** |
+| **Subtotal (merchandise, corrected)** | **~Rp6.790.046** |
 
-(Excludes personal non-homelab items like a laptop holder or earbud case.) This replaces the
-router price line from the earlier "Hardware purchase finalized" entry — no router purchased
-this round (see router decision above).
+Still not purchased/priced: HDD-Media (1TB 2.5"), HDD-Cloud (1TB 3.5"), and a multi-bay
+dock/enclosure for those two drives (the single dock above only covers HDD-Music) — see
+`roadmap.md`.
+
+(Excludes personal non-homelab items like a laptop holder, and per-item Shopee protection
+add-ons/shipping which vary by order.) This replaces both the earlier estimated shopping list
+and the PSU-only price update below it.
+
+## 2026-08-26 — PSU switched to Enhance ENP-2320, not the cheap Imperion 500W
+
+Supersedes the Imperion ATX 500W PSU pick from the earlier shopping list. Switched to
+**Enhance ENP-2320** (Flex ATX, 200W, Active PFC, Rp250.000) for the external HDD dock's power
+supply. Reasoning: cheap/no-name PSUs (like the Imperion at Rp110.808 for a claimed 500W) often
+lack real voltage regulation and protections (OVP/OCP/SCP), risking power spikes that damage
+HDD controller boards — a real risk, not just caution. Enhance is an established
+industrial/server PSU brand (used in some branded NAS units) with Active PFC and full-range
+input, trading a inflated-but-unreliable 500W rating for a real, trustworthy 200W — plenty for
+3 HDDs' actual draw (~20-60W even at worst-case simultaneous spin-up).
+
+Since this PSU only powers the external dock (no motherboard attached), it needs a **24-pin ATX
+jumper** (shorts PS_ON to Ground so the PSU powers on without a motherboard signal — commonly
+sold as a "mining PSU jumper/switch") plus Molex-to-SATA power cables for each drive.
+
+## 2026-08-26 — Considered and rejected: used Xeon E5 server PC (12-20 core)
+
+Found several used Xeon E5-2673 V3/V4 and E5-2686 V4 "server PC" listings (12-20 physical
+cores, DDR3/DDR4 ECC 32-128GB, Rp4-6.3jt) and considered switching from the M710q i7-7700 pick.
+**Rejected, staying with M710q i7-7700.** Reasoning:
+
+- **Idle power draw dominates long-term cost.** These Xeons have 105-145W CPU TDP alone vs.
+  the M710q's 35W; full-system idle is likely 80-150W higher. At 24/7 uptime that's roughly
+  Rp1.3 million/year in extra electricity — enough to exceed the hardware price difference
+  within 1-2 years, and keeps compounding every year after.
+- **More cores/threads give zero benefit here** — same "characterize the workload first"
+  principle as the earlier M920q→i7-7700 reversal (see that decision above). The actual
+  workload (I/O-bound web apps + direct-play media) doesn't benefit from 12-20 physical cores.
+  Confirmed with the user this was a "cheap now" temptation, not a concrete compute need.
+- The bundled GT610 GPU is dead weight (no NVENC, Jellyfin already direct-play only) that adds
+  idle draw for zero use.
+- All the storage-topology planning already done (LM418 riser, M.2-SATA adapter, magnetic mesh
+  backplate mod) is specific to the M710q Tiny form factor's constraints — a tower Xeon board
+  doesn't need any of it, but switching would mean redoing the whole plan for no workload gain.
+- Used decade-old server boards carry more unknown-condition risk (thermal paste, capacitors,
+  prior duty cycle) than a mini PC platform, with less certainty they're suited to sustained
+  home (non-datacenter-airflow) operation.
+- DDR3-64GB-ECC vs DDR4-32GB-non-ECC RAM trade-off (quad-channel bandwidth, ECC data integrity)
+  was also weighed — real advantages on the Xeon side, but still bundled with the same power/
+  noise/platform downsides above, and 32GB is already sufficient for the actual workload.
 
 ## 2026-08-26 — Skip self-hosted AI ops-agent, stick with Claude Code
 
