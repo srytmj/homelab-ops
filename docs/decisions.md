@@ -3,6 +3,61 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — CapRover for friend-hosted apps, not literal cPanel
+
+Considered building a cPanel-like self-service hosting panel so friends can deploy their own
+web apps on the homelab. Rejected literal cPanel/WHM (paid license, not Docker-native, built
+for classic shared PHP hosting). Chose **CapRover** instead — self-hosted PaaS, git-push-to-
+deploy, Docker-based, web UI, built-in reverse proxy + auto Let's Encrypt SSL, per-app resource
+limits.
+
+**Scope clarified during discussion:** target users are known friends only (not the public at
+large), and actual use case is ~15 lightweight CRUD apps (school/report assignments) with
+low-to-no traffic — not production apps expected to see real visitor load. This significantly
+lowers the resource-risk profile from the original "public hosting" framing: estimated total
+footprint is ~3-5GB RAM (CapRover control plane + Nginx + 15 light apps), comfortably fits
+within the 32GB box. Per-app resource caps (~256-512MB) still set as a cheap safety net against
+a runaway/buggy app taking down others, even though real load is expected to be light.
+
+**Guardrails decided:**
+- **Separate database instance** for friends' apps (MySQL/MariaDB via CapRover's One-Click Apps
+  catalog) — kept isolated from the existing shared PostgreSQL/Redis used by the user's own 10
+  projects, since friends' app code is a different trust boundary than the user's own code.
+- **Second exception to Tailscale-only access**, alongside the `portfolio` project — friends'
+  apps need public reachability for their own visitors/graders to view them. Reuses the same
+  Cloudflare Tunnel infrastructure already planned for `portfolio` rather than standing up a
+  separate exposure mechanism.
+- **Technical note:** CapRover requires Docker Swarm mode, which needs to coexist with the
+  existing plain docker-compose setup on the same Docker Engine — generally compatible, but
+  worth checking overlay-network behavior during setup since it differs from bridge networking.
+
+**Sequencing:** this is explicitly deferred until after the base homelab (Proxmox, docker-host,
+core services) is up and stable — not part of the initial setup push.
+
+## 2026-08-26 — File data backup: local cross-drive Restic → VaultS3, offsite deferred
+
+Addresses the gap noted in the "3 dedicated HDDs" decision below (no backup existed for actual
+file content, only for the Postgres DB). Plan:
+
+- **Priority by replaceability**, not backing up everything equally:
+  - 🔴 Immich (personal photos/videos) — highest priority, irreplaceable
+  - 🔴 Nextcloud (personal files) — high priority
+  - 🟡 Jellyfin (movies/TV/music) and Kavita (manga) — low priority, re-downloadable, skipped for now
+- **Tier 1 (local, decided now):** Restic snapshots of Immich (and Nextcloud when it's online)
+  targeting **VaultS3** as the backend. Must be **cross-drive**: since Immich lives on HDD-Media
+  and VaultS3 lives on HDD-Cloud, a backup from one to the other actually protects against that
+  specific drive failing — backing up to a target on the *same* physical drive as the source
+  would only guard against accidental deletion/corruption, not drive failure. Zero additional
+  monthly cost since VaultS3 is already self-hosted.
+- **Tier 2 (offsite, e.g. Backblaze B2) — explicitly deferred, not rejected.** Would protect
+  against whole-site loss (fire, theft, drive failure without a working local backup at that
+  moment) but adds a recurring monthly cost. Skipped for now by choice; revisit once budget
+  allows or the photo/file collection grows large enough that the risk feels more concrete.
+
+This backup job is the same `scripts/backup.sh`-style automation already planned in
+`roadmap.md`'s "Set up automated backup (Restic/Duplicati)" item — scope is expanded to include
+Immich/Nextcloud file data, not just the DB.
+
 ## 2026-08-26 — FINAL: 3 dedicated HDDs instead of 1 shared drive
 
 Supersedes the single-HDD (`/mnt/hdd2tb/`) storage plan. Final topology is **3 separate,

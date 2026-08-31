@@ -5,8 +5,8 @@
 ## Now
 
 - [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md for actual cart prices)
-- [ ] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — not yet purchased/priced
-- [ ] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud (the existing single-bay dock only covers HDD-Music)
+- [x] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — purchased, exact model/price to log later
+- [x] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud — purchased, exact model/price to log later
 - [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; all 3 HDDs wired to LM418's SATA ports into their dock(s); docks powered by the Enhance ENP-2320 (with 24-pin jumper installed so it powers on without a motherboard) via Molex-to-SATA cables; route cables through open backplate, cover RAM opening with magnetic mesh
 - [ ] Install Proxmox VE on M710q
 - [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
@@ -16,8 +16,8 @@
 - [ ] Deploy first batch of the 10 web projects
 - [ ] Give each Tailscale-only service its own subdomain (Tailscale MagicDNS/Serve) so the portfolio's hidden dashboard page can link to clean per-service hrefs
 
-- [ ] Set up Samba share on `/mnt/hdd2tb/shared/` for Windows File Explorer network access
-- [ ] Add hidden dashboard page to the existing `portfolio` repo — lists hrefs to every homelab service by its Tailscale subdomain (replaces the separate Homepage/gethomepage.dev plan — no standalone dashboard service needed)
+- [ ] Set up Samba share on `/mnt/hdd-cloud/shared/` for Windows File Explorer network access
+- [x] Add hidden dashboard page to the existing `portfolio` repo — done (built in a separate Claude Code session); URLs still need to be filled in with real Tailscale subdomains once services are actually deployed
 - [ ] Set up Cloudflare Tunnel to expose `portfolio` publicly — the one exception to Tailscale-only (see decisions.md)
 
 ## Next
@@ -25,7 +25,7 @@
 - [ ] Deploy media stack: Jellyfin (movies/TV + music), Immich, Nextcloud, Kavita
 - [ ] Set up Tailscale for remote access
 - [ ] Set up Uptime Kuma + Netdata/Glances for monitoring
-- [ ] Set up automated backup (Restic/Duplicati) for DB + config volumes
+- [ ] Set up automated backup (Restic) for DB + config volumes, PLUS Immich/Nextcloud file data — target VaultS3, cross-drive from the source (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
 
 - [ ] Discord bot (Python, discord.py) for server monitoring — status/alerts for containers & resource usage; built in a separate Claude Code session, not this repo's setup flow
 
@@ -43,6 +43,12 @@
 - [ ] Evaluate Databasus as a replacement for `scripts/backup.sh` — adds PITR + restore verification + notifications (Discord/Slack/Telegram) vs. the current plain pg_dump script
 - [ ] (on-demand only, not a standing container) FileWizard — file converter/OCR/transcription web UI, spin up only when needed since Whisper transcription is CPU-heavy
 - [ ] (no hosting needed) CodeFlow — single-HTML architecture-map tool, run locally by opening its `index.html`, not deployed to docker-host
+
+## After base homelab is up and stable
+
+- [ ] Deploy CapRover — mini hosting panel for friends to self-deploy their own CRUD web apps (~15 apps planned, school/report assignments, low/no traffic — not public production apps). Requires Docker Swarm mode alongside the existing docker-compose setup. Set conservative per-app resource caps (~256-512MB each) as a safety net even though actual load is expected to be light.
+- [ ] Deploy MySQL/MariaDB via CapRover's One-Click Apps catalog, dedicated to the friends'-apps pool — **separate instance from the existing shared PostgreSQL/Redis** used by the user's own 10 projects, since these are a different trust boundary
+- [ ] Extend the Cloudflare Tunnel (already set up for `portfolio`) to also expose each friend's CapRover-hosted app publicly — second exception to Tailscale-only, same tunnel infrastructure reused
 
 ## Later / Ideas
 

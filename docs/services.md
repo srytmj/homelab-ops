@@ -10,6 +10,8 @@
 | Portainer | Container management GUI | 9000 | `configs/docker-compose/portainer.yml` |
 | PostgreSQL (shared) | Multi-database for all projects | 5432 (internal only) | `configs/docker-compose/postgres-redis.yml` |
 | Redis (shared) | Caching, per-project key prefix | 6379 (internal only) | `configs/docker-compose/postgres-redis.yml` |
+| CapRover | Mini hosting panel — lets friends self-deploy their own web apps (git push → auto build/deploy), auto SSL, per-app resource limits | 3000 (admin) | Deployed after base homelab is stable, see roadmap.md. Requires Docker Swarm mode. |
+| MySQL/MariaDB (CapRover-only) | Database for friends'-apps hosted via CapRover | via CapRover One-Click App | **Separate from the shared PostgreSQL/Redis above** — different trust boundary, friends' app code isn't the user's own |
 
 ## Web Projects
 
