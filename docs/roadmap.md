@@ -22,10 +22,10 @@
 
 ## Next
 
-- [ ] Deploy media stack: Jellyfin (movies/TV + music), Immich, Nextcloud, Kavita
+- [ ] Deploy media stack: Jellyfin (movies/TV/anime + music), Nextcloud, Kavita
 - [ ] Set up Tailscale for remote access
-- [ ] Set up Uptime Kuma + Netdata/Glances for monitoring
-- [ ] Set up automated backup (Restic) for DB + config volumes, PLUS Immich/Nextcloud file data — target VaultS3, cross-drive from the source (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
+- [ ] Set up Uptime Kuma + Netdata/Glances + Scrutiny (HDD S.M.A.R.T. health monitoring) for monitoring
+- [ ] Set up automated backup (Restic) for DB + config volumes, PLUS Nextcloud file data — target VaultS3, cross-drive from the source (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
 
 - [ ] Discord bot (Python, discord.py) for server monitoring — status/alerts for containers & resource usage; built in a separate Claude Code session, not this repo's setup flow
 
@@ -39,6 +39,7 @@
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
 - [ ] Deploy Homelable (self-hosted infra visualizer — network diagram + live health-check status, complements Uptime Kuma/homelab-sentinel)
 - [ ] Deploy Reclip (self-hosted media downloader, yt-dlp wrapper with web UI)
+- [ ] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed)
 - [ ] Deploy VaultS3 (lightweight S3-compatible object storage, for apps/backups that want an S3 target without paying for cloud storage)
 - [ ] Evaluate Databasus as a replacement for `scripts/backup.sh` — adds PITR + restore verification + notifications (Discord/Slack/Telegram) vs. the current plain pg_dump script
 - [ ] (on-demand only, not a standing container) FileWizard — file converter/OCR/transcription web UI, spin up only when needed since Whisper transcription is CPU-heavy

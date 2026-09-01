@@ -5,6 +5,13 @@
 #
 # Convention: each project lives in its own subdirectory under PROJECTS_ROOT,
 # is a git repo, and has a docker-compose.yml at its root.
+#
+# IMPORTANT: builds run sequentially (one project at a time), not in parallel —
+# do NOT background the `docker compose up -d --build` call or parallelize the
+# loop below. Building is the heaviest CPU spike in this homelab's workload; on
+# a 4-core box, building multiple projects at once would stack those spikes and
+# hurt every other service's responsiveness far more than a bit of extra wall-clock
+# time on the deploy loop costs. See docs/decisions.md.
 
 set -uo pipefail
 

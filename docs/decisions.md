@@ -3,6 +3,27 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — Drop Immich, use Google Drive for personal photos instead
+
+Immich removed from the media stack entirely (superseding the earlier "Photo management: Immich
+with ML disabled" decision). Reasoning: the user doesn't store a large photo collection and is
+fine using Google Drive for personal photos instead of self-hosting. `HDD-Media`'s image
+category (anime/phone/pc/laptop) becomes a plain unmanaged `images/` folder — no app, no
+database, just files organized manually. This also further reduces CPU workload (thumbnail/video
+preview generation was one of the moderate background-job CPU consumers identified during the
+CPU/workload discussion), though that wasn't the primary reason.
+
+## 2026-08-26 — git-auto-deploy builds run strictly sequentially, never in parallel
+
+Confirmed as an explicit requirement (already the default behavior of the existing
+`scripts/git-auto-deploy.sh` — plain bash `for` loop, no backgrounding): when the poller detects
+multiple projects with new commits in the same cycle, it builds them **one at a time**, not
+concurrently. Reasoning: `docker compose up -d --build` is the single heaviest CPU spike in this
+homelab's workload (see the CPU/workload-ranking discussion). On a 4-core box, letting multiple
+builds run simultaneously would stack those spikes and degrade every other service's
+responsiveness far more than the extra wall-clock time of a sequential queue costs. Added an
+explicit comment in the script itself so this isn't accidentally "optimized" into parallel later.
+
 ## 2026-08-26 — CapRover for friend-hosted apps, not literal cPanel
 
 Considered building a cPanel-like self-service hosting panel so friends can deploy their own
@@ -40,23 +61,24 @@ Addresses the gap noted in the "3 dedicated HDDs" decision below (no backup exis
 file content, only for the Postgres DB). Plan:
 
 - **Priority by replaceability**, not backing up everything equally:
-  - 🔴 Immich (personal photos/videos) — highest priority, irreplaceable
   - 🔴 Nextcloud (personal files) — high priority
   - 🟡 Jellyfin (movies/TV/music) and Kavita (manga) — low priority, re-downloadable, skipped for now
-- **Tier 1 (local, decided now):** Restic snapshots of Immich (and Nextcloud when it's online)
-  targeting **VaultS3** as the backend. Must be **cross-drive**: since Immich lives on HDD-Media
-  and VaultS3 lives on HDD-Cloud, a backup from one to the other actually protects against that
-  specific drive failing — backing up to a target on the *same* physical drive as the source
-  would only guard against accidental deletion/corruption, not drive failure. Zero additional
-  monthly cost since VaultS3 is already self-hosted.
+  - ~~Immich~~ — dropped from the stack entirely (see the later "Drop Immich" decision above,
+    superseding this priority list), personal photos go to Google Drive instead
+- **Tier 1 (local, decided now):** Restic snapshots of Nextcloud (once it's online) targeting
+  **VaultS3** as the backend. Must be **cross-drive**: Nextcloud lives on HDD-Cloud, so its
+  Restic target needs to actually live elsewhere (not another folder on the same physical
+  HDD-Cloud drive) for the backup to protect against that drive failing — backing up to the
+  *same* physical drive as the source only guards against accidental deletion/corruption, not
+  drive failure. Zero additional monthly cost since VaultS3 is already self-hosted.
 - **Tier 2 (offsite, e.g. Backblaze B2) — explicitly deferred, not rejected.** Would protect
   against whole-site loss (fire, theft, drive failure without a working local backup at that
   moment) but adds a recurring monthly cost. Skipped for now by choice; revisit once budget
-  allows or the photo/file collection grows large enough that the risk feels more concrete.
+  allows or the file collection grows large enough that the risk feels more concrete.
 
 This backup job is the same `scripts/backup.sh`-style automation already planned in
-`roadmap.md`'s "Set up automated backup (Restic/Duplicati)" item — scope is expanded to include
-Immich/Nextcloud file data, not just the DB.
+`roadmap.md`'s "Set up automated backup (Restic)" item — scope is expanded to include Nextcloud
+file data, not just the DB.
 
 ## 2026-08-26 — FINAL: 3 dedicated HDDs instead of 1 shared drive
 
@@ -214,9 +236,11 @@ cores, DDR3/DDR4 ECC 32-128GB, Rp4-6.3jt) and considered switching from the M710
 **Rejected, staying with M710q i7-7700.** Reasoning:
 
 - **Idle power draw dominates long-term cost.** These Xeons have 105-145W CPU TDP alone vs.
-  the M710q's 35W; full-system idle is likely 80-150W higher. At 24/7 uptime that's roughly
-  Rp1.3 million/year in extra electricity — enough to exceed the hardware price difference
-  within 1-2 years, and keeps compounding every year after.
+  the M710q's 65W (later confirmed to be the non-T i7-7700, not the originally-assumed 35W
+  i7-7700T — see the CPU correction decision below); full-system idle is still likely 40-100W
+  higher on the Xeon side once the X99 board, ECC RAM, and GT610 GPU overhead are counted. At
+  24/7 uptime that's still roughly Rp700rb-1 million/year in extra electricity — still enough to
+  matter over a few years, even if the gap is smaller than first estimated.
 - **More cores/threads give zero benefit here** — same "characterize the workload first"
   principle as the earlier M920q→i7-7700 reversal (see that decision above). The actual
   workload (I/O-bound web apps + direct-play media) doesn't benefit from 12-20 physical cores.

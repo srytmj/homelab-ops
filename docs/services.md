@@ -30,20 +30,20 @@
 
 | Service | Purpose | Port | Data location |
 |---|---|---|---|
-| Jellyfin | Movie/TV streaming + music library (accessed via Feishin/foobar2000 as client, not Jellyfin web UI) | 8096 | External enclosure `/mnt/external-storage/movies`, `/music` |
-| Immich | Photo/video backup | 2283 | External enclosure `/mnt/external-storage/immich` |
-| Nextcloud | File sync/storage | 8080 | External enclosure `/mnt/external-storage/nextcloud` |
-| Kavita | Manga/comic reader | 5000 | External enclosure `/mnt/external-storage/manga` |
+| Jellyfin | Movie/TV/anime streaming + music library (accessed via Feishin/foobar2000 as client, not Jellyfin web UI) | 8096 | `/mnt/hdd-music/jellyfin/music`, `/mnt/hdd-media/jellyfin/{movies,tv,anime}` |
+| Nextcloud | File sync/storage | 8080 | `/mnt/hdd-cloud/nextcloud` |
+| Kavita | Manga/comic reader | 5000 | `/mnt/hdd-media/kavita/manga` |
 
 ## Monitoring
 
-> Overlap check: 4 tools touch "monitoring" — each is scoped to a distinct concern to avoid
+> Overlap check: 5 tools touch "monitoring" — each is scoped to a distinct concern to avoid
 > duplication. See the boundary notes below before adding alerting to more than one.
 
 | Service | Purpose | Port | Scope (to avoid overlap) |
 |---|---|---|---|
 | Uptime Kuma | Uptime/availability monitoring | 3001 | HTTP/TCP endpoint checks (web projects, media stack) + built-in alert integrations |
 | Netdata / Glances | Resource monitoring | - | Deep host-level metrics (CPU/RAM/disk/network) — the raw data source, not an alerting tool |
+| Scrutiny | HDD health monitoring (S.M.A.R.T.) | - | Drive-specific: Power-On Hours, Reallocated Sectors, temperature, historical SMART trends + failure-prediction alerts — distinct from Netdata's general resource metrics and not an uptime/container tool |
 | Homelable | Infra topology visualizer | - | Visual network/rack diagram + live status overlay — a *map*, not an alert/history system |
 | homelab-sentinel (Discord bot) | Docker container-level monitoring + Discord alerts | - | Container health/resource specifically (things Uptime Kuma's URL/TCP checks can't see) — owns Discord notifications so Uptime Kuma's own alert integration isn't also wired to Discord in parallel |
 
@@ -61,6 +61,7 @@
 | Firefly III | Personal finance / budgeting tracker | - |
 | Home Assistant | Home automation | Deploy once the smart power plug (HA-compatible) arrives |
 | Reclip | Self-hosted media downloader (yt-dlp wrapper, web UI) | - |
+| LibreSpeed | Self-hosted internet/LAN speed test (open-source Speedtest alternative) | Lightweight (PHP+JS), useful for testing PC↔Homelab LAN speed and WAN speed without relying on a third-party server |
 | VaultS3 | Lightweight S3-compatible object storage | Lives on HDD-Cloud (`/mnt/hdd-cloud/vaults3/`) alongside Nextcloud — both are part of the "S3 / Google Drive alternative" storage drive |
 | FileWizard | File converter / OCR / transcription web UI | Run on-demand only, not a standing container — Whisper transcription is CPU-heavy |
 | Databasus | PostgreSQL backup (PITR, restore verification, notifications) | Candidate to **replace** `scripts/backup.sh`'s Postgres piece, not run alongside it — avoid running two backup mechanisms against the same DB |
