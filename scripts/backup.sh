@@ -1,13 +1,16 @@
 #!/bin/bash
 # Backup script for homelab critical data
 # Backs up: PostgreSQL dump, Docker compose configs (not secrets/.env).
-# Does NOT back up bulk media (Immich/Jellyfin/Nextcloud content) — that lives on the
-# external enclosure and should have its own separate backup strategy if needed.
+# Targets HDD-Backup (WD Blue 320GB) — physically separate from HDD-Music/Media/Cloud,
+# so this backup survives any one of those 3 drives failing.
+# Does NOT back up bulk media (Jellyfin/Nextcloud content) — Nextcloud has its own
+# separate Restic -> VaultS3 backup (see docs/decisions.md); Jellyfin media is
+# considered re-downloadable and intentionally not backed up.
 
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BACKUP_DIR="/mnt/external-storage/backups"
+BACKUP_DIR="/mnt/hdd-backup/backups"
 RETENTION_DAYS=30
 DATE=$(date +%Y-%m-%d_%H-%M-%S)
 DEST="$BACKUP_DIR/$DATE"

@@ -7,10 +7,11 @@
 - [x] Pick and order hardware: Lenovo M710q (i7-7700, 32GB RAM), LM418 + M.2-SATA adapter, Seagate Barracuda 2TB HDD + external dock, Enhance ENP-2320 PSU + 24-pin jumper + Molex-to-SATA cables, TP-Link TL-LS1005G switch — no dedicated router this round (see decisions.md for actual cart prices)
 - [x] Buy: HDD-Media (1TB, 2.5") and HDD-Cloud (1TB, 3.5") — purchased, exact model/price to log later
 - [x] Source a multi-bay dock/enclosure for HDD-Media + HDD-Cloud — purchased, exact model/price to log later
-- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; all 3 HDDs wired to LM418's SATA ports into their dock(s); docks powered by the Enhance ENP-2320 (with 24-pin jumper installed so it powers on without a motherboard) via Molex-to-SATA cables; route cables through open backplate, cover RAM opening with magnetic mesh
-- [ ] Install Proxmox VE on M710q
-- [ ] Create docker-host LXC/VM (Ubuntu Server 24.04)
-- [ ] Mount all 3 HDDs: `/mnt/hdd-music/`, `/mnt/hdd-media/`, `/mnt/hdd-cloud/` (each single drive, no RAID — see decisions.md)
+- [ ] Source a small mount/dock solution for HDD-Backup (WD Blue 320GB) — the 4th drive, beyond the original 3-drive dock plan
+- [ ] Physically assemble: OS SSD (M.2 SATA) into internal 2.5" bay via adapter; LM418 into M.2 slot; all 4 HDDs (Music/Media/Cloud/Backup) wired to LM418's SATA ports (4 of 5 used) into their dock(s); docks powered by the Enhance ENP-2320 (with 24-pin jumper installed so it powers on without a motherboard) via Molex-to-SATA cables; 3 reused PC fans wired to the PSU's spare Molex outputs for dock cooling; route cables through open backplate, cover RAM opening with magnetic mesh
+- [ ] Install Proxmox VE on M710q (LXC, not VM, for docker-host — enable `nesting=1` container feature)
+- [ ] Create docker-host LXC (Ubuntu Server 24.04)
+- [ ] Mount all 4 HDDs: `/mnt/hdd-music/`, `/mnt/hdd-media/`, `/mnt/hdd-cloud/`, `/mnt/hdd-backup/` (each single drive, no RAID — see decisions.md). Spare 1TB 2.5" HDD stays unallocated for now.
 - [ ] Deploy Traefik/Nginx Proxy Manager
 - [ ] Deploy shared PostgreSQL + Redis
 - [ ] Deploy first batch of the 10 web projects
@@ -25,7 +26,8 @@
 - [ ] Deploy media stack: Jellyfin (movies/TV/anime + music), Nextcloud, Kavita
 - [ ] Set up Tailscale for remote access
 - [ ] Set up Uptime Kuma + Netdata/Glances + Scrutiny (HDD S.M.A.R.T. health monitoring) for monitoring
-- [ ] Set up automated backup (Restic) for DB + config volumes, PLUS Nextcloud file data — target VaultS3, cross-drive from the source (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
+- [ ] Set up automated backup (Restic): DB dumps + config → **HDD-Backup** (WD Blue 320GB, physically separate dedicated drive); Nextcloud file data → **VaultS3**, cross-drive from HDD-Cloud (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
+- [ ] Update `scripts/backup.sh` to target `/mnt/hdd-backup/` instead of the old external-enclosure path
 
 - [ ] Discord bot (Python, discord.py) for server monitoring — status/alerts for containers & resource usage; built in a separate Claude Code session, not this repo's setup flow
 
@@ -57,3 +59,4 @@
 - [ ] VLAN isolation between homelab and personal devices
 - [ ] Jellyfin hardware transcode setup if a GPU-capable device becomes available
 - [ ] CI/CD: GitHub Actions auto-deploy to homelab on push
+- [ ] Explore T3 Code ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) — deploy on docker-host, Tailscale-only access, lets mobile/web/desktop control Claude Code (or other agent CLI) sessions remotely using existing subscriptions. Quality-of-life only — doesn't reduce Claude usage/billing, not a replacement for the AI ops-agent idea that was already dropped.

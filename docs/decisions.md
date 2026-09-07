@@ -3,6 +3,29 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — WD Blue 320GB (idle/owned) assigned as dedicated backup drive; RAID1 for HDD-Cloud considered and deferred
+
+An idle WD Blue 3.5" 320GB HDD (already owned) is assigned as **HDD-Backup**, a dedicated
+Restic backup target for `scripts/backup.sh`'s DB dumps + config archives. Physically separate
+from HDD-Music/Media/Cloud, so it protects against any of those 3 drives failing — not just
+accidental deletion. 320GB is plenty for DB dumps + config with 30-day retention (small,
+KB-MB scale, not bulk media).
+
+Also acquired a 2nd 1TB 2.5" HDD, which opened up the option of RAID1-mirroring HDD-Cloud
+(pairing the two 1TB drives, one 2.5" one 3.5", to add redundancy for Nextcloud/VaultS3 — the
+highest-priority, hardest-to-replace data category). **Deferred, not rejected** — sticking with
+the original single-drive-per-category plan (no RAID) for now. The 2nd 1TB 2.5" HDD is an
+unallocated spare, available if this gets revisited later.
+
+**Cooling finalized:** the multi-bay dock (for HDD-Media + HDD-Cloud) was bought without a
+built-in fan — cooling comes from 3 reused fans salvaged from an old PC instead, all natively
+Molex-powered (no adapter needed). 1 fan for the HDD-Music dock, 2 for the multi-bay dock. This
+conveniently uses exactly the Enhance ENP-2320's spare 3 Molex outputs (2 are already used by
+the Molex-to-SATA splitters). Reasoning for fans at all (vs. none): HDDs running 24/7 need
+active airflow — heat is one of the biggest drivers of drive failure, and the cost of reused
+fans is zero. Lower RPM from reused fans is fine since HDDs need adequate airflow, not high
+static pressure/velocity.
+
 ## 2026-08-26 — Drop Immich, use Google Drive for personal photos instead
 
 Immich removed from the media stack entirely (superseding the earlier "Photo management: Immich

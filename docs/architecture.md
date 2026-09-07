@@ -110,8 +110,8 @@ Summary:
 | Project code + dependencies | OS SSD |
 | Database metadata (Postgres/Redis) | OS SSD |
 | Music (Jellyfin) | HDD-Music, 2TB 3.5" (`/mnt/hdd-music/`) |
-| Movies/TV, manga, images, anime (video + pics) | HDD-Media, 1TB 2.5" (`/mnt/hdd-media/`) |
-| Nextcloud + VaultS3 | HDD-Cloud, 1TB 3.5" (`/mnt/hdd-cloud/`) |
+| Movies/TV, anime (video), manga | HDD-Media, 1TB 2.5" (`/mnt/hdd-media/`) |
+| Nextcloud (incl. images) + VaultS3 | HDD-Cloud, 1TB 3.5" (`/mnt/hdd-cloud/`) |
 
 **Rule:** never let bulk media default-write to the OS SSD. Always explicitly map Docker volumes to the correct HDD's path.
 
@@ -124,17 +124,27 @@ drive's category of data (e.g. losing HDD-Cloud doesn't touch music or media).
 | Drive | Capacity | Form factor | Mount point | Purpose |
 |---|---|---|---|---|
 | HDD-Music (Seagate Barracuda, already purchased) | 2TB | 3.5" | `/mnt/hdd-music/` | Music only, for Jellyfin |
-| HDD-Media (new) | 1TB | 2.5" | `/mnt/hdd-media/` | Movies/TV, manga, images, anime (both video and pictures) |
+| HDD-Media (new) | 1TB | 2.5" | `/mnt/hdd-media/` | Movies/TV, anime (video), manga — images moved to Nextcloud instead |
 | HDD-Cloud (new) | 1TB | 3.5" | `/mnt/hdd-cloud/` | Nextcloud + VaultS3 |
+| HDD-Backup (WD Blue, already owned/idle) | 320GB | 3.5" | `/mnt/hdd-backup/` | Dedicated Restic backup target for DB dumps + config (`scripts/backup.sh`) — physically separate from the 3 drives above, so it protects against any one of them failing, not just accidental deletion |
 
-**Physical mounting — open item:** the original plan only accounted for 1 external 3.5" dock
-(for HDD-Music, via the LM418 card). The 2 new drives (HDD-Media 2.5", HDD-Cloud 3.5") need
-additional dock/enclosure capacity — **a multi-bay dock/enclosure still needs to be sourced**,
-tracked in `docs/roadmap.md`. The LM418 card itself has headroom (5 SATA ports, only 1 used so
-far), so the bottleneck is physical docking/enclosure and cabling, not the SATA expansion card.
-The Enhance ENP-2320's 200W and 5x Molex outputs comfortably cover all 3 drives (real-world
-draw ~20-60W total even at worst-case simultaneous spin-up) — confirmed sufficient, not an open
-item.
+An extra 1TB 2.5" HDD is also on hand but currently **unallocated (spare)** — not assigned to
+any role yet. A RAID1 (mirrored) setup for HDD-Cloud using this spare was considered and
+deferred; single-drive-per-category (no RAID) remains the plan for now.
+
+**Physical mounting:** resolved — a multi-bay dock/enclosure was sourced for HDD-Media +
+HDD-Cloud (HDD-Music keeps its original single-bay dock). HDD-Backup (WD Blue) needs its own
+small mounting/dock solution too, since it's a 4th drive beyond the original 3.
+
+**LM418 port usage:** 4 of the LM418's 5 SATA ports are now used (HDD-Music, HDD-Media,
+HDD-Cloud, HDD-Backup) — 1 port still spare.
+
+**Cooling:** the multi-bay dock is bought without a built-in fan; cooling instead comes from 3
+reused fans (salvaged from an old PC, Molex-powered natively) — 1 for the HDD-Music dock, 2 for
+the multi-bay dock (push-pull or one per drive). This uses 3 of the Enhance ENP-2320's 5 Molex
+outputs directly; the other 2 Molex outputs feed the Molex-to-SATA splitters (dual + triple) for
+the drives' power. See `decisions.md` for the full reasoning (why fans are needed for 24/7
+operation, and why reused fans are sufficient despite lower RPM).
 
 **No backup exists yet for any of this media/file data** — `scripts/backup.sh`/Databasus only
 covers the PostgreSQL database, not Nextcloud/Jellyfin file content. See the Restic → VaultS3
@@ -157,14 +167,13 @@ dropped — see below).
 │   ├── movies/
 │   ├── tv/
 │   └── anime/            # video anime — same handling as movies/tv, watched through Jellyfin
-├── kavita/
-│   └── manga/
-└── images/                # plain unmanaged folder, no app — Immich dropped (see decisions.md), personal photos go to Google Drive instead
-    ├── anime/              # anime images/wallpapers — distinct from jellyfin/anime/ (video) above
-    ├── phone/
-    ├── pc/
-    └── laptop/
+└── kavita/
+    └── manga/
 ```
+
+Images (anime wallpapers, phone/pc/laptop screenshots) don't live here — they go into **Nextcloud**
+on HDD-Cloud instead (see below), organized as folders inside Nextcloud's own storage. HDD-Media
+is now purely video + manga.
 
 ### HDD-Cloud (`/mnt/hdd-cloud/`)
 
@@ -185,8 +194,7 @@ general-purpose folder for manual file transfers (see SMB access below).
 |---|---|---|
 | `jellyfin/movies/`, `/tv/`, `/anime/`, `/music/` | ✅ Yes — this is the normal workflow | Jellyfin scans the folder for new files; no separate upload step needed |
 | `kavita/manga/` | ✅ Yes — this is the normal workflow | Same as Jellyfin — Kavita scans the folder |
-| `images/` | ✅ Yes | Plain folder, no app managing it — drop/organize freely |
-| `nextcloud/` | ❌ No | Has its own internal DB tracking files — must go through Nextcloud's app/web UI/sync client, not direct filesystem copy, or the DB gets out of sync |
+| `nextcloud/` | ❌ No | Has its own internal DB tracking files (this now includes images — anime wallpapers, phone/pc/laptop screenshots) — must go through Nextcloud's app/web UI/sync client, not direct filesystem copy, or the DB gets out of sync |
 | `vaults3/` | ❌ No (usually) | Written to via S3 API by whatever app/backup process uses it as a target, not typically browsed/edited by hand |
 | `shared/` | ✅ Yes | General-purpose, not tied to any app |
 
@@ -196,11 +204,11 @@ Yes — folders on the homelab can be made accessible from Windows File Explorer
 share, via a Samba service. Shares span all 3 drives, per the table above:
 
 - **Planned setup:** Samba running as a container (or host-level `smbd` inside the docker-host
-  LXC/VM) exposing `hdd-cloud/shared/` (read-write), plus `hdd-media/jellyfin/{movies,tv,anime}`,
-  `hdd-media/kavita/manga`, `hdd-media/images/`, and `hdd-music/jellyfin/music` (all
-  read-write, for dropping in media/files) — each as its own SMB share or subfolder under one
-  share. `nextcloud/` and `vaults3/` are **not** exposed for direct write, only managed through
-  their own apps/APIs.
+  LXC) exposing `hdd-cloud/shared/` (read-write), plus `hdd-media/jellyfin/{movies,tv,anime}`,
+  `hdd-media/kavita/manga`, and `hdd-music/jellyfin/music` (all read-write, for dropping in
+  media/files) — each as its own SMB share or subfolder under one share. `nextcloud/` and
+  `vaults3/` are **not** exposed for direct write, only managed through their own apps/APIs
+  (images now live in Nextcloud, not a plain SMB folder — see above).
 - **Access from Windows:** map network drive to `\\<docker-host-ip>\<share-name>`, or type the
   path directly into File Explorer's address bar.
 - **Auth:** local Samba user/password (not tied to any app's own auth) — set up during Setup mode.
