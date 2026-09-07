@@ -3,6 +3,26 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — Offsite backup (Tier 2) revived: rclone → idle Google Drive 5TB, no added cost
+
+Supersedes the "Tier 2 (offsite) — explicitly deferred" part of the earlier file-data-backup
+decision. Offsite backup is no longer deferred, now that an idle Google Drive (AI Pro, 5TB) is
+available — this removes the recurring-cost objection that motivated deferring Backblaze B2.
+
+- **Tool: rclone**, connected via Google Drive's official OAuth API — standard, ToS-compliant
+  method (not a rate-limit-circumvention scheme; unrelated to the earlier-declined 9router
+  request, which pooled multiple accounts to exceed per-account limits). A dedicated Google
+  Cloud API client (set up once, free) is used instead of rclone's shared default client, to
+  avoid shared rate-limit slowdowns during scheduled syncs.
+- **Sync, not live mount** — cold storage should be periodic scheduled sync (new script +
+  systemd timer, same pattern as `backup.sh`/`git-auto-deploy.sh`), not a live FUSE mount. A
+  live mount is fragile (network-dependent) and unnecessary for data that's rarely accessed.
+- **Scope:** Restic backups (DB dumps, config, Nextcloud) get pushed to Google Drive via
+  rclone as a Restic backend, on top of the existing local targets (HDD-Backup for DB+config,
+  VaultS3 for Nextcloud). Optionally, rarely-accessed media archives could also go here later.
+- Backblaze B2 remains a non-priority alternative — no longer needed given the free idle
+  capacity already available via Google Drive.
+
 ## 2026-08-26 — WD Blue 320GB (idle/owned) assigned as dedicated backup drive; RAID1 for HDD-Cloud considered and deferred
 
 An idle WD Blue 3.5" 320GB HDD (already owned) is assigned as **HDD-Backup**, a dedicated

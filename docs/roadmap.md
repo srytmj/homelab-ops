@@ -26,7 +26,8 @@
 - [ ] Deploy media stack: Jellyfin (movies/TV/anime + music), Nextcloud, Kavita
 - [ ] Set up Tailscale for remote access
 - [ ] Set up Uptime Kuma + Netdata/Glances + Scrutiny (HDD S.M.A.R.T. health monitoring) for monitoring
-- [ ] Set up automated backup (Restic): DB dumps + config → **HDD-Backup** (WD Blue 320GB, physically separate dedicated drive); Nextcloud file data → **VaultS3**, cross-drive from HDD-Cloud (see decisions.md — must not target the same physical drive as the source). Offsite (Backblaze B2) deferred for now.
+- [ ] Set up automated backup (Restic): DB dumps + config → **HDD-Backup** (WD Blue 320GB, physically separate dedicated drive); Nextcloud file data → **VaultS3**, cross-drive from HDD-Cloud (see decisions.md — must not target the same physical drive as the source).
+- [ ] Set up rclone → Google Drive (idle 5TB, AI Pro) as offsite (Tier 2) backup target for Restic — dedicated Google Cloud API client (not rclone's shared default), scheduled sync via new script + systemd timer (not a live mount). No added monthly cost.
 - [ ] Update `scripts/backup.sh` to target `/mnt/hdd-backup/` instead of the old external-enclosure path
 
 - [ ] Discord bot (Python, discord.py) for server monitoring — status/alerts for containers & resource usage; built in a separate Claude Code session, not this repo's setup flow
