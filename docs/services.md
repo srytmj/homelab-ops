@@ -65,6 +65,7 @@
 | VaultS3 | Lightweight S3-compatible object storage | Lives on HDD-Cloud (`/mnt/hdd-cloud/vaults3/`) alongside Nextcloud — both are part of the "S3 / Google Drive alternative" storage drive |
 | FileWizard | File converter / OCR / transcription web UI | Run on-demand only, not a standing container — Whisper transcription is CPU-heavy |
 | Databasus | PostgreSQL backup (PITR, restore verification, notifications) | Candidate to **replace** `scripts/backup.sh`'s Postgres piece, not run alongside it — avoid running two backup mechanisms against the same DB |
+| qBittorrent | Torrent client (web UI) | Deployed **without a VPN wrapper** (Gluetun) for now — user's own cost/risk trade-off, see decisions.md. Public IP is exposed to torrent swarms as a result. |
 
 ## Automation Scripts
 

@@ -3,6 +3,23 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-08-26 — qBittorrent deployed without a VPN wrapper (cost trade-off)
+
+Considered qBittorrent + Gluetun (VPN container, killswitch) as the standard privacy-conscious
+self-hosted torrenting setup. Compared Mullvad (~€5/mo flat, all servers P2P-enabled, anonymous
+signup) vs ProtonVPN (paid tier needed for P2P — free tier doesn't support it) vs Kaspersky VPN
+(deprioritized: Russian jurisdiction/data-retention concerns, US sales ban in 2024, P2P support
+unclear/likely restricted on consumer-suite-bundled VPNs).
+
+**Decided: deploy qBittorrent without any VPN for now**, purely a budget call — user chose to
+skip the recurring VPN cost. Consequence, discussed and accepted: the homelab's public IP is
+directly exposed to torrent swarms (no anonymity layer), which carries real exposure risk
+proportional to what's actually downloaded — full responsibility on the user for what content
+that entails. Revisit adding Gluetun + Mullvad later if budget allows; the docker-compose
+structure should be built so a VPN container can be inserted in front of qBittorrent later
+without a rebuild (route qBittorrent's network through a sidecar container from the start, even
+if that sidecar isn't a VPN yet).
+
 ## 2026-08-26 — Offsite backup (Tier 2) revived: rclone → idle Google Drive 5TB, no added cost
 
 Supersedes the "Tier 2 (offsite) — explicitly deferred" part of the earlier file-data-backup

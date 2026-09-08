@@ -45,6 +45,7 @@
 - [ ] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed)
 - [ ] Deploy VaultS3 (lightweight S3-compatible object storage, for apps/backups that want an S3 target without paying for cloud storage)
 - [ ] Evaluate Databasus as a replacement for `scripts/backup.sh` — adds PITR + restore verification + notifications (Discord/Slack/Telegram) vs. the current plain pg_dump script
+- [ ] Deploy qBittorrent (torrent client, web UI) — no VPN wrapper for now, see decisions.md for the cost/risk trade-off; revisit adding Gluetun + Mullvad later if budget allows
 - [ ] (on-demand only, not a standing container) FileWizard — file converter/OCR/transcription web UI, spin up only when needed since Whisper transcription is CPU-heavy
 - [ ] (no hosting needed) CodeFlow — single-HTML architecture-map tool, run locally by opening its `index.html`, not deployed to docker-host
 
