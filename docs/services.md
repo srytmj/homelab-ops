@@ -15,15 +15,24 @@
 
 ## Web Projects
 
+### Domain: whitearchive.my.id
+
 | Project | Repo | Domain | Port | Notes |
 |---|---|---|---|---|
-| malas | [srytmj/malas](https://github.com/srytmj/malas) | TBD | - | - |
-| homelab-sentinel | [srytmj/homelab-sentinel](https://github.com/srytmj/homelab-sentinel) | N/A (Discord bot, no domain) | - | Monitoring bot, see roadmap — not a web app |
-| whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | TBD | - | - |
-| srytmj.github.io (blog) | [srytmj/srytmj.github.io](https://github.com/srytmj/srytmj.github.io) | TBD | - | Deployed on homelab instead of GitHub Pages for faster access; served like the other web projects via Traefik/NPM |
-| sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | TBD | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
-| portfolio | [srytmj/portofolio](https://github.com/srytmj/portofolio) | TBD (public) | - | **Only public-facing service** — exposed via Cloudflare Tunnel, not Tailscale-only like everything else. Has a hidden page that itself IS the dashboard (custom-built, replaces the separate Homepage/gethomepage.dev plan) — lists hrefs to every homelab service by its Tailscale subdomain, an easter egg only the owner can actually reach |
-| pore-js | [srytmj/pore-js](https://github.com/srytmj/pore-js) | TBD | - | Custom reader tied into the `malas` project ecosystem — not a general-purpose library like Kavita. Confirmed both are deployed: Kavita is the standalone generic manga/comic server, pore-js is the reader integrated with `malas`. |
+| malas | [srytmj/malas](https://github.com/srytmj/malas) | whitearchive.my.id (subpath/subdomain TBD) | - | Manga library system — tracks reading progress, aggregates latest chapters from multiple sources, manages personal manga collection. Inspired by Kenmei/AniList/MyAnimeList. |
+| whitearchive | [srytmj/whitearchive](https://github.com/srytmj/whitearchive) | whitearchive.my.id | - | - |
+| sso.whitearchive | [srytmj/sso.whitearchive](https://github.com/srytmj/sso.whitearchive) | sso.whitearchive.my.id (assumed) | - | Likely an auth/SSO dependency of whitearchive — confirm deploy order (SSO probably needs to be up before whitearchive) |
+| pore-js | [srytmj/pore-js](https://github.com/srytmj/pore-js) | whitearchive.my.id (subpath/subdomain TBD) | - | Custom reader tied into the `malas` project ecosystem — not a general-purpose library like Kavita. Confirmed both are deployed: Kavita is the standalone generic manga/comic server, pore-js is the reader integrated with `malas`. |
+
+### Domain: suryatmaja.dev
+
+| Project | Repo | Domain | Port | Notes |
+|---|---|---|---|---|
+| portfolio | [srytmj/portofolio](https://github.com/srytmj/portofolio) | suryatmaja.dev | - | **Only public-facing service** — exposed via Cloudflare Tunnel, not Tailscale-only like everything else. Has a hidden page that itself IS the dashboard (custom-built, replaces the separate Homepage/gethomepage.dev plan) — lists hrefs to every homelab service by its Tailscale subdomain, an easter egg only the owner can actually reach |
+| cloud-computing-docs | [srytmj/cloud-computing-docs](https://github.com/srytmj/cloud-computing-docs) | subdomain of suryatmaja.dev (TBD) | - | **Not yet built** — repo/web app doesn't exist yet, deploy later once created |
+| srytmj.github.io (blog) | [srytmj/srytmj.github.io](https://github.com/srytmj/srytmj.github.io) | subdomain of suryatmaja.dev (TBD) | - | Deployed on homelab instead of GitHub Pages for faster access; served like the other web projects via Traefik/NPM |
+| homelab-sentinel | [srytmj/homelab-sentinel](https://github.com/srytmj/homelab-sentinel) | N/A (Discord bot, no domain) | - | Monitoring bot, see roadmap — not a web app; grouped under this domain's account only for repo ownership, not actually served here |
+
 | ... | | | | (fill in as more are deployed — 10 personal projects total planned) |
 
 ## Media Stack
