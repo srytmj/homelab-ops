@@ -3,6 +3,19 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-09 — Blog merged into `portfolio`, srytmj.github.io repo no longer deployed
+
+Plan changed: the blog is no longer a standalone deployment (superseding the 2026-08-26 "Blog
+deployed on homelab" decision below). The `portfolio` repo now contains the blog content
+directly, so the separate `srytmj/srytmj.github.io` repo is **not deployed** as its own service
+— it's effectively retired from the infrastructure (the GitHub repo itself may still exist, just
+isn't part of what gets deployed to the homelab).
+
+**Important for future sessions:** `portfolio` is under active development in its own Claude
+Code session and is evolving — re-fetch/re-read that repo before assuming its current state
+(structure, routes, whether the blog integration changed again) rather than relying on this
+note alone.
+
 ## 2026-08-26 — qBittorrent deployed without a VPN wrapper (cost trade-off)
 
 Considered qBittorrent + Gluetun (VPN container, killswitch) as the standard privacy-conscious
@@ -437,6 +450,9 @@ for personal use via claude.ai and isn't meant for programmatic/bot integration,
 reused here. Revisit if/when a dedicated API key is set up.
 
 ## 2026-08-26 — Blog (srytmj.github.io) deployed on homelab, not GitHub Pages
+
+**Superseded 2026-09-09 — see entry below.** The blog is no longer a separate deployment; it's
+now part of the `portfolio` repo. Kept here for history.
 
 Despite the `.github.io` naming (which GitHub serves for free), the blog will be deployed on the
 homelab like the other web projects instead — reasoning: faster access than GitHub Pages'
