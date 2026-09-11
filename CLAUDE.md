@@ -2,22 +2,46 @@
 
 ## Context
 
-This repo manages a homelab server (Lenovo ThinkCentre M920q Tiny, i5-9500T 6C/6T, 16GB RAM).
-Full current spec and topology: see `docs/architecture.md`.
+This repo manages a homelab server (Lenovo ThinkCentre M710q Tiny — purchased as i7-7700 4C/8T,
+but the CPU physically installed verified as i5-7500 4C/4T, unresolved discrepancy, see
+`docs/architecture.md` — 32GB RAM). Full current spec and topology: see `docs/architecture.md`.
 
-Server runs Proxmox VE (hypervisor) + Docker (inside 1 Ubuntu LXC/VM), hosting:
-- 10 personal web projects (Laravel/Node)
-- Media stack: Jellyfin, Immich, Kavita, Navidrome, Nextcloud
-- Shared PostgreSQL + Redis
+Server runs Proxmox VE (hypervisor) + Docker (inside 1 Ubuntu LXC, `docker-host`), hosting a
+growing list of personal web projects, a media stack (Jellyfin, Nextcloud, Kavita — no Immich,
+no Navidrome, both dropped, see `docs/decisions.md`), shared PostgreSQL + Redis, and a large and
+growing set of self-hosted tools. **`docs/services.md` is the actual current/planned service
+list — this file's summary is not exhaustive, don't rely on it alone.**
 
 ## Before doing anything
 
+0. **`git pull` first, every session, before reading anything else or making any change.**
+   This repo is worked on from multiple devices (laptop, PC) and potentially multiple AI tools
+   in parallel (see "Multi-agent / multi-tool use" below) — local files can be stale the moment
+   a session starts. Never trust a file's on-disk state without pulling first.
 1. Read `docs/architecture.md` for the current infrastructure state (source of truth for "what exists now")
 2. Read `docs/roadmap.md` for planned next steps (source of truth for "what's planned")
 3. Read `docs/decisions.md` if unsure why something is configured a certain way (source of truth for "why")
 4. Read the last 10-15 entries of `CHANGELOG.md` for recent history (source of truth for "what changed recently")
 
 Never assume the state of the server — always verify via SSH before making changes, since `docs/architecture.md` may lag behind reality if it wasn't updated after a manual change.
+
+## Multi-agent / multi-tool use
+
+This repo is worked on from more than one device, and possibly more than one AI coding tool
+(e.g. Claude Code on one machine, Google Antigravity/Gemini on another). There is no live
+sync between sessions on different devices or different tools — **git is the only sync
+mechanism.** Consequences:
+
+- Always `git pull` at the very start of a session (see step 0 above), and `git add && commit
+  && push` before ending a session or switching devices/tools — uncommitted local changes are
+  invisible to every other session until pushed.
+- If you are a tool other than Claude Code and don't have a native mechanism for auto-reading
+  project instruction files, the user will point you at this file and `docs/*.md` manually —
+  follow the same conventions documented here (modes of operation, always-do rules, logging)
+  regardless of which tool you are.
+- Claude Code sessions running on the **same machine** can message each other directly (see
+  `ListAgents`/`SendMessage` in Claude Code) for live status checks — this doesn't apply across
+  machines or across different AI tools, which must go through git.
 
 ## Modes of operation
 

@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-11 (14)
+- Updated `CLAUDE.md`: added "git pull first, every session" as step 0 (repo is now worked from multiple devices), added a "Multi-agent / multi-tool use" section covering cross-device sync (git is the only mechanism) and using non-Claude-Code tools (e.g. Antigravity/Gemini) on this repo. Also refreshed the stale Context section (M920q→M710q, dropped Immich/Navidrome, pointed to `services.md` as the actual current list instead of a hardcoded summary).
+
 ## 2026-09-11 (13)
 - **Deployed 6 lightweight services**: Vaultwarden (8222), n8n (5678), Syncthing (8384), Shiori (8081), YOURLS (8083, + dedicated `yourls-mariadb`), LibreSpeed (8082). New compose files for all 6 in `configs/docker-compose/`. n8n uses a new `n8n` database in the shared Postgres; YOURLS needed its own MariaDB since it doesn't support Postgres (documented as an intentional exception). Resource check before starting: docker-host had ~11GB/12GB RAM free and 128GB/147GB disk free — comfortable headroom.
 - **Two real bugs hit and fixed during this batch, not just slow pulls:**
