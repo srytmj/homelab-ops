@@ -3,6 +3,45 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-10 — homelab-sentinel moved to Telegram, consolidated + scope expanded
+
+Supersedes the 2026-08-26 "Discord monitoring bot scoped to monitoring only" decision. The bot
+(`srytmj/homelab-sentinel` repo, still built in its own Claude Code session) moves from Discord
+to **Telegram** (`python-telegram-bot`) and consolidates 4 roles into one bot:
+
+1. **Push alerts** (the original monitoring job — container down, resource thresholds)
+2. **Interactive read-only queries** — "disk usage?", "what's running?", "last backup?" — no
+   state changes, low risk
+3. **Short QnA** — general questions, via **Gemini API free tier** (Google AI Studio). This is
+   a real, separate API product — NOT the Google AI Pro consumer subscription (which has no API
+   and must not be reverse-engineered), and unrelated to the earlier-declined 9router.
+4. **Whitelisted management** — a fixed menu of vetted actions (`/restart <service>`,
+   `/deploy <project>`, `/backup-now`, `/logs <service>`), each mapped to a specific safe
+   script. Destructive actions require a `/confirm` step.
+
+**Explicitly NOT built:** arbitrary LLM-driven command execution (the "AI ops-agent" idea
+already dropped). The bot cannot do anything outside its command whitelist — the LLM only
+phrases answers / handles QnA, it does not decide and run shell commands.
+
+**Auth:** the bot only responds to the owner's Telegram user ID (hardcoded allowlist); messages
+from anyone else are ignored. Outbound-only connection to Telegram's API, consistent with
+Tailscale-only (no inbound port).
+
+**Why consolidate (vs. keeping a separate Discord alert bot + Telegram interactive bot):** one
+bot, one codebase, one platform to check. Discord is dropped entirely.
+
+## 2026-09-10 — SnapOtter over FileWizard for file processing
+
+Chose **SnapOtter** ([snapotter-hq/SnapOtter](https://github.com/snapotter-hq/SnapOtter)) and
+dropped the earlier FileWizard plan. Both are self-hosted file-processing tools; SnapOtter is
+the superset (200+ tools across image/video/audio/PDF/files vs FileWizard's converter + OCR +
+transcription only), more polished (v2.0, org-backed vs solo dev), and better architected (Redis
+job queue for background tasks). Trade-off accepted: SnapOtter is a heavier standing service —
+it bundles its own Postgres 17 + Redis (kept separate from the shared instances) rather than
+FileWizard's lighter FastAPI + vanilla-JS footprint. Justified because the user expects to use
+the broad toolkit regularly, not just occasionally. Concurrent job workers must be capped since
+video transcode / OCR are CPU-heavy on the GPU-less M710q.
+
 ## 2026-09-09 — Blog merged into `portfolio`, srytmj.github.io repo no longer deployed
 
 Plan changed: the blog is no longer a standalone deployment (superseding the 2026-08-26 "Blog
@@ -438,6 +477,10 @@ Router dipilih gigabit (RB750Gr3) alih-alih model Fast Ethernet (RB941/RB750r2) 
 transfer file LAN antara homelab dan device lain nggak dibottleneck di 100Mbps.
 
 ## 2026-08-26 — Discord monitoring bot scoped to monitoring only, no chat QnA via Claude Pro
+
+**Superseded 2026-09-10 — see entry at the top of this file.** Moved to Telegram, scope
+expanded to include QnA (via a legit Gemini API key, not Claude Pro) and whitelisted
+management. Kept here for history.
 
 Planned a Discord bot (Python, discord.py) for server monitoring (container/resource status,
 alerts) — deployed as its own container on docker-host, outbound-only connection to Discord's

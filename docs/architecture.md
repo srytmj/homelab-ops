@@ -1,13 +1,17 @@
 # Architecture - Current State
 
 > This file reflects what EXISTS right now. Update it whenever the actual topology changes.
-> Last verified: <fill in date when you actually check the server>
+> Last verified: 2026-09-11 (via SSH, during Proxmox VE install + docker-host LXC setup)
 
 ## Hardware
 
-- **Device:** Lenovo ThinkCentre M710q/M910q (Tiny form factor)
-- **CPU:** Intel Core i7-7700, 4 cores / 8 threads
-- **RAM:** 32GB DDR4 SO-DIMM (2 slots)
+- **Device:** Lenovo ThinkCentre M710q Tiny (product no. `10MQS1EU00`, confirmed via `dmidecode`)
+- **CPU:** Intel Core i5-7500, 4 cores / 4 threads, 3.4GHz — **mismatch, unresolved:** the
+  purchase decision below was for an **i7-7700 (4C/8T)**. Verified via SSH (`lscpu`): the
+  installed chip has no hyperthreading and is a different SKU entirely, not just a TDP variant
+  (unlike the earlier i7-7700 vs i7-7700T correction). User chose to proceed with setup and
+  document this rather than pause for a seller dispute (2026-09-11) — worth following up.
+- **RAM:** 32GB (confirmed via `free -h`, matches the decision below)
 - **M.2 slot:** confirmed NVMe-capable — repurposed to host an expansion card (see storage
   topology below), not used for an OS NVMe drive
 - **Internal storage:** see "Storage Topology (FINAL)" below — the OS drive and expansion setup
@@ -52,12 +56,18 @@ nominally only takes 1+1, without needing a USB DAS enclosure.
 ## Virtualization Layer
 
 ```
-Proxmox VE (bare metal hypervisor)
-  └── 1 LXC: "docker-host" (Ubuntu Server 24.04 LTS)
-        RAM allocated: ~26GB (of 32GB total)
-        CPU allocated: ~3 cores / 6 threads (of 4C/8T total)
-        Storage: ~150GB (of 256GB SSD)
-        Proxmox container feature "nesting=1" enabled (required for Docker inside LXC)
+Proxmox VE 9.2.2 (bare metal hypervisor) — pve.suryatmaja.dev, 192.168.18.224
+  └── LXC 100: "docker-host" (Ubuntu Server 24.04 LTS) — 192.168.18.225
+        RAM allocated: 12GB (of 32GB total)
+        CPU allocated: 4 cores (of 4 total on the actual i5-7500 — no hyperthreading, so this
+          is the host's full core count, not the 3C/6T-of-4C/8T originally planned around the
+          i7-7700 spec)
+        Storage: 150GB (local-lvm thin pool; pool extended from 140.87GB to ~156.88GB using the
+          VG's remaining free space, to fully back this volume without thin-pool overcommit)
+        Proxmox container features "nesting=1,keyctl=1" enabled (required for Docker inside LXC)
+        Docker Engine 29.8.0 + Compose plugin v5.5.1 installed, verified working (hello-world)
+        IPv6 disabled on this LXC (network is IPv4-only; avoids dead-route connection failures
+          when pulling images/DNS)
 ```
 
 **LXC, not VM** — chosen over a VM for docker-host because LXC shares the host kernel (near-zero
@@ -83,8 +93,15 @@ Router ISP (main house WiFi)
 - **MikroTik RB941-2nD (hAP Lite):** originally considered as a second router for network
   isolation, but it's Fast Ethernet (100Mbps) only — and is currently skipped entirely (see
   network decision below), not deployed as a second-layer router either.
-- **Static IP for docker-host:** 192.168.1.10 (adjust to actual)
-- **Remote access:** Tailscale (no port forwarding to public internet for personal services)
+- **Proxmox host:** `pve.suryatmaja.dev` — `192.168.18.224/24`, gateway `192.168.18.1`
+- **Static IP for docker-host:** `192.168.18.225/24`, gateway `192.168.18.1`
+- **DNS:** `192.168.18.1` (router-forwarded)
+- **Remote access:** Tailscale — installed and connected on docker-host (2026-09-11). Tailnet IP
+  `100.89.249.96`, hostname `docker-host`, MagicDNS suffix `taila813af.ts.net` (tailnet
+  `srytmj.github`). Joined via a pre-generated auth key (not interactive browser login) — see
+  CHANGELOG.md. `--accept-dns=false` was used so Tailscale's own DNS doesn't override the LXC's
+  resolver setup (which was tuned to fix registry DNS issues — see CHANGELOG). Per-service
+  MagicDNS subdomains (via `tailscale serve`) not yet set up — still just the one node identity.
 - **Domain/DNS / Cloudflare Tunnel:** **one exception** to the Tailscale-only policy — the
   `portfolio` project is exposed to the public internet via Cloudflare Tunnel (no ports opened
   on the router/firewall). Every other service, including the Homepage dashboard the portfolio
@@ -93,9 +110,10 @@ Router ISP (main house WiFi)
 
 ## Services Running (Docker containers on docker-host)
 
-See `docs/services.md` for the full list with ports and data locations.
+See `docs/services.md` for the full list with ports and data locations. As of this verification
+pass, docker-host has only the bare Docker Engine installed — no services deployed yet.
 
-Summary:
+Planned (per roadmap/decisions, not yet deployed):
 - Reverse proxy: Traefik / Nginx Proxy Manager
 - Container management: Portainer
 - Shared DB: PostgreSQL (multi-database) + Redis (shared, per-project key prefix)

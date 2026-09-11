@@ -1,0 +1,50 @@
+services:
+  yourls:
+    image: yourls:latest
+    container_name: yourls
+    restart: unless-stopped
+    environment:
+      YOURLS_DB_HOST: yourls-mariadb
+      YOURLS_DB_NAME: yourls
+      YOURLS_DB_USER: yourls
+      YOURLS_DB_PASS: ${YOURLS_DB_PASSWORD}  # set in .env, never commit the real value
+      YOURLS_SITE: http://yourls.home.arpa    # placeholder until a real domain is assigned
+      # YOURLS_USER / YOURLS_PASS intentionally NOT set — leaving them unset makes the
+      # container serve its own web installer on first load, so the admin account is
+      # created by the user in the browser, same pattern as NPM/Portainer/Nextcloud.
+    depends_on:
+      yourls-mariadb:
+        condition: service_healthy
+    ports:
+      - "8083:8080"  # the official yourls image's Apache listens on 8080 internally, not 80
+    networks:
+      - shared_net
+
+  # YOURLS only officially supports MySQL/MariaDB (no Postgres support) — this is a
+  # dedicated instance just for YOURLS, separate from the shared Postgres used by
+  # everything else and from CapRover's future MySQL pool (different trust boundary again).
+  yourls-mariadb:
+    image: mariadb:11
+    container_name: yourls-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${YOURLS_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: yourls
+      MYSQL_USER: yourls
+      MYSQL_PASSWORD: ${YOURLS_DB_PASSWORD}
+    volumes:
+      - yourls_mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - shared_net
+
+volumes:
+  yourls_mariadb_data:
+
+networks:
+  shared_net:
+    external: true

@@ -1,0 +1,13 @@
+services:
+  portfolio:
+    build: .
+    container_name: yorha-portfolio
+    restart: unless-stopped
+    ports:
+      - "3080:80"
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true

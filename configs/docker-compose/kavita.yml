@@ -1,20 +1,15 @@
-version: "3.9"
-
 services:
   kavita:
     image: kizaing/kavita
     container_name: kavita
     restart: unless-stopped
     volumes:
-      - /mnt/external-storage/manga:/manga
+      - /mnt/hdd-media/kavita/manga:/manga
       - kavita_config:/kavita/config
     ports:
       - "5000:5000"
     networks:
       - shared_net
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.kavita.rule=Host(`manga.yourdomain.dev`)"
 
 volumes:
   kavita_config:

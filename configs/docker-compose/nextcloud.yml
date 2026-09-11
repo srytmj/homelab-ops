@@ -1,0 +1,21 @@
+services:
+  nextcloud:
+    image: nextcloud:apache
+    container_name: nextcloud
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: shared-postgres
+      POSTGRES_DB: nextcloud
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # set in .env, never commit the real value — same shared Postgres user as postgres-redis.yml
+      REDIS_HOST: shared-redis
+    volumes:
+      - /mnt/hdd-cloud/nextcloud:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - shared_net
+
+networks:
+  shared_net:
+    external: true
