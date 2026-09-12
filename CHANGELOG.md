@@ -2,6 +2,16 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (8)
+- **Decommissioned redundant services replaced by Homelab Cockpit**:
+  - Stopped, removed containers, volumes, and infra directories for:
+    - **Portainer** (`:9000`): container logs, restart, and prune are now natively handled by Cockpit.
+    - **Netdata** (`:19999`): host CPU, RAM, thermal sensors, and network I/O are streamed directly via Proxmox VE API and Docker socket.
+    - **Uptime Kuma** (`:3001`): HTTP L7 probing and latency monitoring are built into Cockpit.
+    - **Homelable** (`:3000`, `:8001`): topology replaced by Cockpit dashboard.
+  - Executed `docker system prune -af --volumes`: **reclaimed 15.27 GB of disk space** on internal NVMe SSD and freed over 600 MB of system RAM.
+  - Updated `docs/services.md` accordingly.
+
 ## 2026-09-12 (7)
 - **Updated Homelab Dashboard (Homelab Cockpit)**:
   - Pulled commit `79a66ed` (`feat: add 1x owner registration auth wall, explicit Tailscale container routing, and minimalist utilitarian UI`).

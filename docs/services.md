@@ -9,7 +9,6 @@
 | Homelab Cockpit | Owner POV Dashboard & Real-time Homelab Monitor | 8050 | `/mnt/homelab_projects/homelab-dashboard/docker-compose.yml` (repo: [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard)) |
 | Samba & WSDD | Windows File Explorer LAN file sharing (all 3 HDDs) + auto-discovery | 445, 139, 3702 (wsdd) | Native systemd service `smbd` + `wsdd` on docker-host (`/etc/samba/smb.conf`) |
 | Nginx Proxy Manager | Reverse proxy + auto SSL (Let's Encrypt via GUI) | 80, 443 (proxy), 81 (admin UI) | `configs/docker-compose/npm.yml` |
-| Portainer | Container management GUI | 9000 (HTTP), 9443 (HTTPS) | `configs/docker-compose/portainer.yml` |
 | Tailscale | Remote access mesh VPN, no port forwarding | n/a (WireGuard mesh) | Native apt install on docker-host (not containerized). Node `docker-host` → `100.89.249.96` / `docker-host.taila813af.ts.net`. `--accept-dns=false`. |
 | cloudflared | Cloudflare Tunnel connector — outbound-only, publishes services to the internet without opening router ports | n/a (outbound QUIC to Cloudflare edge) | Native apt install on docker-host (systemd service `cloudflared`, `enabled`). Tunnel token set up via Cloudflare Zero Trust dashboard by the user directly — token never stored in this repo. Public hostname routing (which domain → which local port) is configured in the Cloudflare dashboard itself, not tracked here yet. |
 | PostgreSQL (shared) | Multi-database for all projects | 5432 (internal only) | `configs/docker-compose/postgres-redis.yml` |
@@ -54,10 +53,7 @@
 
 | Service | Purpose | Port | Scope (to avoid overlap) |
 |---|---|---|---|
-| Uptime Kuma | Uptime/availability monitoring | 3001 | HTTP/TCP endpoint checks (web projects, media stack) + built-in alert integrations. **Deployed 2026-09-11.** No monitors configured yet — needs manual setup (add each service as a monitor) plus the admin account (first-run wizard). |
-| Netdata | Resource monitoring | 19999 | Deep host-level metrics (CPU/RAM/disk/network) — the raw data source, not an alerting tool. **Deployed 2026-09-11.** Runs with `SYS_PTRACE`/`SYS_ADMIN` + AppArmor unconfined for full metrics visibility from inside the unprivileged LXC — narrower capabilities than a typical bare-metal install, some hardware-level sensors may be unavailable given the container-in-LXC nesting. |
 | Scrutiny | HDD health monitoring (S.M.A.R.T.) | - | Drive-specific: Power-On Hours, Reallocated Sectors, temperature, historical SMART trends + failure-prediction alerts — distinct from Netdata's general resource metrics and not an uptime/container tool. **Not yet deployed** — needs real HDDs with SMART data, external storage not physically assembled yet. |
-| Homelable | Infra topology visualizer | 3000 (UI), 8001 (MCP) | **Deployed 2026-09-12.** Visual network/rack diagram + live status overlay — a *map*, not an alert/history system. Repo: [Pouzor/homelable](https://github.com/Pouzor/homelable). Scanner range set to `192.168.18.0/24`. Has a Proxmox VE import feature (needs a read-only PVEAuditor API token, not yet configured) and an MCP server for AI clients. **Login is still the documented default `admin`/`admin` — change it immediately** (see CHANGELOG for the bcrypt regen command). |
 | homelab-sentinel (Telegram bot) | Docker container-level monitoring + Telegram alerts, PLUS interactive queries / whitelisted management / short QnA | - | Container health/resource (things Uptime Kuma's URL/TCP checks can't see) — owns Telegram notifications so Uptime Kuma's own alert integration isn't wired to Telegram in parallel. Also the interactive control surface (see decisions.md for the 3-tier capability design + guardrails). |
 
 ## Other Self-Hosted Apps
