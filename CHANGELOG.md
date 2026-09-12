@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (10)
+- **Resolved Cloudflare Tunnel Integration Issues**:
+  - **Nextcloud**:
+    - Fixed `Access through untrusted domain` error by registering `nextcloud.suryatmaja.dev` and `100.89.249.96:8080` to Nextcloud `trusted_domains` via `occ`.
+    - Enabled `overwriteprotocol=https` and `overwrite.cli.url=https://nextcloud.suryatmaja.dev` to prevent HTTPS reverse proxy mixed content.
+  - **qBittorrent**:
+    - Disabled `WebUI\CSRFProtection` and `WebUI\HostHeaderValidation`, and enabled `WebUI\ReverseProxySupportEnabled` in `qBittorrent.conf` to allow web access through reverse proxy / Cloudflare Tunnel.
+    - Noted that qBittorrent WebUI runs on host port `8480` (not `8080`, which is used by Nextcloud).
+  - **T3 Code**:
+    - Retrieved pair token `GBUAXZJ7FJJW` for pairing via `t3.suryatmaja.dev` or LAN.
+
 ## 2026-09-12 (9)
 - **Updated Homelab Dashboard (Homelab Cockpit)**:
   - Pulled commits up to `4e759e6` on `srytmj/homelab-dashboard` (`build(repo): enforce conventional commits with husky and commitlint`, `feat(auth): add owner auth wall on the new interface`, docs and UI improvements).
