@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (14)
+- **Enabled Intel QuickSync Hardware Acceleration on Jellyfin & Updated Cockpit Storage Labels**:
+  - Configured Proxmox LXC 100 passthrough for `/dev/dri` (Intel HD Graphics 630, `card0` & `renderD128`).
+  - Passed device `/dev/dri:/dev/dri` into `jellyfin` container and verified VA-API/iHD driver entrypoints via `vainfo`.
+  - Configured hardware acceleration to `qsv` (Intel QuickSync) in Jellyfin encoding configuration.
+  - Updated storage capacity labels in Cockpit dashboard to match actual disk capacities (Bay 1: 1TB HDD, Bay 2: 1TB HDD, Bay 3: 2TB HDD). Rebuilt and redeployed `homelab-cockpit`.
+
 ## 2026-09-12 (13)
 - **Resolved Nextcloud Admin Password & Storage Canary Watchdog**:
   - Generated and set new secure password for Nextcloud user `admin` via `occ user:resetpassword`.
