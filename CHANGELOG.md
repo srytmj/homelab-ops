@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (18)
+- **Restored Jellyfin to Clean Stock Configuration**:
+  - Removed `/dev/dri` passthrough mount from `/opt/infra/jellyfin/docker-compose.yml` to match repository specification.
+  - Reset `encoding.xml` options (`HardwareAccelerationType: none`, `EnableHardwareEncoding: false`, cleared `VaapiDevice` and `HardwareDecodingCodecs`).
+  - Purged stale transcode cache and cleanly recreated container via `docker compose down && docker compose up -d`.
+  - Verified healthy HTTP 200 responses for playback API, HLS remuxing, and subtitle delivery.
+
 ## 2026-09-12 (17)
 - **Reverted Jellyfin Hardware Acceleration**:
   - Reverted `<HardwareAccelerationType>` back to `none` in Jellyfin encoding configuration.
