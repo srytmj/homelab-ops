@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (9)
+- **Updated Homelab Dashboard (Homelab Cockpit)**:
+  - Pulled commits up to `4e759e6` on `srytmj/homelab-dashboard` (`build(repo): enforce conventional commits with husky and commitlint`, `feat(auth): add owner auth wall on the new interface`, docs and UI improvements).
+  - Rebuilt and restarted container `homelab-cockpit` on port `8050`.
+  - Verified `/api/health` returned HTTP 200.
+
 ## 2026-09-12 (8)
 - **Decommissioned redundant services replaced by Homelab Cockpit**:
   - Stopped, removed containers, volumes, and infra directories for:
