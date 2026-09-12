@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (7)
+- **Updated Homelab Dashboard (Homelab Cockpit)**:
+  - Pulled commit `79a66ed` (`feat: add 1x owner registration auth wall, explicit Tailscale container routing, and minimalist utilitarian UI`).
+  - Rebuilt and restarted container `homelab-cockpit` on port `8050`.
+  - Auth wall active with 1-time owner setup wizard protecting telemetry APIs.
+
 ## 2026-09-12 (6)
 - **Deployed Homelab Dashboard (Homelab Cockpit)**:
   - Cloned and built [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) at `/mnt/homelab_projects/homelab-dashboard`.
