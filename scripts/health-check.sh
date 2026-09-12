@@ -8,10 +8,21 @@ set -uo pipefail
 EXPECTED_CONTAINERS=(
   "shared-postgres"
   "shared-redis"
+  "nginx-proxy-manager"
+  "portainer"
   "jellyfin"
-  "immich-server"
   "kavita"
-  "navidrome"
+  "nextcloud"
+  "uptime-kuma"
+  "netdata"
+  "vaultwarden"
+  "n8n"
+  "syncthing"
+  "shiori"
+  "yourls"
+  "yourls-mariadb"
+  "librespeed"
+  "yorha-portfolio"
 )
 
 LOG_FILE="/var/log/homelab-health-check.log"

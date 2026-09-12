@@ -1,15 +1,25 @@
 # Systemd Timers — Deploy Steps
 
-Once docker-host LXC/VM exists and this repo is cloned onto it at `/opt/homelab-ops`:
+docker-host is live (see `docs/architecture.md`) but this repo has not been cloned onto it yet.
+Clone it first, then deploy the timers:
 
 ```bash
+sudo mkdir -p /opt/homelab-ops
+sudo chown "$USER" /opt/homelab-ops
+git clone https://github.com/srytmj/homelab-ops /opt/homelab-ops
+cd /opt/homelab-ops
+
 sudo cp configs/systemd/homelab-backup.* configs/systemd/homelab-health-check.* configs/systemd/homelab-git-deploy.* /etc/systemd/system/
 sudo chmod +x /opt/homelab-ops/scripts/backup.sh /opt/homelab-ops/scripts/health-check.sh /opt/homelab-ops/scripts/git-auto-deploy.sh
 sudo systemctl daemon-reload
-sudo systemctl enable --now homelab-backup.timer
 sudo systemctl enable --now homelab-health-check.timer
 sudo systemctl enable --now homelab-git-deploy.timer
 ```
+
+**Hold off on `homelab-backup.timer` for now.** `backup.sh` targets `/mnt/hdd-backup/`, and the 4
+HDDs (including HDD-Backup) aren't physically mounted yet (see `docs/roadmap.md`, "Now" section).
+Enabling it today would silently write backups to the OS SSD instead of the dedicated backup
+drive. Enable it once HDD-Backup is mounted at `/mnt/hdd-backup/`.
 
 Verify:
 
