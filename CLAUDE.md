@@ -1,4 +1,4 @@
-# Homelab Operations - Instructions for Claude Code
+# Homelab Operations - Instructions for Claude Code & All AI Agents
 
 ## Context
 
@@ -25,23 +25,24 @@ list — this file's summary is not exhaustive, don't rely on it alone.**
 
 Never assume the state of the server — always verify via SSH before making changes, since `docs/architecture.md` may lag behind reality if it wasn't updated after a manual change.
 
-## Multi-agent / multi-tool use
+## Multi-Agent / Multi-Tool Synchronization Rules
 
-This repo is worked on from more than one device, and possibly more than one AI coding tool
-(e.g. Claude Code on one machine, Google Antigravity/Gemini on another). There is no live
-sync between sessions on different devices or different tools — **git is the only sync
-mechanism.** Consequences:
+This repo is worked on across multiple devices (laptop, desktop) and multiple AI agents/tools
+(Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, Copilot, etc.). There is NO shared runtime
+memory between different AI platforms — **git + CHANGELOG.md + docs/*.md is the single source of truth.**
 
-- Always `git pull` at the very start of a session (see step 0 above), and `git add && commit
-  && push` before ending a session or switching devices/tools — uncommitted local changes are
-  invisible to every other session until pushed.
-- If you are a tool other than Claude Code and don't have a native mechanism for auto-reading
-  project instruction files, the user will point you at this file and `docs/*.md` manually —
-  follow the same conventions documented here (modes of operation, always-do rules, logging)
-  regardless of which tool you are.
-- Claude Code sessions running on the **same machine** can message each other directly (see
-  `ListAgents`/`SendMessage` in Claude Code) for live status checks — this doesn't apply across
-  machines or across different AI tools, which must go through git.
+### 🚨 MANDATORY AI AGENT PROTOCOL (ANTI-HALLUCINATION & ANTI-MISINFO):
+1. **Mandatory Logging in CHANGELOG.md**:
+   - **EVERY SINGLE ACTION** that modifies server config, deploys a container, updates an image, removes a service, changes mounts, or fixes a bug **MUST BE RECORDED IMMEDIATELY** in `CHANGELOG.md` with date, what changed, and rationale.
+   - **DO NOT finish a session or transfer work without committing the log entry to Git.**
+2. **Never Hallucinate / Guess Server State**:
+   - Do NOT assume a service is running, installed, or broken based on outdated chat history or training assumptions.
+   - **ALWAYS check live server state first** via SSH (`docker ps`, `systemctl status`, `df -h`, `ls -la`) before taking action or giving advice.
+3. **Keep `docs/services.md` and `docs/architecture.md` in Sync**:
+   - When a service or storage mount is added, removed, or remapped, immediately update the table in `docs/services.md` or `docs/architecture.md`.
+4. **Git Sync Lifecycle**:
+   - **Start of Session**: Run `git pull` before reading or modifying anything.
+   - **End of Task / Session**: Run `git add .`, commit as user Maja (`git config user.name "Maja" && git config user.email "suryatmaja.dev@gmail.com"`), and push so the next AI agent picks up the exact real-world state.
 
 ## Modes of operation
 
