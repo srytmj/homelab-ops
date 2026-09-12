@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (13)
+- **Resolved Nextcloud Admin Password & Storage Canary Watchdog**:
+  - Generated and set new secure password for Nextcloud user `admin` via `occ user:resetpassword`.
+  - Created missing `.mounted` canary files on DAS HDD mounts (`/mnt/hdd-media`, `/mnt/hdd-cloud`, `/mnt/hdd-music`) so Cockpit watchdog reliably detects mounts as attached and healthy.
+  - Investigated Jellyfin playback delay: Identified root causes (no /dev/dri GPU passthrough in LXC 100 + container resulting in software direct-stream remuxing from USB-DAS HDDs).
+
 ## 2026-09-12 (12)
 - **Homelab Cockpit Multi-Docker Monitoring Integration**:
   - Exposed Docker Engine daemon over TCP (`0.0.0.0:2375`) on node `apps-host` (LXC 101) via systemd drop-in override.
