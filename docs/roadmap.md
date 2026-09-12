@@ -33,18 +33,18 @@
 - [ ] homelab-sentinel: Telegram bot (Python, `python-telegram-bot`) — consolidates monitoring alerts + interactive queries + whitelisted management + short QnA (Gemini API free tier). Built in a separate Claude Code session, not this repo's setup flow. See decisions.md for the 3-tier capability design and guardrails (whitelist commands only, NOT arbitrary LLM execution). Needs: Telegram bot token (@BotFather), Gemini API key (AI Studio).
 - [x] T3 Code ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) — **priority raised from "Later/Ideas"** (2026-09-11). Deploy Claude Code CLI + T3 Code on docker-host, Tailscale-only, so the user can drive Claude Code sessions from mobile/web without a laptop present. Still behind current top priority (HDD migration/assembly — see "Now" section) — not started yet.
 
-- [ ] Deploy Syncthing (file sync)
-- [ ] Deploy Shiori (bookmark manager)
-- [ ] Deploy YOURLS (URL shortener)
-- [ ] Deploy n8n (workflow automation)
+- [x] Deploy Syncthing (file sync) — done, see CHANGELOG 2026-09-11 (13)
+- [x] Deploy Shiori (bookmark manager) — done, see CHANGELOG 2026-09-11 (13)
+- [x] Deploy YOURLS (URL shortener) — done, see CHANGELOG 2026-09-11 (13)
+- [x] Deploy n8n (workflow automation) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy Alexandrie (self-hosted knowledge base / notes)
-- [ ] Deploy Vaultwarden (password manager — lightweight community rewrite, NOT the official bitwarden/server which is heavier)
+- [x] Deploy Vaultwarden (password manager — lightweight community rewrite, NOT the official bitwarden/server which is heavier) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy Firefly III (personal finance/budgeting tracker)
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
 - [ ] Deploy Homelable (self-hosted infra visualizer — network diagram + live health-check status, complements Uptime Kuma/homelab-sentinel)
 - [ ] Deploy Reclip (self-hosted media downloader, yt-dlp wrapper with web UI)
-- [ ] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed)
-- [ ] Deploy VaultS3 (lightweight S3-compatible object storage, for apps/backups that want an S3 target without paying for cloud storage)
+- [x] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed) — done, see CHANGELOG 2026-09-11 (13)
+- [ ] Deploy VaultS3 (lightweight S3-compatible object storage) — **deferred 2026-09-12**: services.md previously said /mnt/hdd-cloud/vaults3/, which contradicts decisions.md's cross-drive requirement (VaultS3 backs up Nextcloud data, which lives on hdd-cloud — same-drive placement defeats the backup's purpose). Waiting for hdd-music (sdc) or HDD-Backup to be ready as a proper cross-drive home.
 - [ ] Evaluate Databasus as a replacement for `scripts/backup.sh` — adds PITR + restore verification + notifications (Discord/Slack/Telegram) vs. the current plain pg_dump script
 - [ ] Deploy qBittorrent (torrent client, web UI) — no VPN wrapper for now, see decisions.md for the cost/risk trade-off; revisit adding Gluetun + Mullvad later if budget allows
 - [ ] Deploy SnapOtter — self-hosted file-processing toolkit (200+ tools: convert/compress/OCR/transcribe across image/video/audio/PDF). Standing service, bundles its own Postgres 17 + Redis (not the shared ones). Cap concurrent job workers — video transcode/OCR are CPU-heavy on the GPU-less M710q. Replaces the FileWizard plan.

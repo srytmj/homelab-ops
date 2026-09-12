@@ -139,12 +139,12 @@ Supersedes the earlier single-HDD (`/mnt/hdd2tb/`) plan. Final topology is **3 s
 each single-purpose — no RAID/pooling across them, so a failure on one drive only affects that
 drive's category of data (e.g. losing HDD-Cloud doesn't touch music or media).
 
-| Drive | Capacity | Form factor | Mount point | Purpose |
-|---|---|---|---|---|
-| HDD-Music (Seagate Barracuda, already purchased) | 2TB | 3.5" | `/mnt/hdd-music/` | Music only, for Jellyfin |
-| HDD-Media (new) | 1TB | 2.5" | `/mnt/hdd-media/` | Movies/TV, anime (video), manga — images moved to Nextcloud instead |
-| HDD-Cloud (new) | 1TB | 3.5" | `/mnt/hdd-cloud/` | Nextcloud + VaultS3 |
-| HDD-Backup (WD Blue, already owned/idle) | 320GB | 3.5" | `/mnt/hdd-backup/` | Dedicated Restic backup target for DB dumps + config (`scripts/backup.sh`) — physically separate from the 3 drives above, so it protects against any one of them failing, not just accidental deletion |
+| Drive | Capacity | Form factor | Mount point | Purpose | Status |
+|---|---|---|---|---|---|
+| HDD-Music (Seagate Barracuda, already purchased) | 2TB | 3.5" | `/mnt/hdd-music/` | Music only, for Jellyfin | **Still staging** — physically installed as `sdc`, currently holds a full staging copy of sdb+sdd's original data (migration safety net) at `/mnt/check-sdc` on the Proxmox host. Not yet reformatted/repurposed as hdd-music. Jellyfin's music path is still a placeholder on the internal SSD until this is done. |
+| HDD-Media (new) | 1TB | 2.5" | `/mnt/hdd-media/` | Movies/TV, anime (video), manga — images moved to Nextcloud instead | **Mounted 2026-09-12.** Physically `sdb` (ext4, label `hdd-media`), permanent via `/etc/fstab` (UUID) on the Proxmox host, bind-mounted into the `docker-host` LXC (`pct set 100 -mp0`). Jellyfin and Kavita now see the real restored data. |
+| HDD-Cloud (new) | 1TB | 3.5" | `/mnt/hdd-cloud/` | Nextcloud + VaultS3 | **Mounted 2026-09-12.** Physically `sdd` (ext4, label `hdd-cloud`), same fstab + LXC bind-mount pattern as HDD-Media. Nextcloud and Syncthing now use real subfolders (`nextcloud/`, `syncthing/`) here. VaultS3 deployment deferred — see roadmap.md, it needs a drive *other* than this one (cross-drive backup requirement). |
+| HDD-Backup (WD Blue, already owned/idle) | 320GB | 3.5" | `/mnt/hdd-backup/` | Dedicated Restic backup target for DB dumps + config (`scripts/backup.sh`) — physically separate from the 3 drives above, so it protects against any one of them failing, not just accidental deletion | **Not yet physically installed** — needs a mount/dock solution first (see roadmap.md). |
 
 An extra 1TB 2.5" HDD is also on hand but currently **unallocated (spare)** — not assigned to
 any role yet. A RAID1 (mirrored) setup for HDD-Cloud using this spare was considered and
