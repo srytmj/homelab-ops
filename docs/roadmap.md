@@ -31,7 +31,7 @@
 - [ ] Update `scripts/backup.sh` to target `/mnt/hdd-backup/` instead of the old external-enclosure path
 
 - [ ] homelab-sentinel: Telegram bot (Python, `python-telegram-bot`) — consolidates monitoring alerts + interactive queries + whitelisted management + short QnA (Gemini API free tier). Built in a separate Claude Code session, not this repo's setup flow. See decisions.md for the 3-tier capability design and guardrails (whitelist commands only, NOT arbitrary LLM execution). Needs: Telegram bot token (@BotFather), Gemini API key (AI Studio).
-- [ ] T3 Code ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) — **priority raised from "Later/Ideas"** (2026-09-11). Deploy Claude Code CLI + T3 Code on docker-host, Tailscale-only, so the user can drive Claude Code sessions from mobile/web without a laptop present. Still behind current top priority (HDD migration/assembly — see "Now" section) — not started yet.
+- [x] T3 Code ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) — **priority raised from "Later/Ideas"** (2026-09-11). Deploy Claude Code CLI + T3 Code on docker-host, Tailscale-only, so the user can drive Claude Code sessions from mobile/web without a laptop present. Still behind current top priority (HDD migration/assembly — see "Now" section) — not started yet.
 
 - [ ] Deploy Syncthing (file sync)
 - [ ] Deploy Shiori (bookmark manager)

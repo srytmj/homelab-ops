@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (1)
+- **Deployed T3 Code** ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) on docker-host, port 9001 (internal 9000). Created `configs/docker-compose/t3code.yml` and `configs/docker-compose/t3code/Dockerfile` (uses `node:22-bookworm-slim` with build-essential tools to build native `node-pty`, bundles `@anthropic-ai/claude-code` and `t3` CLI). Mapped host port 9001 because port 9000 is occupied by Portainer. Marked done in `roadmap.md` and added to `services.md`.
+
 ## 2026-09-11 (14)
 - Updated `CLAUDE.md`: added "git pull first, every session" as step 0 (repo is now worked from multiple devices), added a "Multi-agent / multi-tool use" section covering cross-device sync (git is the only mechanism) and using non-Claude-Code tools (e.g. Antigravity/Gemini) on this repo. Also refreshed the stale Context section (M920q→M710q, dropped Immich/Navidrome, pointed to `services.md` as the actual current list instead of a hardcoded summary).
 
