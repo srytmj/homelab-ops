@@ -57,6 +57,13 @@ nominally only takes 1+1, without needing a USB DAS enclosure.
 
 ```
 Proxmox VE 9.2.2 (bare metal hypervisor) — pve.suryatmaja.dev, 192.168.18.224
+  └── LXC 101: "apps-host" (Ubuntu Server 24.04 LTS) — 192.168.18.226
+        RAM allocated: 4GB (of 32GB total)
+        CPU allocated: 2 cores
+        Storage: 30GB (local-lvm thin pool)
+        Proxmox container features "nesting=1,keyctl=1" + TUN passthrough (/dev/net/tun)
+        Docker Engine 29.8.0 + Compose plugin v5.5.1 + Tailscale
+        Purpose: Dedicated environment for personal web projects (whitearchive, malas, etc.)
   └── LXC 100: "docker-host" (Ubuntu Server 24.04 LTS) — 192.168.18.225
         RAM allocated: 12GB (of 32GB total)
         CPU allocated: 4 cores (of 4 total on the actual i5-7500 — no hyperthreading, so this

@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (11)
+- **Created Dedicated LXC 101 (`apps-host`) for Web Applications**:
+  - Configured Unprivileged LXC 101 on Proxmox VE (`192.168.18.226/24`, 2 Cores, 4GB RAM, 2GB Swap, 30GB local-lvm SSD).
+  - Configured `nesting=1,keyctl=1` and TUN passthrough (`/dev/net/tun`) for Docker and Tailscale.
+  - Installed Docker Engine 29.8.0 and Tailscale natively.
+- **Deployed `whitearchive` Web Application**:
+  - Cloned [srytmj/whitearchive](https://github.com/srytmj/whitearchive) to `/opt/projects/whitearchive`.
+  - Configured Next.js `output: "standalone"` with an optimized multi-stage Alpine Dockerfile.
+  - Successfully built and started container `whitearchive` on port `3000`. Verified HTTP 200 OK.
+  - Initiated Tailscale pairing session for `apps-host`.
+
 ## 2026-09-12 (10)
 - **Resolved Cloudflare Tunnel Integration Issues**:
   - **Nextcloud**:
