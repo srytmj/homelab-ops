@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (12)
+- **Homelab Cockpit Multi-Docker Monitoring Integration**:
+  - Exposed Docker Engine daemon over TCP (`0.0.0.0:2375`) on node `apps-host` (LXC 101) via systemd drop-in override.
+  - Pulled commits up to `4bea746` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) (multi-docker host telemetry, fleet filtering, command palette, pages, pins).
+  - Configured `DOCKER_HOST_NAME=docker-host` and `DOCKER_HOSTS=apps-host=tcp://192.168.18.226:2375` in `.env` and `docker-compose.yml`.
+  - Rebuilt and deployed container `homelab-cockpit` on port `8050`.
+  - Verified multi-host telemetry: Cockpit aggregates 15 containers from `docker-host` and 1 container (`whitearchive`) from `apps-host` seamlessly.
+  - Confirmed `apps-host` is authenticated and active on Tailscale mesh (`100.110.235.57`).
+
 ## 2026-09-12 (11)
 - **Created Dedicated LXC 101 (`apps-host`) for Web Applications**:
   - Configured Unprivileged LXC 101 on Proxmox VE (`192.168.18.226/24`, 2 Cores, 4GB RAM, 2GB Swap, 30GB local-lvm SSD).
