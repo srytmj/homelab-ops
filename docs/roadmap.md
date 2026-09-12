@@ -17,7 +17,7 @@
 - [ ] Deploy first batch of the 10 web projects — **started 2026-09-11: `portfolio` deployed** (`yorha-portfolio` container, port 3080, on docker-host). The other 9 not yet deployed.
 - [ ] Give each Tailscale-only service its own subdomain (Tailscale MagicDNS/Serve) so the portfolio's hidden dashboard page can link to clean per-service hrefs
 
-- [ ] Set up Samba share on `/mnt/hdd-cloud/shared/` for Windows File Explorer network access
+- [ ] Set up Samba share on `/mnt/hdd-cloud/shared/` for Windows File Explorer network access (include `wsdd` daemon so it auto-discovers and appears directly under "Network" in Windows 10/11 Explorer without manual IP entry)
 - [x] Add hidden dashboard page to the existing `portfolio` repo — done (built in a separate Claude Code session); URLs still need to be filled in with real Tailscale subdomains once services are actually deployed
 - [ ] Set up Cloudflare Tunnel to expose `portfolio` publicly — **sequencing decision (2026-09-11): this now happens AFTER Tailscale is installed and every service has a Tailscale address, not before.** The user will personally bridge `portfolio`'s Tailscale address to a Cloudflare Tunnel themselves — Claude Code should not deploy `cloudflared` unprompted. See the "Next" section's Tailscale item, which now blocks this one.
 
