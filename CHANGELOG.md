@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (20)
+- **Updated Homelab Cockpit to Commit 5d8fbde**:
+  - Pulled commits `930c088`, `6fe9318`, and `5d8fbde` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Pinned containers only: command palette launcher redesigned to focus purely on pinned services.
+  - Added self-healing URL migration for older pinned URLs in `pins.service.ts`.
+  - Rebuilt image and restarted container `homelab-cockpit` on port `8050`. Verified live WebSocket connection.
+
 ## 2026-09-12 (19)
 - **Updated Homelab Cockpit Compose Configuration & Multi-Host Proxmox Sync**:
   - Injected `env_file: .env` into `/mnt/homelab_projects/homelab-dashboard/docker-compose.yml`.
