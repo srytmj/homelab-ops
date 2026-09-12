@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (17)
+- **Reverted Jellyfin Hardware Acceleration**:
+  - Reverted `<HardwareAccelerationType>` back to `none` in Jellyfin encoding configuration.
+  - Resolved subtitle rendering/extraction regression caused by hardware transcoding pipeline.
+
 ## 2026-09-12 (16)
 - **Updated Homelab Cockpit to Commit 06a17f4**:
   - Pulled commits `cabb1db`, `dc00430`, and `06a17f4` (dynamic storage label detection, dynamic hardware detection, pinned link priority fix).
