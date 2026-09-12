@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (2)
+- **Fixed recurring 502 / Model Unreachable in T3 Code**: The Antigravity (`agy`) ACP server binary resides in persistent storage (`/root/.t3/tools/antigravity-acp/...`), but T3 Code and CLI expect `agy` and `antigravity` symlinks in `/usr/local/bin`. Container restarts or recreations wiped the ephemeral container root filesystem, breaking the symlinks and throwing 502 Bad Gateway / unreachable errors.
+  - Created `configs/docker-compose/t3code/entrypoint.sh` to automatically detect `agy_acp_server.par`, make it executable, ensure `localharness_external` permissions, create symlinks in `/usr/local/bin` and `/usr/bin`, verify `active.json`, and maintain a 5s background loop to self-heal symlinks even after runtime runtime updates.
+  - Updated `configs/docker-compose/t3code/Dockerfile` to bake in `openssh-client`, `procps`, `iputils-ping`, and set `ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]`.
+  - Updated `configs/docker-compose/t3code.yml` with explicit `entrypoint` and mounted `entrypoint.sh:ro` for immediate resilience across container recreate without requiring immediate manual image rebuild.
+  - Added self-healing hook in persistent `/root/.bashrc`.
+
 ## 2026-09-12 (1)
 - **Deployed T3 Code** ([pingdotgg/t3code](https://github.com/pingdotgg/t3code)) on docker-host, port 9001 (internal 9000). Created `configs/docker-compose/t3code.yml` and `configs/docker-compose/t3code/Dockerfile` (uses `node:22-bookworm-slim` with build-essential tools to build native `node-pty`, bundles `@anthropic-ai/claude-code` and `t3` CLI). Mapped host port 9001 because port 9000 is occupied by Portainer. Marked done in `roadmap.md` and added to `services.md`.
 
