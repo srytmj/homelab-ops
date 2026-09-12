@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (21)
+- **Updated Homelab Cockpit to Commit fbd5e84**:
+  - Pulled commit `fbd5e84` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - Fixed Command Palette hover state: prevented mouse hover from constantly snapping selection to the last item.
+  - Rebuilt image and restarted container `homelab-cockpit` on port `8050`. Verified active live snapshot & WebSocket stream.
+
 ## 2026-09-12 (20)
 - **Updated Homelab Cockpit to Commit 5d8fbde**:
   - Pulled commits `930c088`, `6fe9318`, and `5d8fbde` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
