@@ -41,7 +41,7 @@
 - [x] Deploy Vaultwarden (password manager — lightweight community rewrite, NOT the official bitwarden/server which is heavier) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy Firefly III (personal finance/budgeting tracker)
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
-- [ ] Deploy Homelable (self-hosted infra visualizer — network diagram + live health-check status, complements Uptime Kuma/homelab-sentinel)
+- [x] Deploy Homelable (self-hosted infra visualizer — network diagram + live health-check status, complements Uptime Kuma/homelab-sentinel) — done 2026-09-12, see services.md
 - [ ] Deploy Reclip (self-hosted media downloader, yt-dlp wrapper with web UI)
 - [x] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy VaultS3 (lightweight S3-compatible object storage) — **deferred 2026-09-12**: services.md previously said /mnt/hdd-cloud/vaults3/, which contradicts decisions.md's cross-drive requirement (VaultS3 backs up Nextcloud data, which lives on hdd-cloud — same-drive placement defeats the backup's purpose). Waiting for hdd-music (sdc) or HDD-Backup to be ready as a proper cross-drive home.
