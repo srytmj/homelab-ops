@@ -1,6 +1,6 @@
 services:
   kavita:
-    image: kizaing/kavita
+    image: jvmilazz0/kavita:latest
     container_name: kavita
     restart: unless-stopped
     volumes:

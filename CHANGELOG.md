@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (3)
+- **Migrated Kavita to new Docker repository**: Upstream Kavita deprecated `kizaing/kavita` after v0.7.8 and moved officially to `jvmilazz0/kavita:latest`. Updated `configs/docker-compose/kavita.yml` and `/opt/infra/kavita/docker-compose.yml` on docker-host. Pulled the latest image and recreated the container; existing data/config in `kavita_config` volume and manga volume intact.
+
 ## 2026-09-12 (8)
 - **Deployed qBittorrent** (`lscr.io/linuxserver/qbittorrent:latest`) on docker-host, WebUI port remapped from the image's default 8080 to 8480 (8080 is Nextcloud's) — `WEBUI_PORT` env var set to match, since qBittorrent's CSRF host-header check rejects the WebUI otherwise. Downloads go to `/mnt/hdd-media/qbittorrent/downloads` (real HDD, not a placeholder). No VPN wrapper (Gluetun) — this is the already-accepted cost/risk trade-off from `decisions.md`, not a new decision. Did **not** hit the UID 1000 permission bug this time despite bind-mounting a freshly-`mkdir`'d host path (same risk pattern as Syncthing) — worth re-checking if it ever does act up, but this image apparently handles ownership itself via its own init script (`/init`, PUID/PGID env vars) rather than relying on the mount already being correctly owned. First-boot temporary admin password (random, printed once to `docker logs qbittorrent`) was given to the user directly in chat and not written to any file in this repo — it regenerates on every restart until a permanent one is set in the Web UI.
 
