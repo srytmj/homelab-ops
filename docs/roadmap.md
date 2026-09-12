@@ -37,7 +37,7 @@
 - [x] Deploy Shiori (bookmark manager) — done, see CHANGELOG 2026-09-11 (13)
 - [x] Deploy YOURLS (URL shortener) — done, see CHANGELOG 2026-09-11 (13)
 - [x] Deploy n8n (workflow automation) — done, see CHANGELOG 2026-09-11 (13)
-- [ ] Deploy Alexandrie (self-hosted knowledge base / notes)
+- [x] Deploy Alexandrie (self-hosted knowledge base / notes) — done 2026-09-12, see services.md
 - [x] Deploy Vaultwarden (password manager — lightweight community rewrite, NOT the official bitwarden/server which is heavier) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy Firefly III (personal finance/budgeting tracker)
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
