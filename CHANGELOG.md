@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (16)
+- **Updated Homelab Cockpit to Commit 06a17f4**:
+  - Pulled commits `cabb1db`, `dc00430`, and `06a17f4` (dynamic storage label detection, dynamic hardware detection, pinned link priority fix).
+  - Rebuilt and restarted container `homelab-cockpit` on port `8050`.
+  - Storage matrix and dashboard now natively read dynamic hardware specs without hardcoded labels.
+
 ## 2026-09-12 (15)
 - **Standardized Execution Performance & Anti-Freeze Protocol in CLAUDE.md**:
   - Enforced one-shot batched SSH execution to eliminate round-trip latency.
