@@ -39,7 +39,7 @@
 - [x] Deploy n8n (workflow automation) — done, see CHANGELOG 2026-09-11 (13)
 - [x] Deploy Alexandrie (self-hosted knowledge base / notes) — done 2026-09-12, see services.md
 - [x] Deploy Vaultwarden (password manager — lightweight community rewrite, NOT the official bitwarden/server which is heavier) — done, see CHANGELOG 2026-09-11 (13)
-- [ ] Deploy Firefly III (personal finance/budgeting tracker)
+- [x] Deploy Firefly III (personal finance/budgeting tracker) — done 2026-09-12, see services.md
 - [ ] Deploy Home Assistant (once the smart power plug with HA support arrives)
 - [x] Deploy Homelable (self-hosted infra visualizer — network diagram + live health-check status, complements Uptime Kuma/homelab-sentinel) — done 2026-09-12, see services.md
 - [ ] Deploy Reclip (self-hosted media downloader, yt-dlp wrapper with web UI)
