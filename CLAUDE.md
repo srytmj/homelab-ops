@@ -32,6 +32,16 @@ This repo is worked on across multiple devices (laptop, desktop) and multiple AI
 memory between different AI platforms — **git + CHANGELOG.md + docs/*.md is the single source of truth.**
 
 ### 🚨 MANDATORY AI AGENT PROTOCOL (ANTI-HALLUCINATION & ANTI-MISINFO):
+### ⚡ MANDATORY EXECUTION PERFORMANCE & ANTI-FREEZE RULES:
+1. **Never Allow Tool Commands to Hang or Spawn Ghost Background Tasks**:
+   - Always set `WaitMsBeforeAsync: 10000` (max sync) or run short-lived commands.
+   - For commands that take time (e.g. `docker compose build`, reboot, container restarts), never let SSH hang interactively. Use bounded timeouts (`timeout 30s ...`) or run one-shot scripts that exit cleanly.
+   - Never run `pct reboot` over blocking SSH inside the same container being rebooted.
+2. **One-Shot Batched SSH Scripts**:
+   - Instead of running 10 separate sequential read/check commands, batch inspection and execution into a single, clean Bash heredoc script over SSH.
+3. **Keep Output Concise**:
+   - Avoid verbose text explanations before or between tool calls. Be direct, factual, and confirm with live status codes.
+
 1. **Mandatory Logging in CHANGELOG.md**:
    - **EVERY SINGLE ACTION** that modifies server config, deploys a container, updates an image, removes a service, changes mounts, or fixes a bug **MUST BE RECORDED IMMEDIATELY** in `CHANGELOG.md` with date, what changed, and rationale.
    - **DO NOT finish a session or transfer work without committing the log entry to Git.**

@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (15)
+- **Standardized Execution Performance & Anti-Freeze Protocol in CLAUDE.md**:
+  - Enforced one-shot batched SSH execution to eliminate round-trip latency.
+  - Mandated bounded timeouts (`timeout`) and clean foreground command execution to permanently prevent ghost background task accumulation in T3 Code.
+  - Updated agent rules across all AI harnesses and sessions.
+
 ## 2026-09-12 (14)
 - **Enabled Intel QuickSync Hardware Acceleration on Jellyfin & Updated Cockpit Storage Labels**:
   - Configured Proxmox LXC 100 passthrough for `/dev/dri` (Intel HD Graphics 630, `card0` & `renderD128`).
