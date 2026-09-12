@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (5)
+- **Deployed Samba Share & WSDD Daemon on docker-host**:
+  - Installed and configured Samba (`smbd`) exposing `/mnt/hdd-cloud/shared/` as `shared` with full read/write permissions.
+  - Installed and configured `wsdd` (Web Services Dynamic Discovery host daemon as systemd unit) advertising hostname `HOMELAB` on `WORKGROUP`, enabling Windows 10/11 File Explorer network discovery.
+  - Removed `shiori` container and volume per user request.
+
 ## 2026-09-12 (4)
 - **Cleaned up unused services and reset Shiori**:
   - Stopped and removed containers/volumes for unused services: **Alexandrie** (`:8200`), **Firefly III** (`:8280`), and **YOURLS** (`:8083`). Removed corresponding directories in `/opt/infra/`. Frees up CPU, RAM, and MySQL/MariaDB overhead.
