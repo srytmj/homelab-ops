@@ -2,6 +2,11 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (4)
+- **Cleaned up unused services and reset Shiori**:
+  - Stopped and removed containers/volumes for unused services: **Alexandrie** (`:8200`), **Firefly III** (`:8280`), and **YOURLS** (`:8083`). Removed corresponding directories in `/opt/infra/`. Frees up CPU, RAM, and MySQL/MariaDB overhead.
+  - Reset **Shiori** (`:8081`) named volume to restore fresh default state (`shiori` / `gopher`).
+
 ## 2026-09-12 (3)
 - **Migrated Kavita to new Docker repository**: Upstream Kavita deprecated `kizaing/kavita` after v0.7.8 and moved officially to `jvmilazz0/kavita:latest`. Updated `configs/docker-compose/kavita.yml` and `/opt/infra/kavita/docker-compose.yml` on docker-host. Pulled the latest image and recreated the container; existing data/config in `kavita_config` volume and manga volume intact.
 
