@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (6)
+- **Deployed Homelab Dashboard (Homelab Cockpit)**:
+  - Cloned and built [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) at `/mnt/homelab_projects/homelab-dashboard`.
+  - Configured Proxmox API token (`root@pam!cockpit`), Docker socket, Tailscale socket, and live HDD storage telemetry mounts (`/`, `/mnt/hdd-media`, `/mnt/hdd-cloud`, `/mnt/hdd-music`).
+  - Container `homelab-cockpit` deployed and exposed at `http://192.168.18.225:8050`.
+
 ## 2026-09-12 (5)
 - **Deployed Samba Share & WSDD Daemon on docker-host**:
   - Installed and configured Samba (`smbd`) exposing `/mnt/hdd-cloud/shared/` as `shared` with full read/write permissions.
