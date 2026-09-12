@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-12 (19)
+- **Updated Homelab Cockpit Compose Configuration & Multi-Host Proxmox Sync**:
+  - Injected `env_file: .env` into `/mnt/homelab_projects/homelab-dashboard/docker-compose.yml`.
+  - Enabled `NODE_TLS_REJECT_UNAUTHORIZED=0` inside container, resolving Proxmox VE API SSL verification failures and restoring real-time hypervisor telemetry.
+  - Enabled multi-host docker polling (`apps-host=tcp://192.168.18.226:2375`) and container monitoring across docker-host and apps-host.
+  - Committed and pushed commit `39c80b0` to `srytmj/homelab-dashboard` and pushed `homelab-ops` upstream.
+
 ## 2026-09-12 (18)
 - **Restored Jellyfin to Clean Stock Configuration**:
   - Removed `/dev/dri` passthrough mount from `/opt/infra/jellyfin/docker-compose.yml` to match repository specification.
