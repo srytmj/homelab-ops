@@ -46,7 +46,7 @@
 - [x] Deploy LibreSpeed (self-hosted speed test, for checking PC↔Homelab LAN speed and WAN speed) — done, see CHANGELOG 2026-09-11 (13)
 - [ ] Deploy VaultS3 (lightweight S3-compatible object storage) — **deferred 2026-09-12**: services.md previously said /mnt/hdd-cloud/vaults3/, which contradicts decisions.md's cross-drive requirement (VaultS3 backs up Nextcloud data, which lives on hdd-cloud — same-drive placement defeats the backup's purpose). Waiting for hdd-music (sdc) or HDD-Backup to be ready as a proper cross-drive home.
 - [ ] Evaluate Databasus as a replacement for `scripts/backup.sh` — adds PITR + restore verification + notifications (Discord/Slack/Telegram) vs. the current plain pg_dump script
-- [ ] Deploy qBittorrent (torrent client, web UI) — no VPN wrapper for now, see decisions.md for the cost/risk trade-off; revisit adding Gluetun + Mullvad later if budget allows
+- [x] Deploy qBittorrent (torrent client, web UI) — no VPN wrapper for now, see decisions.md for the cost/risk trade-off; revisit adding Gluetun + Mullvad later if budget allows — done 2026-09-12, see services.md
 - [ ] Deploy SnapOtter — self-hosted file-processing toolkit (200+ tools: convert/compress/OCR/transcribe across image/video/audio/PDF). Standing service, bundles its own Postgres 17 + Redis (not the shared ones). Cap concurrent job workers — video transcode/OCR are CPU-heavy on the GPU-less M710q. Replaces the FileWizard plan.
 - [ ] (no hosting needed) CodeFlow — single-HTML architecture-map tool, run locally by opening its `index.html`, not deployed to docker-host
 
