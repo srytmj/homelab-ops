@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (6)
+- **Decommissioned Kavita in Favor of Komga as Primary Manga Reader**:
+  - Stopped and removed `kavita` container and `kavita_config` volume on `docker-host` (LXC 100), freeing port `5000`.
+  - Removed `/opt/infra/kavita` and `configs/docker-compose/kavita.yml`.
+  - Formally adopted Komga on port `25600` (`/opt/infra/komga`) as the homelab standard manga reader.
+  - Documented decision in `docs/decisions.md` and updated `docs/services.md`.
+
 ## 2026-09-13 (5)
 - **Deployed Komga Manga & Comic Server for Direct Comparison with Kavita**:
   - Deployed `gotson/komga:latest` on `docker-host` (LXC 100) via `configs/docker-compose/komga.yml` (`/opt/infra/komga`).

@@ -3,6 +3,17 @@
 > Records WHY something was chosen, so future-you (or Claude Code) doesn't re-litigate settled questions
 > without new information. Add a new dated entry whenever a meaningful trade-off is decided.
 
+## 2026-09-13 — Adopt Komga as primary manga reader; decommission Kavita
+
+- **Context**: Evaluated Kavita vs Komga side-by-side using the identical WebP reader library at `/mnt/hdd-media/manga-reader`.
+- **Reasoning**:
+  - Komga natively maps nested directories (`<Category>/<Artist>/<Title>.cbz`) directly to Series and Books without requiring archive metadata alterations or SQLite manual patching.
+  - Komga delivers a cleaner reading UI, faster scanning, lightweight resource usage, and first-class Mihon/Tachiyomi OPDS sync.
+- **Action**:
+  - Deployed `gotson/komga:latest` on port `25600` via `configs/docker-compose/komga.yml`.
+  - Stopped and removed Kavita container and `kavita_config` volume on `docker-host`.
+  - Removed `configs/docker-compose/kavita.yml`.
+
 ## 2026-09-13 — Homelab Dashboard absorbs health-check, git auto-deploy, and backup timer; Tailscale serve & Scrutiny dropped
 
 - **Systemd Timers (`health-check.timer`, `git-deploy.timer`, `homelab-backup.timer`) skipped**:

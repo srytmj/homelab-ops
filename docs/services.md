@@ -44,8 +44,7 @@
 |---|---|---|---|
 | Jellyfin | Movie/TV/anime streaming + music library (accessed via Feishin/foobar2000 as client, not Jellyfin web UI) | 8096 | `/mnt/hdd-media/jellyfin/{movies,tv,anime}` (1TB HDD) + `/mnt/hdd-music/jellyfin/music` (2TB HDD, 717GB live collection relocated 2026-09-13). |
 | Nextcloud | File sync/storage | 8080 | `/mnt/hdd-cloud/nextcloud` — real HDD (sdd), 779GB free space available. Uses shared Postgres + Redis. |
-| Kavita | Manga/comic reader | 5000 | `/mnt/hdd-media/manga-reader` — lightweight optimized WebP library auto-generated and mirrored by `manga-optimizer.service`. |
-| Komga | Alternative manga/comic/BD reader | 25600 | `/mnt/hdd-media/manga-reader` — lightweight optimized WebP library auto-generated and mirrored by `manga-optimizer.service`. Deployed 2026-09-13 (`configs/docker-compose/komga.yml`). |
+| Komga | Primary manga/comic/BD reader | 25600 | `/mnt/hdd-media/manga-reader` — lightweight optimized WebP library auto-generated and mirrored by `manga-optimizer.service`. Deployed 2026-09-13 (`configs/docker-compose/komga.yml`). Replaced Kavita. |
 
 ## Storage & Processing Pipelines
 
