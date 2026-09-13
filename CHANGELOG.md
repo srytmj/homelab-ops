@@ -2,6 +2,16 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (9)
+- **Updated Homelab Dashboard (Cockpit) to Commit b9497bf**:
+  - Pulled latest commits (`fa16940` -> `b9497bf`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **Collapsible Floating Sidebar**: Relocated navigation tabs to a modern left floating sidebar with expand/collapse toggle.
+  - **Clock & Weather Widget**: Integrated dynamic live clock and opt-in geolocation weather widget in the header.
+  - **Personal Bookmarks / Shortcuts Section**: Added bookmarks management on the Overview page with custom categories, icons, and URLs backed by `/api/bookmarks`.
+  - **Docker & Remote SSH Processes**: Enhanced Processes page with tabs for host processes, Docker container processes, and remote SSH host processes.
+  - **Git Projects**: Fixed transmission of `localPath` and `rebuildCommand` to the frontend client.
+  - Rebuilt and verified running on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (8)
 - **Updated Homelab Dashboard (Cockpit) to Commit fa16940**:
   - Pulled commits (`028f7fa` -> `fa16940`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
