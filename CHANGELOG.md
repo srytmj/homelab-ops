@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (16)
+- **Fixed `/blog/` and `/projects/` returning 403 Forbidden** on the public `portfolio` site. SvelteKit's static adapter emits list routes as a flat `blog.html`/`projects.html` file alongside a same-named directory holding only the child-slug pages (no `index.html` inside). With `try_files $uri $uri/ $uri.html /404.html`, a trailing-slash request like `/blog/` matched the directory at the `$uri/` step, found no index file inside (autoindex is off), and nginx returned 403 without ever trying `$uri.html`.
+  - **First fix attempt was wrong** (commit `f51e993`): reordered to `try_files $uri $uri.html $uri/ /404.html`, assuming `$uri.html` would resolve to `blog.html`. It doesn't — `$uri.html` is plain string concatenation, and when `$uri` already ends in `/` (as it does for a directory-style request), the result is the literal path `/blog/.html`, not `/blog.html`. Verified still 403 after rebuild — did not guess a third blind fix, investigated instead.
+  - **Correct fix** (commit `1ef0a9c`): added a regex location `location ~ ^(?<base>.+)/$ { try_files $base.html $uri $uri/ /404.html; }` that captures everything before the trailing slash into `$base`, so `$base.html` correctly resolves to `blog.html`/`projects.html`. Confirmed by testing directly inside the container (`docker exec ... curl http://localhost/blog/`) before trusting the external result, since an external retest immediately after redeploy briefly still showed 403 (right after container recreation — resolved a few seconds later on retest, likely a startup race rather than a real fix failure).
+  - Verified stable across repeated checks: homepage, an individual blog post, an individual project detail page, `/blog/`, and `/projects/` — all 200, both via direct LAN IP (`192.168.18.225:3080`) and the public Cloudflare Tunnel domain (`suryatmaja.dev`).
+  - Both commits pushed to [srytmj/portofolio](https://github.com/srytmj/portofolio) (as user Maja).
+
 ## 2026-09-13 (15)
 - **Consolidated the `portfolio` project's two divergent git checkouts, fixed a real gap in its GitHub repo, renamed the container**:
   - Found two separate clones of [srytmj/portofolio](https://github.com/srytmj/portofolio) on docker-host: the original `/opt/projects/portfolio/` (created when this repo was first deployed, 2026-09-11) and a newer `/mnt/homelab_projects/portofolio/` (created by another agent, matching the homelab dashboard's `GIT_PROJECTS_ROOT` convention for its Git Projects pull-and-redeploy feature) — only the *old* location was actually wired to the running container.
