@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (10)
+- **Updated Homelab Dashboard (Cockpit) to Commit 7a23c1c**:
+  - Pulled commits (`b9497bf` -> `7a23c1c`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **Header & Sidebar Layout Fix**: Positioned the header above the sidebar row (full width top header) instead of beside it.
+  - **Git Projects Auto-Deploy & Deployed Marker**: Added opt-in auto-deploy for tracked git repositories and a manual "Mark as Deployed" action.
+  - Cleaned orphaned containers and verified running on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (9)
 - **Updated Homelab Dashboard (Cockpit) to Commit b9497bf**:
   - Pulled latest commits (`fa16940` -> `b9497bf`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
