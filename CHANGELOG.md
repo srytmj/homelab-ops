@@ -17,6 +17,18 @@
   - Initialized SQLite database and verified HTTP 200 health response.
   - Registered Komga in `docs/services.md`.
 
+## 2026-09-13 (5)
+- **Updated Homelab Dashboard (Cockpit) to Commit 028f7fa**:
+  - Pulled latest commits (`d631c72` -> `028f7fa`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **New In-Browser SSH Terminal**: Integrated interactive shell bridge (`xterm.js` + `ssh2`) with WebSocket PTY streaming.
+  - Generated dedicated ED25519 keypair (`/root/.ssh/id_ed25519`) on `docker-host`, authorized across:
+    - `proxmox` (`root@192.168.18.224`)
+    - `docker-host` (`root@192.168.18.225`)
+    - `apps-host` (`root@192.168.18.226`)
+  - Configured `SSH_TARGETS` and `SSH_PRIVATE_KEY_PATH` in `.env`.
+  - **New Disk Performance Panel**: Real-time throughput metrics (read/write MB/s) per storage volume calculated from `/proc/diskstats`.
+  - Rebuilt container image and verified live on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (4)
 - **Updated Homelab Dashboard (Cockpit) to Commit d631c72 (9 Commits)**:
   - Pulled commits from [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) (`fbd5e84` -> `d631c72`).
