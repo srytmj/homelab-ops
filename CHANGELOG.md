@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (5)
+- **Deployed Komga Manga & Comic Server for Direct Comparison with Kavita**:
+  - Deployed `gotson/komga:latest` on `docker-host` (LXC 100) via `configs/docker-compose/komga.yml` (`/opt/infra/komga`).
+  - Exposed on dedicated port `25600` (`http://192.168.18.225:25600`), connected to `shared_net`.
+  - Mounted optimized reader volume `/mnt/hdd-media/manga-reader` to `/data` so both Komga and Kavita share the exact same lightweight WebP reader source for side-by-side evaluation.
+  - Initialized SQLite database and verified HTTP 200 health response.
+  - Registered Komga in `docs/services.md`.
+
 ## 2026-09-13 (4)
 - **Updated Homelab Dashboard (Cockpit) to Commit d631c72 (9 Commits)**:
   - Pulled commits from [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) (`fbd5e84` -> `d631c72`).
