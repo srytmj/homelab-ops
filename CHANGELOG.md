@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (8)
+- **Updated Homelab Dashboard (Cockpit) to Commit fa16940**:
+  - Pulled commits (`028f7fa` -> `fa16940`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **New Processes Page (`/processes`)**: Added per-process tracking for CPU%, Memory%, and Disk I/O backed by `/api/processes`.
+  - **Split Infra View**: Restyled Disk Performance Panel and reorganized Infra page layout into dual views.
+  - **Git Projects Picker Upgrades**: Added host filter and search filter to Git Project Modal, plus manual refresh button on Git Projects page.
+  - Rebuilt and verified running on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (7)
 - **Deployed FileBrowser on Port 8085 ()**:
   - Deployed `filebrowser/filebrowser:latest` as an ultra-lightweight Google Drive alternative.
