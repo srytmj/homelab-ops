@@ -117,7 +117,24 @@ def optimize_archive(src_path, dst_path):
                 os.remove(tmp_path)
             except OSError:
                 pass
-        return False
+        # Fallback: optimization failed (e.g. a RAR archive mislabeled .cbz, or any
+        # other unreadable-as-zip case) — copy the original through unmodified so the
+        # title still shows up in the reader library, even though it won't be
+        # size-optimized. Silently dropping it here (the old behavior) made 93 real
+        # manga archives invisible to Komga with no trace besides a log line.
+        try:
+            if os.path.exists(dst_path):
+                os.remove(dst_path)
+            os.link(src_path, dst_path)
+            logging.warning(f"Fallback hardlink (optimize failed): {os.path.basename(src_path)}")
+        except OSError:
+            try:
+                shutil.copy2(src_path, dst_path)
+                logging.warning(f"Fallback copy (optimize failed): {os.path.basename(src_path)}")
+            except OSError as copy_err:
+                logging.error(f"Fallback copy also failed for {src_path}: {copy_err}")
+                return False
+        return True
 
 def get_dst_path(src_path):
     rel = os.path.relpath(src_path, SRC_DIR)
