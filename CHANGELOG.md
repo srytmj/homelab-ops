@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (2)
+- **Organized Kavita Manga/NSFW Library Structure by Artist Grouping**:
+  - Processed 309 manga/doujinshi files (`.cbz`) across `/mnt/hdd-media/kavita/manga/nsfw/` (`Official Translate`, `Unofficial`, `JP`).
+  - Extracted artist tags matching regex `^\[(.*?)\]\s*(.+)$` and grouped items into dedicated artist directories (`<Artist>/<Title>.cbz`).
+  - Total grouped: 184 files into 45 artist folders in `Official Translate`, 104 files into 35 artist folders in `Unofficial`, and 21 files into 10 artist folders in `JP`.
+  - Maintained full `777` permissions and file access for Samba share (`\\192.168.18.225\homelab\...`) and Kavita docker container.
+  - Triggered Kavita library scan via API (`/api/Library/scan?libraryId=2`) to re-index all artist series and covers.
+
 ## 2026-09-13 (1)
 - **Completed HDD Staging Cleanup, Music Relocation, and Backup Stack Setup**:
   - Relocated ~717 GB of music from `/mnt/hdd-cloud/Music` (683 GB) and `/mnt/hdd-media/Music` (34 GB) into `/mnt/hdd-music/jellyfin/music/`.
@@ -58,7 +66,7 @@
 ## 2026-09-12 (14)
 - **Enabled Intel QuickSync Hardware Acceleration on Jellyfin & Updated Cockpit Storage Labels**:
   - Configured Proxmox LXC 100 passthrough for `/dev/dri` (Intel HD Graphics 630, `card0` & `renderD128`).
-  - Passed device `/dev/dri:/dev/dri` into `jellyfin` container and verified VA-API/iHD driver entrypoints via `vainfo`.
+  - Passed device `/dev/dri:/dev/dri` into `jellyfin` container and verified VA-API/iHD driver entrypoints via `vainfo` bytes.
   - Configured hardware acceleration to `qsv` (Intel QuickSync) in Jellyfin encoding configuration.
   - Updated storage capacity labels in Cockpit dashboard to match actual disk capacities (Bay 1: 1TB HDD, Bay 2: 1TB HDD, Bay 3: 2TB HDD). Rebuilt and redeployed `homelab-cockpit`.
 
@@ -84,7 +92,7 @@
   - Installed Docker Engine 29.8.0 and Tailscale natively.
 - **Deployed `whitearchive` Web Application**:
   - Cloned [srytmj/whitearchive](https://github.com/srytmj/whitearchive) to `/opt/projects/whitearchive`.
-  - Configured Next.js `output: "standalone"` with an optimized multi-stage Alpine Dockerfile.
+  - Configured Next.js `output: \"standalone\"` with an optimized multi-stage Alpine Dockerfile.
   - Successfully built and started container `whitearchive` on port `3000`. Verified HTTP 200 OK.
   - Initiated Tailscale pairing session for `apps-host`.
 
