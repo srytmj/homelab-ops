@@ -2,6 +2,14 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (11)
+- **Updated Homelab Dashboard (Cockpit) to Commit c37af9d**:
+  - Pulled commits (`7a23c1c` -> `c37af9d`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
+  - **Automatic Deploy Baseline**: Deploy baseline is now set automatically when a project starts being tracked, instead of requiring a manual first mark.
+  - **Sidebar/Content Centering Fix**: Centered the sidebar and content area as a single block (previous layout had them drifting independently).
+  - **Docs**: Documented the automatic deploy baseline behavior.
+  - Rebuilt (`docker compose up -d --build`) and verified running on port 8050 (`dash.suryatmaja.dev`), HTTP 200.
+
 ## 2026-09-13 (10)
 - **Updated Homelab Dashboard (Cockpit) to Commit 7a23c1c**:
   - Pulled commits (`b9497bf` -> `7a23c1c`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
