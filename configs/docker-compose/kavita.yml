@@ -4,7 +4,7 @@ services:
     container_name: kavita
     restart: unless-stopped
     volumes:
-      - /mnt/hdd-media/kavita/manga:/manga
+      - /mnt/hdd-media/manga-reader:/manga
       - kavita_config:/kavita/config
     ports:
       - "5000:5000"

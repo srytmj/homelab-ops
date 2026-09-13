@@ -2,6 +2,17 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (3)
+- **Deployed Manga Auto-Optimizer Pipeline Daemon & Kavita Mount Migration**:
+  - Implemented event-driven background pipeline [scripts/manga-optimizer.py](scripts/manga-optimizer.py) registered as systemd service `manga-optimizer.service` on `docker-host` (LXC 100).
+  - Configured two-tier manga architecture:
+    - Master Ingest (`/mnt/hdd-media/manga-raw`): original source files, directly accessible via dedicated Samba share `\docker-host\manga` for management, adding files, and organizing folders.
+    - Optimized Reader Target (`/mnt/hdd-media/manga-reader`): auto-generated WebP archives (max 2048px width, quality 85) with exact folder mirroring, mounted to Kavita container (`/manga`).
+  - Implemented smart hardlinking: lightweight archives (already <=45MB and WebP) are hardlinked instantaneously with 0 additional disk usage.
+  - Heavy raw archives (e.g. 933MB) shrink by 91-94% down to ~57-84MB, reducing single-page image payloads from 13MB down to ~250KB for instant page flipping without stream timeouts.
+  - Watchdog daemon handles real-time file creation, folder renames, file moves, and deletions with zero manual intervention.
+  - Updated `configs/docker-compose/kavita.yml`, `docs/architecture.md`, `docs/services.md`, and `docs/decisions.md`.
+
 ## 2026-09-13 (2)
 - **Organized Kavita Manga/NSFW Library Structure by Artist Grouping**:
   - Processed 309 manga/doujinshi files (`.cbz`) across `/mnt/hdd-media/kavita/manga/nsfw/` (`Official Translate`, `Unofficial`, `JP`).
