@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (14)
+- **Updated Homelab Dashboard (Cockpit) to Commit 048e35b**:
+  - Pulled commits (`c37af9d` -> `048e35b`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) — these had already been `git pull`ed into the working tree at some earlier point (repo showed a commit timestamp newer than the running container's build time) but never rebuilt/redeployed, so the live dashboard was 2 commits stale until this fix.
+  - **Deploy Baseline Self-Heal**: fixes a stale deploy baseline getting permanently stuck, and adds a manual resync button as a backup.
+  - Docs updated to describe the self-heal + resync button.
+  - **Real Docker bug hit and fixed**: `docker compose up -d --build` failed to recreate the container — `Error when allocating new name: Conflict. The container name "/homelab-cockpit" is already in use` — the old container failed to fully stop/remove before Compose tried to recreate it in the same command. Manually `docker stop && docker rm -f` cleared it, but that left a second issue: Compose then created the replacement under a mangled name (`2977d6d47dfb_homelab-cockpit`) instead of the clean `homelab-cockpit` from `container_name:` in the compose file — likely leftover project-state confusion from the interrupted recreate. Fixed with a full `docker compose down && docker compose up -d` cycle, which recreated it correctly. Verified HTTP 200 on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (13)
 - **Patched `scripts/manga-optimizer.py` to add a fallback for optimization failures**: any archive that fails the ZIP-based optimization step (e.g. a RAR file mislabeled `.cbz`, or any other unreadable-as-zip case) is now hardlinked (falling back to a copy if hardlinking fails) into `manga-reader` unmodified, instead of being silently dropped with just a log line — this is exactly what caused the 93-file gap fixed in the previous entry, and would have recurred for any future non-ZIP archive added to `manga-raw`. Restarted `manga-optimizer.service` on docker-host to load the patch (confirmed via a fresh full re-scan of all 2227 archives, clean startup, no new errors — the previously-failing 93 files were already present from the manual fix so the daemon skipped them rather than re-triggering the new fallback path, but the code is in place for the next occurrence).
 
