@@ -2,6 +2,19 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (7)
+- **Deployed FileBrowser on Port 8085 ()**:
+  - Deployed `filebrowser/filebrowser:latest` as an ultra-lightweight Google Drive alternative.
+  - Resource consumption: ~14MB RAM (compared to Nextcloud's 2GB) and 0% CPU at idle.
+  - Multi-drive unified storage mount:
+    - Root (`/srv`): `/mnt/hdd-cloud` (Personal cloud, Downloads, Images, Tugas, etc.)
+    - Submount (`/srv/media`): `/mnt/hdd-media` (Raw manga, reader, media)
+    - Submount (`/srv/music`): `/mnt/hdd-music` (Music library)
+  - Full drag-and-drop, public link sharing with password/expiry, direct video/audio/photo/code previews.
+  - Zero database indexing lag: any files created or modified via Samba/Windows Explorer appear instantly in the web UI.
+  - Initial admin user created: `admin` / `Admin@Homelab2026!`.
+  - Service ready to be routed via Cloudflare Zero Trust tunnel to `drive.suryatmaja.dev` pointing to `http://100.89.249.96:8085` (or LAN `http://192.168.18.225:8085`).
+
 ## 2026-09-13 (6)
 - **Decommissioned Kavita in Favor of Komga as Primary Manga Reader**:
   - Stopped and removed `kavita` container and `kavita_config` volume on `docker-host` (LXC 100), freeing port `5000`.
