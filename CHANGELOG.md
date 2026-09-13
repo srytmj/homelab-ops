@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (4)
+- **Updated Homelab Dashboard (Cockpit) to Commit d631c72 (9 Commits)**:
+  - Pulled commits from [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard) (`fbd5e84` -> `d631c72`).
+  - **New Git Projects Page**: Track remote GitHub commits on homelab repos, with interactive Git Pull and container Rebuild buttons directly in UI.
+  - **New Backup Panel in Infra Page**: On-demand and scheduled rclone sync, snapshot restore, and configuration archive import.
+  - Added `GIT_PROJECTS_ROOT=/mnt/homelab_projects`, `RCLONE_CONFIG_PATH=/root/.config/rclone/rclone.conf`, and `BACKUP_SOURCE_PATHS=/app/data,/projects` into `.env`.
+  - Rebuilt Docker image with `git`, `docker-cli`, `rclone`, and `unzip`.
+  - Verified live deployment on port 8050 (`dash.suryatmaja.dev`).
+
 ## 2026-09-13 (3)
 - **Deployed Manga Auto-Optimizer Pipeline Daemon & Kavita Mount Migration**:
   - Implemented event-driven background pipeline [scripts/manga-optimizer.py](scripts/manga-optimizer.py) registered as systemd service `manga-optimizer.service` on `docker-host` (LXC 100).
