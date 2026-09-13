@@ -9,6 +9,13 @@
   - Formally adopted Komga on port `25600` (`/opt/infra/komga`) as the homelab standard manga reader.
   - Documented decision in `docs/decisions.md` and updated `docs/services.md`.
 
+## 2026-09-13 (6)
+- **Hardened Nextcloud Resource Limits & Apache Worker Tuning**:
+  - Configured strict Docker CPU and memory caps (`cpus: 1.25`, `mem_limit: 2048m`) in `configs/docker-compose/nextcloud.yml`.
+  - Added Apache MPM prefork tuning snippet (`mpm-tuning.conf`) mounted to `/etc/apache2/conf-enabled/mpm-tuning.conf`, restricting `MaxRequestWorkers` from unconstrained 150 workers down to 15.
+  - Set Nextcloud system preview limits (`preview_max_x: 1024`, `preview_max_y: 1024`, `preview_max_filesize_image: 25MB`) via `occ`.
+  - Prevents uncontrolled CPU and RAM spikes during bulk folder/image browsing.
+
 ## 2026-09-13 (5)
 - **Deployed Komga Manga & Comic Server for Direct Comparison with Kavita**:
   - Deployed `gotson/komga:latest` on `docker-host` (LXC 100) via `configs/docker-compose/komga.yml` (`/opt/infra/komga`).
