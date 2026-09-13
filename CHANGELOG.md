@@ -2,6 +2,9 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (12)
+- **Fixed 93 manga archives missing from the optimized reader library**: checked progress of the `manga-optimizer.service` daemon (running since 04:26 UTC, ~3h13m CPU time) and found it had genuinely finished all work it *could* do — 2134 of 2227 raw archives successfully optimized/hardlinked into `/mnt/hdd-media/manga-reader`, but 93 files failed with `File is not a zip file` and were silently dropped with **no fallback copy**, meaning those 93 titles were completely invisible to Komga (mounted on `/mnt/hdd-media/manga-reader`) despite existing fine in the raw source. Root cause: these are RAR-format archives mislabeled with a `.cbz` extension (`file` confirmed "RAR archive data, v5") — the optimizer script only handles ZIP-based CBZ, so it can't compress them, but the correct fallback (copy the original through unmodified) wasn't in place for this failure case. Fixed by hardlinking all 93 files from `manga-raw` into the matching path under `manga-reader` as-is (0 additional disk usage, same as the optimizer's own "already light" hardlink path) — reader library now has full 2227/2227 parity with the raw source. **User needs to manually trigger a Komga library rescan** to pick up the newly-visible files (didn't do this myself — no stored Komga admin credentials in this session). Worth a follow-up fix to `scripts/manga-optimizer.py` itself: add a fallback hardlink-original step when optimization fails, so this doesn't silently recur for future non-ZIP archives added to `manga-raw`.
+
 ## 2026-09-13 (11)
 - **Updated Homelab Dashboard (Cockpit) to Commit c37af9d**:
   - Pulled commits (`7a23c1c` -> `c37af9d`) on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
