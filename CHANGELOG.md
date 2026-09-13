@@ -2,6 +2,15 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-13 (1)
+- **Completed HDD Staging Cleanup, Music Relocation, and Backup Stack Setup**:
+  - Relocated ~717 GB of music from `/mnt/hdd-cloud/Music` (683 GB) and `/mnt/hdd-media/Music` (34 GB) into `/mnt/hdd-music/jellyfin/music/`.
+  - Purged leftover migration staging folders (`from-sdb` and `from-sdd`) on `/mnt/hdd-music` (`/dev/sdc1`), recovering over 580 GB of staging clutter.
+  - Slashed `hdd-cloud` disk usage from 90% (96 GB free) down to 11% (779 GB free), leaving ample room for Nextcloud and sync storage.
+  - Installed `rclone` (v1.60.1) and `restic` (v0.16.4) on `docker-host` (LXC 100).
+  - Enhanced `scripts/backup.sh` with automatic target fallback to `/mnt/hdd-music/backups` and optional offsite sync to Google Drive (`gdrive:homelab-backups`) via rclone. Verified successful test backup run in 2 seconds.
+  - Documented architectural decision to integrate backup and watchdog management into Homelab Dashboard / Cockpit rather than standalone systemd timers.
+
 ## 2026-09-12 (21)
 - **Updated Homelab Cockpit to Commit fbd5e84**:
   - Pulled commit `fbd5e84` on [srytmj/homelab-dashboard](https://github.com/srytmj/homelab-dashboard).
