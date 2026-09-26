@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (160)
+- **Deployed Blog Reader Lightbox & Zoom Feature for Diagrams and Images.**
+  - Added interactive image lightbox and pan/zoom SVG diagram viewer (`DiagramLightbox.svelte` and `ImageLightbox.svelte`) to blog post reader in `portofolio` (`2cc6891`).
+  - Diagram lightbox supports smooth drag pan, zoom controls (0.5x to 4x), wheel zoom, reset, keyboard shortcuts (`Esc`, `+`, `-`, `0`, `r`), and tactical theme integration.
+  - Image lightbox enables modal inspection and keyboard arrow navigation across post figures.
+  - Built and deployed one-shot on `personal-hosts` container `portofolio` (port 3080). Verified HTTP 200 live status.
+
 ## 2026-09-27 (159)
 - **Updated `portofolio` container on `personal-hosts` to latest upstream (`92da0a0`).**
   - Pulled latest commits from `https://github.com/samsmon/portofolio.git` (`92da0a0: fix(blog): tampilkan tanggal post sesuai front matter, bukan utc`, including AWS glossary, re/Start week 7, and CCP/AI Practitioner exam prep articles).
