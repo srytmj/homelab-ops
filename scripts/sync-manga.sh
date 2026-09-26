@@ -89,7 +89,7 @@ convert_lang() {
     name=$(basename "$dir")
     cbz="$parent/$name.cbz"
     if [ -f "$cbz" ]; then
-      echo "SKIP (cbz sudah ada): $dir" >> "$LOGFILE"
+      echo "SKIP (cbz already exists): $dir" >> "$LOGFILE"
       continue
     fi
     (cd "$dir" && zip -0 -r -q "$cbz" .) 2>> "$LOGFILE"
@@ -97,7 +97,7 @@ convert_lang() {
       rm -rf "$dir"
       echo "OK: $dir" >> "$LOGFILE"
     else
-      echo "GAGAL verifikasi, folder asli dipertahankan: $dir" >> "$LOGFILE"
+      echo "FAILED verification, preserving original folder: $dir" >> "$LOGFILE"
       rm -f "$cbz"
     fi
   done
@@ -107,7 +107,7 @@ if [ "$DO_CONVERT" -eq 1 ]; then
   log "Step 1: converting raw inbox folders to .cbz..."
   convert_lang "$INBOX_DIR/Japanese"
   convert_lang "$INBOX_DIR/English"
-  log "Step 1 done. See $LOGFILE for per-title OK/SKIP/GAGAL detail."
+  log "Step 1 done. See $LOGFILE for per-title OK/SKIP/FAILED detail."
 fi
 
 # --- Step 2: merge inbox .cbz into the master archive (hdd-backup) -----------------------

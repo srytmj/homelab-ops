@@ -126,18 +126,18 @@ Anime/THE IDOLM@STER ~/
 
 ### Visual & Metadata Classification Guide for Gakumas
 
-| Kategori Rilis | Karakteristik Cover Art | Ciri Audio & Metadata | Contoh Lagu | Folder Penempatan & Naming |
+| Release Category | Cover Art Characteristics | Audio & Metadata Traits | Song Examples | Target Folder & Naming |
 | :--- | :--- | :--- | :--- | :--- |
-| **Birthday Singles** | Ilustrasi selebrasi ulang tahun, idol mengenakan pakaian pesta/kasual hangat (*warm celebratory pastel tones*), memegang hadiah/kue/bunga. | Dirilis tepat di tanggal ulang tahun idol. 2 track (`[Vocal]`, `[Instrumental]`). | `叶えたい、ことばかり` (Temari), `Wake up!!` (Lilja), `憧れをいっぱい` (China) | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
-| **1st Solo (Debut Song)** | Potret tunggal idol mengenakan **seragam sekolah resmi Hatsuboshi Gakuen** atau kostum debut awal dengan tipografi judul lagu minimalis/elegan. | Lagu debut solo pertama karakter. Format Web Hi-Res 96kHz/24bit. 2 track. | `Fighting My Way` (Saki), `Luna say maybe` (Temari), `世界一可愛い私` (Kotone), `Fluorite` (Mao), `白線` (Lilja) | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
-| **Physical CD Singles** | Artwork cover debut solo yang disesuaikan untuk jewel case CD, dilengkapi buklet cetak fisik (`BK/`), OBI, dan log rip EAC (`BNEI-*.log`). | Audio resolusi CD-DA standar **44.1kHz/16-bit**. Berisi **6 track lengkap** (Solo Song + Solo Ver `初` + Solo Ver `Campus mode!!` + 3 Instrumental). | `花海咲季 1stシングル「Fighting My Way」[FLAC+BK]` | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
-| **Solo Special (True End)** | Ilustrasi panggung dramatis dan intens (*dynamic stage lighting*, pose panggung ekspresif) yang menandakan pencapaian True End Produce Arc. | Lagu solo kedua karakter dari game. 2 track (`[Vocal]`, `[Instrumental]`). | `Boom Boom Pow` (Saki), `アイヴイ` (Temari), `Yellow Big Bang!` (Kotone), `Feel Jewel Dream` (Mao), `コントラスト` (Hiro) | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
-| **Solo Updates (2025+)** | Ilustrasi kostum panggung kartu SSR terbaru atau kartu cerita baru dari update game berkala. | Rilis digital Web Hi-Res 96kHz/24bit dengan penamaan folder diawali `[YYYY.MM.DD]`. | `Try it now`, `Sweet Magic`, `Top Secret`, `ときめきのソルフェージュ`, `Ride on Beat`, `Kira Kira`, `極光` | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
-| **Duo Releases** | Artwork menampilkan 2 karakter idol dengan interaksi/kostum tematik panggung. | Dinyanyikan oleh 2 karakter. Format penamaan: `[Artist 1・Artist 2] - [Title] [Format]` (urutan alfabetis). | *(Reserved)* | `02. Duo/[Artist 1・Artist 2] - [Title] [Format]` |
-| **Event Songs (Trio Ver)** | Menampilkan **3 karakter idol sekaligus** dalam satu ilustrasi mengenakan kostum serasi sesuai tema event/musim di dalam game. | Dinyanyikan oleh 4 Trio Resmi Gakumas: <br>• Trio 1: Saki, Temari, Kotone<br>• Trio 2: Lilja, China, Rinami<br>• Trio 3: Mao, Sumika, Hiro<br>• Trio 4: Ume, Misuzu, Sena | `ENDLESS DANCE`, `Howling over the World`, `がむしゃらに行こう！`, `ミラクルナナウ(ﾟ∀ﾟ)！`, `古今東西ちょちょいのちょい` | `03. Trio/[Artist 1・Artist 2・Artist 3] - [Title] [Format]` <br>*(Artis wajib alfabetis)* |
-| **All Stars & Seasons** | Artwork massal/seluruh murid (*all cast ensemble*), logo Hatsuboshi Gakuen, atau ilustrasi musiman (pantai/musim panas, kembang api/musim gugur, halloween, valentine, sakura). | Lagu kebangsaan akademi atau single festival musiman yang dibawakan secara kolektif. | `初 HAJIME`, `Campus mode!!`, `キミとセミブルー`, `冠菊`, `仮装狂騒曲`, `ハッピーミルフィーユ`, `桜フォトグラフ`, `SUPREMACY`, `ナイワ` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
-| **Official Units** | Logo unit resmi dan busana seragam unit panggung. | Rilis unit resmi dalam game. | `Begrazia - Star-mine` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
-| **Media Tie-in (Manga)** | Artwork gaya komik/manga, sampul tankobon, disertai booklet scan. | CD bundling komik resmi. | `GOLD RUSH (1) オリジナルCD「かちドキ」` | `01. Solo/[Karakter]/[Artist] - [Title] [Format]` |
+| **Birthday Singles** | Birthday celebration artwork: idol in party or warm casual attire (*warm celebratory pastel tones*), holding gifts/cake/flowers. | Released on the idol's birthday. 2 tracks (`[Vocal]`, `[Instrumental]`). | `叶えたい、ことばかり` (Temari), `Wake up!!` (Lilja), `憧れをいっぱい` (China) | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
+| **1st Solo (Debut Song)** | Single idol portrait wearing **official Hatsuboshi Gakuen uniform** or debut costume with minimalist/elegant typography. | Character's first debut solo track. Web Hi-Res 96kHz/24bit format. 2 tracks. | `Fighting My Way` (Saki), `Luna say maybe` (Temari), `世界一可愛い私` (Kotone), `Fluorite` (Mao), `白線` (Lilja) | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
+| **Physical CD Singles** | Jewel-case CD artwork layout, complete with physical printed booklet (`BK/`), OBI, and EAC rip log (`BNEI-*.log`). | Standard CD-DA **44.1kHz/16-bit** resolution. Contains **6 full tracks** (Solo Song + Solo Ver `初` + Solo Ver `Campus mode!!` + 3 Instrumentals). | `花海咲季 1stシングル「Fighting My Way」[FLAC+BK]` | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
+| **Solo Special (True End)** | Dramatic, intense stage illustration (*dynamic stage lighting*, expressive stage pose) marking True End Produce Arc achievement. | Character's second solo song from game. 2 tracks (`[Vocal]`, `[Instrumental]`). | `Boom Boom Pow` (Saki), `アイヴイ` (Temari), `Yellow Big Bang!` (Kotone), `Feel Jewel Dream` (Mao), `コントラスト` (Hiro) | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
+| **Solo Updates (2025+)** | Latest SSR stage costume illustrations or periodic story card updates from game cycles. | Digital Web Hi-Res 96kHz/24bit releases. | `Try it now`, `Sweet Magic`, `Top Secret`, `ときめきのソルフェージュ`, `Ride on Beat`, `Kira Kira`, `極光` | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
+| **Duo Releases** | Artwork featuring 2 idol characters with stage/thematic interaction. | Performed by 2 characters. Naming format: `[Artist 1・Artist 2] - [Title] [Format]` (alphabetical order). | *(Reserved)* | `02. Duo/[Artist 1・Artist 2] - [Title] [Format]` |
+| **Event Songs (Trio Ver)** | Features **3 idol characters** in matching event/seasonal costume theme from the game. | Sung by 4 official Gakumas trios: <br>• Trio 1: Saki, Temari, Kotone<br>• Trio 2: Lilja, China, Rinami<br>• Trio 3: Mao, Sumika, Hiro<br>• Trio 4: Ume, Misuzu, Sena | `ENDLESS DANCE`, `Howling over the World`, `がむしゃらに行こう！`, `ミラクルナナウ(ﾟ∀ﾟ)！`, `古今東西ちょちょいのちょい` | `03. Trio/[Artist 1・Artist 2・Artist 3] - [Title] [Format]` <br>*(Alphabetical artist order mandatory)* |
+| **All Stars & Seasons** | Mass ensemble artwork (*all cast ensemble*), Hatsuboshi Gakuen logo, or seasonal event art (beach/summer, fireworks/autumn, halloween, valentine, sakura). | Academy anthem or seasonal festival single performed collectively. | `初 HAJIME`, `Campus mode!!`, `キミとセミブルー`, `冠菊`, `仮装狂騒曲`, `ハッピーミルフィーユ`, `桜フォトグラフ`, `SUPREMACY`, `ナイワ` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
+| **Official Units** | Official unit logo and unified stage uniform. | In-game official unit releases. | `Begrazia - Star-mine` | `04. All Stars & Units/[Artist] - [Title] [Format]` |
+| **Media Tie-in (Manga)** | Comic/manga style cover, tankobon art with booklet scans. | Official manga tie-in bundled CD. | `GOLD RUSH (1) オリジナルCD「かちドキ」` | `01. Solo/[Character]/[Artist] - [Title] [Format]` |
 
 ---
 
@@ -162,7 +162,7 @@ Anime/ご注文はうさぎですか？？ (Gochuumon wa Usagi Desu ka) ~/
 
 ## 5. Universal Music Folder Reorganization Framework (Standard Operating Procedure)
 
-Untuk memastikan konsistensi jangka panjang setiap kali merapikan folder musik (baik di `/mnt/hdd-backup/download/`, staging `Torrent/`, maupun master `Lossless/`), seluruh proses wajib mengikuti **Framework Baku 5-Langkah** berikut:
+To ensure long-term consistency across all music curation tasks (in `/mnt/hdd-backup/download/`, staging `Torrent/`, or master `Lossless/`), all operations must strictly adhere to the following **5-Step Standard Framework**:
 
 ```
 [Auditing & Metadata Extraction] ──> [Canonical Classification] ──> [Sanitization & Pure Naming] ──> [Dry-Run Plan & User Approval] ──> [Server-Side Execution]
@@ -170,32 +170,32 @@ Untuk memastikan konsistensi jangka panjang setiap kali merapikan folder musik (
 
 ### 1. Hierarchy & Folder Naming Rules (Strict)
 
-Setiap album atau single harus ditempatkan dengan skema:
+Every album or single must be placed strictly according to the scheme:
 ```
 [Category]/[Artist Folder] ~/[Album Folder]/
 ```
 
 #### A. Category Selection (`[Category]`)
-Kategori utama hanya boleh salah satu dari:
-- `Anime/`: Musik soundtrack anime, character songs, atau franchise resmi (misal: `THE IDOLM@STER ~`, `Uma Musume ~`, `ご注文はうさぎですか？？ ~`).
-- `Vtuber/`: Rilis dari talent virtual / agensi vtuber (Hololive, Nijisanji, Kamitsubaki Studio, RK Music, VSPO, dsb.).
-- `Vocaloid/`: Rilis yang berbasis VOCALOID/CeVIO/Synthesizer V (Hatsune Miku, Kikuo, DECO*27, dsb.).
-- `Doujinshi/`: Artis indie/circle doujin non-komersial/M3 rilis (misal: `nayuta ~`, `Room97 ~`, `*Luna ~`).
-- `J-Pop/`: Artis/band musik Jepang umum (komersial) di luar kategori anime/vtuber/vocaloid.
-- `Global/`: Artis non-Jepang (Western, K-Pop, dsb.).
+The top-level category must strictly be one of:
+- `Anime/`: Anime OSTs, character songs, and official multimedia franchise umbrellas (e.g. `THE IDOLM@STER ~`, `Uma Musume ~`, `Gochuumon wa Usagi Desu ka ~`).
+- `Vtuber/`: Virtual talents and VTuber agencies (Hololive, Nijisanji, Kamitsubaki Studio, RK Music, VSPO, etc.).
+- `Vocaloid/`: VOCALOID, CeVIO, or Synthesizer V releases (Hatsune Miku, Kikuo, DECO*27, etc.).
+- `Doujinshi/`: Indie circles, doujin artists, and non-commercial/M3 releases (e.g. `nayuta ~`, `Room97 ~`, `＊Luna ~`).
+- `J-Pop/`: General commercial Japanese pop/rock artists outside anime/vtuber/vocaloid umbrellas.
+- `Global/`: Non-Japanese artists (Western, K-Pop, soundtrack, etc.).
 
 #### B. Artist & Franchise Folder Naming (`[Artist Folder] ~`)
-- **Akhiran Wajib**: Folder artis/circle/franchise **WAJIB** berakhiran spasi tilde (` ~`).
-- **Artis Reguler (Bukan Franchise)**:
-  - Artis Jepang: Wajib berpola `Romaji (Kanji/Hira/Kana) ~` (misal `Aoki Hina (青木陽菜) ~`, `Natsunose (ナツノセ) ~`, `Hoshimachi Suisei (星街すいせい) ~`, `ZUTOMAYO (ずっと真夜中でいいのに。) ~`).
-  - Artis Alfabet / Western: Nama resmi tanpa kurung (`YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`).
+- **Mandatory Tilde Suffix**: All artist, circle, and franchise directories **MUST** end with a tilde space (` ~`).
+- **Standard Artists (Non-Franchise)**:
+  - Japanese Artists: Must follow `Romaji (Kanji/Hira/Kana) ~` (e.g. `Aoki Hina (青木陽菜) ~`, `Natsunose (ナツノセ) ~`, `Hoshimachi Suisei (星街すいせい) ~`, `ZUTOMAYO (ずっと真夜中でいいのに。) ~`).
+  - Latin/Western Artists: Official name without parentheses (e.g. `YOASOBI ~`, `Aimer ~`, `Eve ~`, `Taylor Swift ~`).
   
 #### C. The Canonical Franchise Umbrellas (`Anime/[Franchise] ~/`)
-Semua sub-unit, character song, soundtrack, dan idol di bawah franchise multimedia/anime/game **DILARANG** menjadi folder artis lepasan di root `Anime/`. Seluruhnya **WAJIB** mengikuti format **Romaji / Global Text (Kanji/Hira/Kana) ~**:
+All sub-units, character songs, soundtracks, and individual idols under multimedia, anime, or gaming franchises are **STRICTLY FORBIDDEN** from floating loose in `Anime/`. All of them **MUST** be nested under their canonical **Romaji / Global Text (Kanji/Hira/Kana) ~** umbrella:
 
 1. `Anime/THE IDOLM@STER (アイドルマスター) ~/` (Gakumas, Shiny Colors, Cinderella Girls, Million Live, vα-liv)
-2. `Anime/Uma Musume (ウマ娘) ~/` (WINNING LIVE, ANIMATION DERBY, SOLO VOCAL, dll.)
-3. `Anime/BanG Dream! (バンドリ！) ~/` (MyGO!!!!!, Ave Mujica, Roselia, Poppin'Party, Pastel＊Palettes, 夢限大みゅーたいぷ, dll.)
+2. `Anime/Uma Musume (ウマ娘) ~/` (WINNING LIVE, ANIMATION DERBY, SOLO VOCAL, etc.)
+3. `Anime/BanG Dream! (バンドリ！) ~/` (MyGO!!!!!, Ave Mujica, Roselia, Poppin'Party, Pastel＊Palettes, Mugendai Mewtype, etc.)
 4. `Anime/Love Live! (ラブライブ！) ~/` (Liella!, Aqours, Nijigaku, Hasunosora, Muse)
 5. `Anime/D4DJ ~/` (Happy Around!, Peaky P-key, Photon Maiden, Merm4id, Rondo, Lyrical Lily)
 6. `Anime/IDOLY PRIDE (アイドリープライド) ~/` (Sunny Peace, Tsuki no Tempest, TRINITYAiLE, LizNoir)
@@ -222,47 +222,46 @@ Semua sub-unit, character song, soundtrack, dan idol di bawah franchise multimed
 
 > [!IMPORTANT]
 > **Strict Naming Standard & Anti-Split Policy**:
-> 1. Pola nama folder di root **WAJIB KONSISTEN**: `Romaji/Global (Teks Asli Jepang) ~`. DILARANG membalik menjadi teks Jepang dulu baru Romaji.
-> 2. Seluruh variasi nama lama (misal `Arknight ~` vs `アークナイツ ~`, `DENONBU ~` vs `電音部 ~`, `GIRLS BAND CRY ~` vs `ガールズバンドクライ ~`) **WAJIB di-merge** ke nama kanonik di atas, dan folder lama yang menyimpang harus dibersihkan.
+> 1. Directory names at root **MUST BE CONSISTENT**: `Romaji/Global (Original Japanese) ~`. Never reverse this order.
+> 2. All legacy variations (e.g. `Arknight ~` vs `アークナイツ ~`, `DENONBU ~` vs `電音部 ~`, `GIRLS BAND CRY ~` vs `ガールズバンドクライ ~`) **MUST be merged** into the canonical names above, and outdated folders pruned.
 
-
-#### C. Album / Single Folder Naming (`[Album Folder]`)
+#### D. Album / Single Folder Naming (`[Album Folder]`)
 - **Pure Album Name Rule**:
-  - **TIDAK BOLEH** ada tag tanggal rilis: hapus `[YYYY.MM.DD]`, `[YYYY-MM-DD]`, `[YYMMDD]`.
-  - **TIDAK BOLEH** ada tahun rilis dalam kurung: hapus `(2025)`, `(2026)`.
-  - **TIDAK BOLEH** ada format audio, resolusi, atau sumber: hapus `[FLAC]`, `[FLAC 24bit/48kHz]`, `[FLAC 96kHz／24bit]`, `[WEB-FLAC]`, `[Hi-Res]`, `[1st Single CD-FLAC]`, `[MP3 320k]`.
-  - **TIDAK BOLEH** ada prefix nama artis duplikat di nama album jika sudah di dalam folder artis (kecuali album berlabel self-titled).
-  - **Hasil**: Murni nama album/single yang bersih.
-    - *Contoh salah*: `[2026.05.13] 青木陽菜 1stミニアルバム「BLAZE」[WEB-FLAC 24bit/48kHz]`
-    - *Contoh benar*: `BLAZE` (atau `1stミニアルバム「BLAZE」` jika nama rilis resminya menyertakan judul mini album).
-    - *Contoh salah*: `(2024.11.20) 最強未来衝動 [FLAC]`
-    - *Contoh benar*: `最強未来衝動`
+  - **NO release date tags**: strip `[YYYY.MM.DD]`, `[YYYY-MM-DD]`, `[YYMMDD]`.
+  - **NO release years in parentheses**: strip `(2025)`, `(2026)`.
+  - **NO audio format, bitrate, or source tags**: strip `[FLAC]`, `[FLAC 24bit/48kHz]`, `[FLAC 96kHz／24bit]`, `[WEB-FLAC]`, `[Hi-Res]`, `[1st Single CD-FLAC]`, `[MP3 320k]`.
+  - **NO duplicate artist name prefixes** in album names when already located inside an artist directory (unless official self-titled releases).
+  - **Result**: Clean, pure album/single title.
+    - *Incorrect*: `[2026.05.13] 青木陽菜 1stミニアルバム「BLAZE」[WEB-FLAC 24bit/48kHz]`
+    - *Correct*: `BLAZE` (or `1stミニアルバム「BLAZE」` if the official commercial title includes the mini-album prefix).
+    - *Incorrect*: `(2024.11.20) 最強未来衝動 [FLAC]`
+    - *Correct*: `最強未来衝動`
 
 ---
 
-### 2. Standar Alur Eksekusi (Framework 5-Langkah)
+### 2. Standard 5-Step Execution Workflow
 
-1. **Langkah 1: Ekstraksi Metadata Vorbis Tag Server-Side**:
-   - Jangan pernah percaya nama folder lama (karena sering kali hasil unrar/unpack otomatis yang rusak, seperti `100 ~`, `1stBLAZEFLAC ~`).
-   - Ekstrak tag `ARTIST`, `ALBUM`, `TITLE` langsung dari file audio (`.flac`) via script server-side (`mutagen`).
+1. **Step 1: Server-Side Vorbis Tag Metadata Extraction**:
+   - Never trust legacy directory names (which often stem from broken auto-unrar/unpack pipelines like `100 ~`, `1stBLAZEFLAC ~`).
+   - Extract `ARTIST`, `ALBUM`, and `TITLE` directly from audio files (`.flac`) via server-side tools (`metaflac` or `mutagen`).
 
-2. **Langkah 2: Pemetaan Kategori & Nama Normalisasi**:
-   - Cocokkan nama artis dengan database alias dan `configs/music_grouping_rules.json`.
-   - Konversi artis Jepang ke format baku: `Romaji (Original) ~`.
-   - Bersihkan string nama album dari regex format/tanggal menjadi `Pure Album Name`.
+2. **Step 2: Category Mapping & Normalized Naming**:
+   - Match artist names against alias databases and `configs/music_grouping_rules.json`.
+   - Convert Japanese artist names to canonical format: `Romaji (Original) ~`.
+   - Sanitize album names from date/codec regex into `Pure Album Name`.
 
-3. **Langkah 3: Pembuatan Rencana Dry-Run (`reorganize_plan.json`)**:
-   - Script menghasilkan JSON yang memetakan jalur asal (`source_dir`) ke jalur tujuan (`target_dir`).
-   - Script memvalidasi potensi konflik (jika ada 2 album bernama sama di satu artis).
+3. **Step 3: Dry-Run Plan Generation (`reorganize_plan.json`)**:
+   - The script outputs a JSON mapping source directories (`source_dir`) to target directories (`target_dir`).
+   - Validates potential collisions (e.g. duplicate album titles for the same artist).
 
-4. **Langkah 4: Konfirmasi Wajib User (Rule 0)**:
-   - Sajikan sampel pemetaan (Before ➔ After) ke user.
-   - Laporkan jumlah album yang akan dipindah dan re-kategorisasi (misal: VTuber yang keluar dari `J-Pop/`).
-   - **Tunggu persetujuan user sebelum melakukan `mv` atau perubahan fisik apapun.**
+4. **Step 4: Mandatory User Confirmation (Rule 0)**:
+   - Present a clear sample mapping (Before ➔ After) to the user.
+   - Report the number of albums to be relocated and re-categorized (e.g. VTubers moving out of `J-Pop/`).
+   - **Always await explicit user approval before executing any filesystem mutations (`mv`, `rm`).**
 
-5. **Langkah 5: Eksekusi Server-Side di Background (Rule 4)**:
-   - Jalankan proses pemindahan via script detached server-side (`nohup ... &`).
-   - Terapkan permission Linux yang benar: `chown -R 100000:100000` dan `chmod -R 775/664`.
-   - Hapus folder-folder kosong sisa.
-   - Update database SQLite `catalog.sqlite`.
+5. **Step 5: Server-Side Background Execution (Rule 2 & 4)**:
+   - Run batch filesystem mutations using a detached server-side process (`nohup ... &`).
+   - Apply strict Linux permissions: `chown -R 100000:100000` and `chmod -R 775/664`.
+   - Prune empty remnant directories.
+   - Refresh master catalog via `python3 scripts/update_catalog.py`.
 

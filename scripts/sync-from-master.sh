@@ -89,11 +89,11 @@ while IFS='|' read -r media master target; do
   TOTAL_CHANGED=$((TOTAL_CHANGED + changed))
   TOTAL_DELETED=$((TOTAL_DELETED + deleted))
 
-  log "[$media] baru: $added | beda/misplaced: $changed | dihapus: $deleted"
+  log "[$media] added: $added | changed/misplaced: $changed | deleted: $deleted"
 done < "$CONFIG"
 
 log "=========================================================="
-log "RINGKASAN TOTAL: baru=$TOTAL_ADDED beda/misplaced=$TOTAL_CHANGED dihapus=$TOTAL_DELETED"
-[ "$REPORT_ONLY" -eq 1 ] && log "(mode --report-only, tidak ada perubahan nyata dilakukan)"
+log "TOTAL SUMMARY: added=$TOTAL_ADDED changed/misplaced=$TOTAL_CHANGED deleted=$TOTAL_DELETED"
+[ "$REPORT_ONLY" -eq 1 ] && log "(mode --report-only, no actual changes performed)"
 log "sync-from-master.sh finished."
 log "=========================================================="

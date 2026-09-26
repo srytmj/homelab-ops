@@ -26,11 +26,11 @@ Never assume the state of the server — always verify via SSH before making cha
 Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, etc.) operate on this repository in parallel. There is NO shared runtime memory between different AI sessions. **Git + `CURRENT_OPS.md` + `CHANGELOG.md` is the sole source of truth.**
 
 ### 🛑 0. SESSION SCOPE & USER APPROVAL RULE (STRICT)
-- **Homelab-Ops Session Boundary**: Sesi di repo ini murni untuk **admin, infrastruktur, ops, monitoring, dan maintenance homelab**. JANGAN membuat/scaffold aplikasi atau codebase baru dari nol di dalam repo/sesi ini. Pembuatan project/aplikasi baru harus dikerjakan di sesi/workspace terpisah oleh user.
+- **Homelab-Ops Session Boundary**: Sessions in this repository are strictly for **homelab administration, infrastructure, operations, monitoring, and maintenance**. DO NOT create or scaffold new applications or codebases from scratch inside this repository/session. Creating new projects/applications must be done in a separate session/workspace by the user.
 - **Mandatory "Analyze First, Confirm Before Execution" Rule**:
-  - Untuk setiap permintaan dari user (baik penghapusan file, modifikasi folder, perubahan konfigurasi, perpindahan data, restart service, dsb.): **AI WAJIB melakukan analisa terlebih dahulu dan menyajikan rencananya ke user**.
-  - **DILARANG KERAS** mengeksekusi aksi perubahan/penghapusan/mutasi filesystem atau container secara langsung tanpa **meminta konfirmasi dan persetujuan eksplisit dari user terlebih dahulu**.
-- **Mandatory User Confirmation Before Editing Code/Containers**: Jika ada kebutuhan untuk mengubah kode aplikasi, mengedit konfigurasi project yang sedang berjalan, memodifikasi environment container, atau merestart/menghapus container, **WAJIB konsultasi dan minta izin eksplisit kepada USER terlebih dahulu**. Jangan pernah bypass atau langsung coding/deploy sendiri tanpa persetujuan user.
+  - For every user request (whether deleting files, modifying directories, changing configurations, moving data, restarting services, etc.): **AI MUST perform analysis first and present the plan to the user**.
+  - **STRICTLY FORBIDDEN** to execute changes, deletions, or filesystem/container mutations directly without **requesting explicit confirmation and approval from the user beforehand**.
+- **Mandatory User Confirmation Before Editing Code/Containers**: If there is a need to alter application code, edit running project configurations, modify container environments, or restart/remove containers, **it is MANDATORY to consult and obtain explicit permission from the USER first**. Never bypass this or directly code/deploy without user approval.
 
 ### 🚨 1. TASK REGISTRY & LOCKING (`CURRENT_OPS.md`)
 - **Claim Before Touch**: If you are about to modify a container, service configuration (`configs/docker-compose/*.yml`), or critical doc, record your active task and lock target in `CURRENT_OPS.md`:
@@ -49,14 +49,14 @@ Multiple AI agents (Claude Code, Google Antigravity/Gemini, Roo Code, Cursor, et
    - Restrict log outputs (`docker logs --tail 30 ...`, `git log -n 5`, `docker ps --format ...`).
    - Keep conversational explanations direct, concise, and factual.
 4. **Strict Server-Side Background Execution for Long-Running Tasks (Zero Local Load & Non-Blocking AI Session)**:
-   - **WAJIB** mengeksekusi semua operasi yang memakan waktu lama (seperti audit menyeluruh ribuan file, rsync besar, scanning tagging, transcoding, dsb.) **langsung di server-side sebagai background process independen** (`nohup python3 /root/... > /root/task.log 2>&1 &` atau via systemd).
-   - **Non-blocking AI Session**: Sesi AI agent **TIDAK BOLEH** dibuat nge-hang atau menunggu berjam-jam di foreground. Begitu background task di server sudah berjalan (`nohup`), AI agent segera melaporkan bahwa task telah aktif di server, sehingga sesi interaksi AI bisa langsung lanjut mengerjakan task atau pertanyaan lain tanpa tertahan.
-   - Sesi PC user hanya sebagai client pemantau ringan (tanpa beban CPU/RAM/SMB lokal). Progress server tetap berjalan terus bahkan jika sesi AI atau PC dimatikan.
+   - **MANDATORY** to execute all long-running operations (such as auditing thousands of files, large rsync jobs, tagging scans, transcoding, etc.) **directly on the server side as independent background processes** (`nohup python3 /root/... > /root/task.log 2>&1 &` or via systemd).
+   - **Non-blocking AI Session**: The AI agent session **MUST NOT** hang or wait for hours in the foreground. Once a background task is running on the server (`nohup`), the AI agent must immediately report that the task is active, allowing the session to continue handling other questions or tasks without obstruction.
+   - The user's PC session acts purely as a lightweight monitoring client (zero local CPU/RAM/SMB load). Server progress continues unimpeded even if the AI session or local PC is powered off.
 5. **Strict No-Polling Rule (Prevent ACP RPC Deadlock & Cancel Failures)**:
-   - **DILARANG KERAS** melakukan loop polling aktif di bash (`while ...; do sleep 2; done`, `sleep X && check`).
-   - **DILARANG KERAS** memanggil tool secara berulang-ulang (`view_file` pada task log, loop `ps aux`, dll.) saat menunggu perintah panjang (`docker build`, `docker pull`, download besar).
-   - Begitu sebuah command beralih ke background task async, **AI WAJIB SEGERA BERHENTI MEMANGGIL TOOL**. Biarkan event reactive wakeup T3 Code yang membangunkan secara otomatis saat selesai.
-   - Melanggar aturan ini membanjiri antrean JSON-RPC ACP harness hingga freeze dan gagal merespons sinyal cancel user (`ACP transport operation call-rpc failed for method session/cancel`).
+   - **STRICTLY FORBIDDEN** to run active polling loops in bash (`while ...; do sleep 2; done`, `sleep X && check`).
+   - **STRICTLY FORBIDDEN** to make repetitive tool calls (`view_file` on task logs, loop `ps aux`, etc.) while waiting for long-running commands (`docker build`, `docker pull`, large downloads).
+   - Once a command transitions to an asynchronous background task, **THE AI MUST IMMEDIATELY STOP CALLING TOOLS**. Let the reactive wakeup event automatically resume execution upon completion.
+   - Violating this rule floods the ACP JSON-RPC harness queue, causing freezes and failing to respond to user cancellation signals (`ACP transport operation call-rpc failed for method session/cancel`).
 
 ### 🛡️ 3. ANTI-HALLUCINATION & LIVE VERIFICATION
 1. **Never Hallucinate / Guess Server State**:

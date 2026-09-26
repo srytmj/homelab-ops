@@ -29,17 +29,17 @@ RUN=$(( $(cat "$COUNTFILE" 2>/dev/null || echo 0) + 1 ))
   BEFORE=$(smartctl -A "$DEV" 2>/dev/null | grep -i UDMA_CRC | awk '{print $NF}')
   echo "UDMA_CRC_Error_Count before: $BEFORE"
 
-  # Fase 1: ~12 menit scan random + streaming bareng
+  # Phase 1: ~12 minutes random scan + concurrent streaming
   END=$(( $(date +%s) + 720 ))
   while [ "$(date +%s)" -lt "$END" ]; do
     find "$MOUNT/music" -iname "*.flac" -size +50M 2>/dev/null | shuf -n 2 | xargs -I{} dd if={} of=/dev/null bs=1M 2>/dev/null
     find "$MOUNT/music" -type f 2>/dev/null | shuf -n 300 | xargs -I{} md5sum {} > /dev/null 2>&1
   done
-  echo "Fase 1 (scan+stream) selesai: $(date)"
+  echo "Phase 1 (scan+stream) finished: $(date)"
 
-  # Fase 2: ~1 jam simulasi puter musik beneran — baca satu file per satu dengan rate
-  # dibatasi (pv -L) kira-kira sekitar bitrate FLAC hi-res (~800KB/s), jadi durasi baca
-  # tiap file kurang lebih sama kayak durasi lagu aslinya, bukan burst-read-lalu-jeda.
+  # Phase 2: ~1 hour realistic music playback simulation — read one file at a time throttled
+  # (pv -L) around hi-res FLAC bitrate (~800KB/s), so read duration matches actual song duration
+  # rather than a burst-read-then-idle pattern.
   END2=$(( $(date +%s) + 3600 ))
   while [ "$(date +%s)" -lt "$END2" ]; do
     FILE=$(find "$MOUNT/music" -iname "*.flac" 2>/dev/null | shuf -n 1)
@@ -48,12 +48,12 @@ RUN=$(( $(cat "$COUNTFILE" 2>/dev/null || echo 0) + 1 ))
       pv -q -L 800k "$FILE" > /dev/null 2>/dev/null
     fi
   done
-  echo "Fase 2 (simulasi playback throttled) selesai: $(date)"
+  echo "Phase 2 (throttled playback simulation) finished: $(date)"
 
   AFTER=$(smartctl -A "$DEV" 2>/dev/null | grep -i UDMA_CRC | awk '{print $NF}')
   echo "UDMA_CRC_Error_Count after: $AFTER"
   if [ "$BEFORE" != "$AFTER" ]; then
-    echo "!!! PERINGATAN: UDMA_CRC_Error_Count NAIK dari $BEFORE ke $AFTER !!!"
+    echo "!!! WARNING: UDMA_CRC_Error_Count INCREASED from $BEFORE to $AFTER !!!"
   fi
   echo "===== $(date) - Run $RUN/7 DONE ====="
 
@@ -62,11 +62,11 @@ RUN=$(( $(cat "$COUNTFILE" 2>/dev/null || echo 0) + 1 ))
   if echo "$RUN" > "$COUNTFILE"; then
     echo "Counter updated: $RUN"
   else
-    echo "!!! GAGAL nulis counter ke $COUNTFILE !!!"
+    echo "!!! FAILED writing counter to $COUNTFILE !!!"
   fi
 
   if [ "$RUN" -ge 7 ]; then
-    echo "7 run selesai, self-removing cron job"
+    echo "7 runs complete, self-removing cron job"
     rm -f "$CRONFILE"
   fi
   echo

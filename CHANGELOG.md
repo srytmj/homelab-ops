@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (158)
+- **Repository-Wide English Language Consistency & Documentation Standardization.**
+  - Standardized all repository documentation, rules, operational guides, and automated scripts into 100% English.
+  - Fully translated `docs/music-standards.md` (Gakumas classification guides, 5-step SOP framework, naming conventions).
+  - Translated `docs/music-audit.md` (15-parameter Zero-Defect specifications, real-time update instructions) and updated `scripts/generate_music_scorecard.py` to output English scorecard metrics and annotations.
+  - Translated `CLAUDE.md`, `CURRENT_OPS.md`, `scripts/sync-from-master.sh`, `scripts/sync-manga.sh`, and `scripts/hdd_backup_daily_test.sh`, eliminating all mixed Indonesian/English text across the repository.
+
 ## 2026-09-27 (157)
 - **Purged legacy `yorha` references across infrastructure and standardized portfolio service/image/container naming to `portofolio`.**
   - Updated container on `personal-hosts` to latest upstream commit `fa8e91a` (Secret Source weeks 1-6 blog updates and VPC/IPv4 corrections).
