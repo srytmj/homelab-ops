@@ -1,0 +1,8 @@
+services:
+  portofolio:
+    build: .
+    image: portofolio:latest
+    container_name: portofolio
+    restart: unless-stopped
+    ports:
+      - "3080:80"

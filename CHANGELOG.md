@@ -2,6 +2,13 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (157)
+- **Purged legacy `yorha` references across infrastructure and standardized portfolio service/image/container naming to `portofolio`.**
+  - Updated container on `personal-hosts` to latest upstream commit `fa8e91a` (Secret Source weeks 1-6 blog updates and VPC/IPv4 corrections).
+  - Standardized Docker naming: renamed service from `portfolio` to `portofolio`, assigned canonical image tag `portofolio:latest` (replacing `portfolio-portfolio:latest`), and ensured alias `/opt/projects/portofolio -> /opt/projects/portfolio`.
+  - Cleaned up obsolete `yorha-portfolio` mentions across documentation (`docs/decisions.md`, `docs/roadmap.md`) and renamed `configs/docker-compose/portfolio.yml` to `configs/docker-compose/portofolio.yml`.
+  - Recreated container and verified live HTTP 200 response on port 3080.
+
 ## 2026-09-27 (156)
 - **Master Zero-Defect Audit Scorecard Standardization, Real-Time Systemd Automation, and Bit-Perfect ReplayGain 2.0 / EBU R128 Library Normalization.**
   - **Master Audit Scorecard Documentation & Real-Time Sync**:
