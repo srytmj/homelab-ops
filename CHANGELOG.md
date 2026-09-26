@@ -2,6 +2,25 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (151)
+- **Zero AIFF/WV/MP3 Files (100% FLAC Bit-Perfect Library), ONGEKI & nayuta Full Franchise Unification, Hi-Res 24-bit Upgrade, Clutter & Case Collision Elimination.**
+  - **Zero AIFF, WavPack & Non-FLAC Audio**:
+    - Converted all 115 AIFF files (`.aiff`, `.aif`) and 2 WavPack files (`.wv`) across 30 Shiny Colors albums into bit-perfect `.flac` with full tag preservation (Title, Artist, Album, Track, Disc, Composer, Copyright) and verified with `flac -t`.
+    - Purged redundant duplicate folder `01. BRILLI@NT WING/Spread the Wings!!`.
+    - Converted La Prière bonus track `Bonus Track.mp3` into canonical `08. mogetama.flac`.
+    - Achieved exactly **0 non-FLAC audio files** (0 WAV, 0 AIFF, 0 WV, 0 MP3) across `/mnt/hdd-backup/music/Lossless/`.
+  - **Franchise Unification & Quality Upgrades**:
+    - **ONGEKI (オンゲキ)**: Merged split folders into single canonical `Game/ONGEKI (オンゲキ) ~`. Upgraded `ONGEKI 6th Anniversary CD「Individual on parade!」` to 24-bit / 48kHz Hi-Res master (purged redundant 16-bit tracks). Un-nested `ONGEKI Collection/` and flattened `ONGEKI Sound Memory {ZMCZ-17041}/CD`. Cleaned date prefixes (`YYYY.MM.DD`) and standardized catalog numbers (`{CAT-NO}`) across 33 albums. Relocated `Game/SEGA Game Music ~` to `Game/` root and removed empty container.
+    - **nayuta (7uta.com)**: Consolidated all 17 albums from `J-Pop/7uta ~` into canonical `Doujinshi/nayuta ~` (22 albums total) and purged empty container.
+  - **Clutter, Duplicates & Case Collision Purge**:
+    - Purged 11 redundant duplicate MP3 files (Morfonica, Koko bonus tracks, Fuling Cat Mark).
+    - Purged 7 `.log` files (Mori Calliope, GBC, ZAQ, ONGEKI) and 3 `.accurip` clutter files.
+    - Resolved 13 case collision pairs (`cover.jpg` vs `Cover.jpg`, `COVER.jpg`) across Makeine, World Dai Star, Hololive, Shiny Colors ECHOES, UVERworld, Aimer, and Islet.
+  - **Storage & System Verification**:
+    - Disk free space surged to **136 GB free** (+12 GB net gain in round 151, +25 GB total gain).
+    - Master catalog refreshed: `25,825` total tracks; `Lossless.m3u8` regenerated: `23,155` tracks (100% FLAC).
+    - Permissions `775/664` applied and Samba reloaded.
+
 ## 2026-09-27 (150)
 - **Zero WAV Files (100% FLAC Bit-Perfect Library), Mojibake Correction, HoneyWorks/nayuta Re-homing, and Global Format Noise Purge.**
   - **Zero WAV Files & Bit-Perfect FLAC Conversion**:
