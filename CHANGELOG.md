@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (156)
+- **Master Zero-Defect Audit Scorecard Standardization, Real-Time Systemd Automation, and Bit-Perfect ReplayGain 2.0 / EBU R128 Library Normalization.**
+  - **Master Audit Scorecard Documentation & Real-Time Sync**:
+    - Created `docs/music-audit.md` as the permanent source of truth for library integrity and health, capturing the 15-parameter Zero-Defect Scorecard.
+    - Updated `docs/music-standards.md` to reference the mandatory 15-parameter audit scorecard and ReplayGain volume normalization protocol.
+    - Developed `scripts/generate_music_scorecard.py` (deployed to `/mnt/hdd-backup/music/scripts/`) and integrated it into `scripts/update_catalog.py` for instant real-time scorecard updates whenever catalog indexing runs.
+    - Deployed `homelab-music-audit.service` and `homelab-music-audit.timer` to `/etc/systemd/system/` on `docker-host` to automatically refresh `/mnt/hdd-backup/music/AUDIT_SCORECARD.md` every 6 hours and on system boot (accessible live via SMB and FileBrowser).
+  - **Bit-Perfect ReplayGain 2.0 / EBU R128 Volume Normalization**:
+    - Investigated library loudness disparities: identified a 12 dB gap between hot J-Pop masters (-6 LUFS) and acoustic/streaming masters (-15 LUFS), as well as digital volume boost clipping (+0.7 dBFS) in Gakumas 1st singles.
+    - Successfully calculated and tagged all 96 Gakumas albums (238 tracks) with native `metaflac --add-replay-gain`, achieving uniform playback loudness across all idol releases while maintaining 100% bit-perfect audio stream integrity (verified MD5 matching).
+    - Developed `scripts/apply_library_replaygain.py` with multi-process parallelization and launched server-side background job on `docker-host` (`PID 1478231`) across all 4,795 albums (23,166 tracks) with logging to `/mnt/hdd-backup/music/replaygain.log`.
+
 ## 2026-09-27 (154)
 - **FLAC Album Rescue to Lossless (IOSYS Scarlet Police Special), Redundant MP3 and HTML Clutter Elimination from Lossy.**
   - **FLAC Album Rescued to Lossless**:

@@ -114,3 +114,13 @@ print(f"  -> Generated {lossy_m3u8} ({lossy_cnt} tracks)")
 
 conn.close()
 print("All catalog & playlist operations completed successfully.")
+
+# Trigger Real-Time Master Zero-Defect Audit Scorecard Update
+scorecard_script = MUSIC_ROOT / 'scripts' / 'generate_music_scorecard.py'
+if scorecard_script.exists():
+    print("\nTriggering Master Zero-Defect Scorecard Generator...")
+    try:
+        import subprocess
+        subprocess.run(["python3", str(scorecard_script), "--write-storage"], check=False)
+    except Exception as e:
+        print(f"Warning: could not run scorecard generator: {e}")

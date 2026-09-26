@@ -1,0 +1,8 @@
+[Unit]
+Description=Homelab Music Master Zero-Defect Audit & Scorecard Generator
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /mnt/hdd-backup/music/scripts/generate_music_scorecard.py --write-storage
+User=root

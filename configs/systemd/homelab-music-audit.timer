@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Homelab Music Audit every 6 hours and on boot
+
+[Timer]
+OnBootSec=15min
+OnCalendar=*-*-* 00,06,12,18:00:00
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

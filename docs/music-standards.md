@@ -46,6 +46,11 @@
    8. **Permissions & Catalog Indexing**:
       - Execute `chown -R 100000:100000` and `chmod -R 775` (directories) / `664` (files) on all newly added paths to ensure seamless Windows SMB read/write access.
       - Execute `python3 scripts/update_catalog.py` to refresh `/mnt/hdd-backup/music/catalog.sqlite`.
+   9. **Master Zero-Defect Audit Verification**:
+      - After every reorganization, ingestion, or tag update, verify that the library maintains 100% Zero-Defect status against all 15 audit parameters in [`docs/music-audit.md`](music-audit.md) via `python3 scripts/generate_music_scorecard.py --write-storage`.
+   10. **ReplayGain 2.0 (EBU R128) Volume Normalization**:
+      - To eliminate volume discrepancies between modern loudness-war masters (-6 LUFS) and acoustic/streaming masters (-15 LUFS) without mutating raw audio, write non-destructive ReplayGain Vorbis metadata tags (`REPLAYGAIN_TRACK_GAIN`, `REPLAYGAIN_ALBUM_GAIN`) via `metaflac --add-replay-gain`.
+      - Raw PCM audio streams MUST remain 100% pure and bit-perfect (verified MD5 matching). Never apply destructive volume scaling or re-encoding.
 
 ---
 
