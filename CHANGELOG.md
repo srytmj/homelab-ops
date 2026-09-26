@@ -2,6 +2,20 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (152)
+- **Zero In-Album Playlist Clutter, Wrapper Un-nesting (GEMS COMPANY & Princess Letter(s)!), Pure Date Normalization, and Cross-Library Redundancy Elimination.**
+  - **Structural Un-nesting & Normalization**:
+    - Un-nested `Vtuber/Other ~` into canonical roots: `Vtuber/GEMS COMPANY ~` and `Vtuber/Princess Letter(s)! フロムアイドル ~`, purging empty `Other ~` wrapper.
+    - Normalized the last remaining album with raw date prefix: `Doujinshi/Zhu Luo Qiu Xiang (朱落秋乡) ~/2018.12.15 [SWCD-009] 朱落秋乡 [COMICUP23]` -> `朱落秋乡 [COMICUP23] {SWCD-009}` (achieved exactly **0 albums with date prefix** library-wide).
+  - **Zero In-Album Playlist Clutter**:
+    - Purged all 56 legacy in-album `.m3u` / `.m3u8` ripper clutter files (including mojibake file in Aitsuki Nakuru), preserving the master `/mnt/hdd-backup/music/Lossless/Lossless.m3u8`.
+  - **Cross-Library Redundancy Elimination (`Lossy/`)**:
+    - Purged 21 duplicate album folders (275 tracks) from `/mnt/hdd-backup/music/Lossy/` that already exist as bit-perfect FLAC in `Lossless/` (10 Azur Lane character song singles, Assault Lily Edel Lilie, KINEMA106 complete boxes, Tokyo 7th Sisters Memorial Live, Gochiusa, Bassy, etc.).
+  - **Storage & System Verification**:
+    - Disk free space reached **138 GB free** (+2 GB net gain in round 152, +27 GB total gain).
+    - Master catalog refreshed: `25,550` total tracks; `Lossless.m3u8`: `23,155` tracks; `Lossy.m3u8`: `2,395` tracks.
+    - Permissions `775/664` applied and Samba reloaded.
+
 ## 2026-09-27 (151)
 - **Zero AIFF/WV/MP3 Files (100% FLAC Bit-Perfect Library), ONGEKI & nayuta Full Franchise Unification, Hi-Res 24-bit Upgrade, Clutter & Case Collision Elimination.**
   - **Zero AIFF, WavPack & Non-FLAC Audio**:
