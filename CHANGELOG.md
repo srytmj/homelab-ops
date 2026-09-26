@@ -2,6 +2,18 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (153)
+- **Pristine Vorbis UTF-8 Title Tags (345 Tracks Populated), Zero Piracy Ad Bookmarks (22 HTML files purged), Zero Duplicate Raw PNG Covers (31 folders deduplicated).**
+  - **Zero Piracy HTML Spam**:
+    - Purged all 22 `SUKIDESUOST.info.html` external ad bookmarks across Kamitsubaki, Princess Connect, ORESUKI, Nyarons, Minami, etc., complying fully with Zero Junk Policy.
+  - **Zero Duplicate Raw Cover Art**:
+    - Deduplicated 31 folders containing raw uncompressed `cover.png` / `large_cover.png` (5–17 MB each) alongside optimized `Cover.jpg` (Ookami Mio, Shishiro Botan, Southern Cross, Caitlin Myers, UNIXON, Uma Musume WINNING LIVE 32–35, ONGEKI Starry), leaving a single canonical `Cover.jpg` per album.
+  - **100% Vorbis Title Tag Integrity**:
+    - Populated missing Vorbis `TITLE` tags on 345 FLAC tracks with pristine UTF-8 locale (`C.UTF-8`) across NEW GAME!, Tokyo 7th Sisters, Kancolle, La Prière, Natsume Itsuki, Aitsuki Nakuru, Fuling Cat Mark, and Doujinshi releases, ensuring Navidrome and Symfonium display full song titles instead of fallback track numbers.
+  - **Storage & System Verification**:
+    - Master catalog refreshed: `25,550` total tracks; `Lossless.m3u8`: `23,155` tracks; `Lossy.m3u8`: `2,395` tracks.
+    - Permissions `775/664` applied and Samba reloaded.
+
 ## 2026-09-27 (152)
 - **Zero In-Album Playlist Clutter, Wrapper Un-nesting (GEMS COMPANY & Princess Letter(s)!), Pure Date Normalization, and Cross-Library Redundancy Elimination.**
   - **Structural Un-nesting & Normalization**:
