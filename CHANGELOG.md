@@ -2,6 +2,19 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (154)
+- **FLAC Album Rescue to Lossless (IOSYS Scarlet Police Special), Redundant MP3 and HTML Clutter Elimination from Lossy.**
+  - **FLAC Album Rescued to Lossless**:
+    - Discovered 11-track bit-perfect FLAC album `IOSYS - スカーレット警察・総集編 春の特別警戒スペシャル` misplaced inside `Lossy/Doujinshi/` and relocated it into canonical `Lossless/Doujinshi/IOSYS (イオシス) ~/スカーレット警察・総集編 春の特別警戒スペシャル`.
+    - Achieved exactly **0 FLAC files in `Lossy/`**.
+  - **Lossy Clutter & Redundancy Purge**:
+    - Purged redundant MP3 copy of `GENSOKYO HOUSE EDITION` from `Lossy/Doujinshi/` (already present as FLAC in `Lossless/Doujinshi/IOSYS (イオシス) ~`).
+    - Purged legacy clutter `TrackList.htm` from `Lossy/Doujinshi/実谷ななゴールデンベスト/`.
+  - **Storage & System Verification**:
+    - Disk free space reached **139 GB free** (+1 GB net gain in round 154, +28 GB total gain).
+    - Master catalog refreshed: `25,530` total tracks; `Lossless.m3u8` expanded: `23,166` tracks (100% FLAC bit-perfect); `Lossy.m3u8`: `2,364` tracks.
+    - Permissions `775/664` applied and Samba reloaded.
+
 ## 2026-09-27 (153)
 - **Pristine Vorbis UTF-8 Title Tags (345 Tracks Populated), Zero Piracy Ad Bookmarks (22 HTML files purged), Zero Duplicate Raw PNG Covers (31 folders deduplicated).**
   - **Zero Piracy HTML Spam**:
