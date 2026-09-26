@@ -2,6 +2,12 @@
 
 > Every meaningful change gets one entry here, newest on top. Keep it short: date, what changed, why (if not obvious).
 
+## 2026-09-27 (159)
+- **Updated `portofolio` container on `personal-hosts` to latest upstream (`92da0a0`).**
+  - Pulled latest commits from `https://github.com/samsmon/portofolio.git` (`92da0a0: fix(blog): tampilkan tanggal post sesuai front matter, bukan utc`, including AWS glossary, re/Start week 7, and CCP/AI Practitioner exam prep articles).
+  - Executed one-shot server-side build and container recreation on `personal-hosts` (LXC 103, port 3080).
+  - Verified live HTTP 200 response on port 3080 (`suryatmaja.dev`).
+
 ## 2026-09-27 (158)
 - **Repository-Wide English Language Consistency & Documentation Standardization.**
   - Standardized all repository documentation, rules, operational guides, and automated scripts into 100% English.
